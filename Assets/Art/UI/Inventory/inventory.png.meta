@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2bced580c331314cac98dc63a4d8389
+guid: 6391d509891f0dc4a926929fa921bed3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,532 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrow 1_0
+      name: inventory_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45c1444a5ae1e054daa27b73b1015b74
+      internalID: -1969766053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8e401587bb01cc45834e407f4105c8f
+      internalID: -1436251737
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b67e855693c100e42be00dd64dfe74b7
+      internalID: 1441432488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4db125917802dbd4c949d1aa573a54c7
+      internalID: -1031323702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b8a44fa7472a604da01401fa9a35d56
+      internalID: 1293025852
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe44a46817f43ed4b92c38ee59a829c1
+      internalID: 1509132648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c30d751151f8ea84c89f3745cd406ce2
+      internalID: 1399517929
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8d06336a48df0f47a9002f657a40154
+      internalID: 543577626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_8
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b139f97fb15a4cd44b864862bb0b9478
+      internalID: 383134715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e32bc1966c6c5745b3c78b751072a1b
+      internalID: 265839462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_10
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4799a46005d32e4bb11db15a6299e59
+      internalID: 624698620
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 039d4a0e0cf29234ba7b87d2b9e86e1c
+      internalID: -1511479676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 577184d3dd23d33469b2feaf118daa33
+      internalID: -881816525
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_13
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0c248c70e9c34c044b5c750cb1153dbf
+      internalID: 544304337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_14
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f2134dd8317c31b4ca2fce8656335147
+      internalID: -459764087
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_15
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7b6300d8d99d6b49b0894d8ebe2d65a
+      internalID: 310679712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_16
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e9eea176d6c1334cb610310879ef6fa
+      internalID: -1359721515
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_17
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a395410e64b9a394d9b672d141c6d59a
+      internalID: -689202703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_18
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed462ec19fe0ae14586234e0d39fa18c
+      internalID: 1575991043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_19
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 149da57d4c10cba46b3c55d9f9ca131a
+      internalID: 369830264
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_20
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4d2640746c6884448ab45c0bfc60b916
+      internalID: -1202805051
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_21
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 31ebcbdb3c956fd47bd9ab9ff6dee061
+      internalID: 1312238232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_22
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33a5097b79758c54690faeca0decde50
+      internalID: -1048622898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_23
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b01cae73b1f68344a9c1826aa586d60
+      internalID: 2142532122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_24
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb3c3b0a3c1667f44ae3bd0ce424f787
+      internalID: -763212854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: inventory_25
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +662,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 644b2a96715a6e84c967ca5754d897fc
-      internalID: -673901120
+      spriteID: 46528360a88e82742b6655d06aefd1a3
+      internalID: 571036802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_1
+      name: inventory_26
       rect:
         serializedVersion: 2
         x: 16
@@ -158,14 +683,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf2dea9c2b6205f48adee35b54c51fb0
-      internalID: -1539995853
+      spriteID: 817201afbacb3944e8281a26a83df815
+      internalID: -1622444241
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_2
+      name: inventory_27
       rect:
         serializedVersion: 2
         x: 32
@@ -179,14 +704,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4c7dd10614d96e468256d657305dc12
-      internalID: 2004042012
+      spriteID: e4acabe3b84ed5e47861ce447d0bad45
+      internalID: -2038964719
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_3
+      name: inventory_28
       rect:
         serializedVersion: 2
         x: 48
@@ -200,14 +725,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15f41b7d63438dc4dbdc21ddc33e52e1
-      internalID: 699998550
+      spriteID: d010f44732797fc489f4b09974c10c29
+      internalID: 699850261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_4
+      name: inventory_29
       rect:
         serializedVersion: 2
         x: 64
@@ -221,14 +746,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1ddb1f6b434c2946bc7b84023a53cb2
-      internalID: -1864906940
+      spriteID: e9b598b93bd525141a2630687bc9ab22
+      internalID: -983668889
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_5
+      name: inventory_30
       rect:
         serializedVersion: 2
         x: 80
@@ -242,14 +767,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cea18e112a748da4dadfdaa9b3459a18
-      internalID: 769736148
+      spriteID: b32ed850a20312043b6c1ab13abe59c2
+      internalID: -1503823271
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_6
+      name: inventory_31
       rect:
         serializedVersion: 2
         x: 96
@@ -263,119 +788,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c9ec17f6ae3071418e057cac3dc4cd4
-      internalID: 1420047200
+      spriteID: e140cf5455223a740b2d82b091b43934
+      internalID: -1419056830
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c608c1374eb0684cb9bc15d81800279
-      internalID: -664517267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b5e49e619fd52b4b90af764ecc008d6
-      internalID: -628598979
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_9
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4ec10d7415e6fbd45ae1280b78137213
-      internalID: -327822253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_10
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e1286bb0f0c317747b025da617b8204e
-      internalID: -572461141
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_11
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 356019451690ce742815909ca52a534d
-      internalID: 972553206
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_12
+      name: inventory_32
       rect:
         serializedVersion: 2
         x: 0
@@ -389,14 +809,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29aff0ca9e3177e4ea204be16009b597
-      internalID: 1768765555
+      spriteID: 33b794db9cbdaa64c80f467c27e83222
+      internalID: -1612730320
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_13
+      name: inventory_33
       rect:
         serializedVersion: 2
         x: 16
@@ -410,14 +830,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c401f497c2356474aa354ff6631ff0f2
-      internalID: 578210532
+      spriteID: 1f0000d5c8578cb4eb10d1528780ef24
+      internalID: -1710939745
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_14
+      name: inventory_34
       rect:
         serializedVersion: 2
         x: 32
@@ -431,14 +851,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0a55cdfee469db4797510b8fdb741aa
-      internalID: -292507268
+      spriteID: 81f520c14af787a4fae4a059c99055ca
+      internalID: 8194171
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_15
+      name: inventory_35
       rect:
         serializedVersion: 2
         x: 48
@@ -452,14 +872,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 899c92810a902684bb121241d31e7554
-      internalID: -1232778470
+      spriteID: ca6b602ad2f424f47882f040360fcf55
+      internalID: -1083608335
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_16
+      name: inventory_36
       rect:
         serializedVersion: 2
         x: 64
@@ -473,14 +893,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45dbc32fbd98f7841bed11670fc7cfac
-      internalID: -1560598966
+      spriteID: 9bee556f724d8a5498cce2e366f2ad59
+      internalID: 1902047185
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_17
+      name: inventory_37
       rect:
         serializedVersion: 2
         x: 80
@@ -494,14 +914,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac68e4ecd69cb6f47b9f1637507315ef
-      internalID: -1726895551
+      spriteID: 1b7f8625c8e2c5947afd3635135ebc80
+      internalID: -2055194013
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_18
+      name: inventory_38
       rect:
         serializedVersion: 2
         x: 96
@@ -515,35 +935,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 851179f35fe21d34c95cd5836fa91aec
-      internalID: -1384098617
+      spriteID: 7f117fc4c964f984dae0add45779aa1f
+      internalID: 1147162299
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_19
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a36c460f45dc41419094b3c57e04a60
-      internalID: -1413890962
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_24
+      name: inventory_39
       rect:
         serializedVersion: 2
         x: 0
@@ -557,14 +956,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27382b83b9daaff4296c39f303c8ca39
-      internalID: -1592434573
+      spriteID: 94cc463cc5689ed478f1ba1d409877f1
+      internalID: 1942756398
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_25
+      name: inventory_40
       rect:
         serializedVersion: 2
         x: 16
@@ -578,14 +977,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e534ed2143d081e499fa007d083f3d12
-      internalID: -973041225
+      spriteID: 1a78ea20f4b87844482b2e708568b518
+      internalID: 597898942
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_26
+      name: inventory_41
       rect:
         serializedVersion: 2
         x: 32
@@ -599,197 +998,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a37da4a02f8e9bc4c8aeaeace123fc74
-      internalID: 2002486530
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_27
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29402fc55bad1ae4aa31c2f34f7f821b
-      internalID: -2081956271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_28
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cebe692f9f89c474d8e18f9c8e2f3c01
-      internalID: 1277879348
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_29
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7e961abe876b1f94e9d4f9c087af3ae7
-      internalID: 1627852509
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_30
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 023c1cdb59ce2964d8d4541169c9b284
-      internalID: 1051754010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_31
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ccc764bd4b8c0d243989e61d109e8d44
-      internalID: -1031821026
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_32
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 35c773ce995f82d4c8e2672ee42626a6
-      internalID: -209875364
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_33
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a745a7329dad45a49b46ccba08147247
-      internalID: 1002712926
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_34
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ed0cd89149389840bce431d7ce04ebc
-      internalID: -2088083485
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_35
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fda08f65d3da08f49bddca0cc358b9e0
-      internalID: 1225432159
+      spriteID: b72f44b833b76eb439ab51cf3bb1636b
+      internalID: 1447085168
       vertices: []
       indices: 
       edges: []
@@ -805,42 +1015,48 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Arrow 1_0: -673901120
-      Arrow 1_1: -1539995853
-      Arrow 1_10: -572461141
-      Arrow 1_11: 972553206
-      Arrow 1_12: 1768765555
-      Arrow 1_13: 578210532
-      Arrow 1_14: -292507268
-      Arrow 1_15: -1232778470
-      Arrow 1_16: -1560598966
-      Arrow 1_17: -1726895551
-      Arrow 1_18: -1384098617
-      Arrow 1_19: -1413890962
-      Arrow 1_2: 2004042012
-      Arrow 1_20: 782143043
-      Arrow 1_21: -685080973
-      Arrow 1_22: 1313783361
-      Arrow 1_23: -1704604577
-      Arrow 1_24: -1592434573
-      Arrow 1_25: -973041225
-      Arrow 1_26: 2002486530
-      Arrow 1_27: -2081956271
-      Arrow 1_28: 1277879348
-      Arrow 1_29: 1627852509
-      Arrow 1_3: 699998550
-      Arrow 1_30: 1051754010
-      Arrow 1_31: -1031821026
-      Arrow 1_32: -209875364
-      Arrow 1_33: 1002712926
-      Arrow 1_34: -2088083485
-      Arrow 1_35: 1225432159
-      Arrow 1_4: -1864906940
-      Arrow 1_5: 769736148
-      Arrow 1_6: 1420047200
-      Arrow 1_7: -664517267
-      Arrow 1_8: -628598979
-      Arrow 1_9: -327822253
+      inventory_0: -1969766053
+      inventory_1: -1436251737
+      inventory_10: 624698620
+      inventory_11: -1511479676
+      inventory_12: -881816525
+      inventory_13: 544304337
+      inventory_14: -459764087
+      inventory_15: 310679712
+      inventory_16: -1359721515
+      inventory_17: -689202703
+      inventory_18: 1575991043
+      inventory_19: 369830264
+      inventory_2: 1441432488
+      inventory_20: -1202805051
+      inventory_21: 1312238232
+      inventory_22: -1048622898
+      inventory_23: 2142532122
+      inventory_24: -763212854
+      inventory_25: 571036802
+      inventory_26: -1622444241
+      inventory_27: -2038964719
+      inventory_28: 699850261
+      inventory_29: -983668889
+      inventory_3: -1031323702
+      inventory_30: -1503823271
+      inventory_31: -1419056830
+      inventory_32: -1612730320
+      inventory_33: -1710939745
+      inventory_34: 8194171
+      inventory_35: -1083608335
+      inventory_36: 1902047185
+      inventory_37: -2055194013
+      inventory_38: 1147162299
+      inventory_39: 1942756398
+      inventory_4: 1293025852
+      inventory_40: 597898942
+      inventory_41: 1447085168
+      inventory_5: 1509132648
+      inventory_6: 1399517929
+      inventory_7: 543577626
+      inventory_8: 383134715
+      inventory_9: 265839462
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

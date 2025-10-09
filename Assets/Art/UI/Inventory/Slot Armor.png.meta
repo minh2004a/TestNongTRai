@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2bced580c331314cac98dc63a4d8389
+guid: c3211be15a687cc459a7c6b7c7ba9439
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrow 1_0
+      name: Slot Armor_0
       rect:
         serializedVersion: 2
         x: 0
         y: 32
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,41 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 644b2a96715a6e84c967ca5754d897fc
-      internalID: -673901120
+      spriteID: 103f3f9fb355df14098085594ee086b0
+      internalID: 574411314
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_1
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cf2dea9c2b6205f48adee35b54c51fb0
-      internalID: -1539995853
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_2
+      name: Slot Armor_1
       rect:
         serializedVersion: 2
         x: 32
         y: 32
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,41 +158,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4c7dd10614d96e468256d657305dc12
-      internalID: 2004042012
+      spriteID: e4367fc5039373047aa463159fa06055
+      internalID: 990715884
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_3
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 15f41b7d63438dc4dbdc21ddc33e52e1
-      internalID: 699998550
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_4
+      name: Slot Armor_2
       rect:
         serializedVersion: 2
         x: 64
         y: 32
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -221,41 +179,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1ddb1f6b434c2946bc7b84023a53cb2
-      internalID: -1864906940
+      spriteID: 5d21fe2b31fead34a88a912a5bbe0504
+      internalID: -821010395
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cea18e112a748da4dadfdaa9b3459a18
-      internalID: 769736148
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_6
+      name: Slot Armor_3
       rect:
         serializedVersion: 2
         x: 96
         y: 32
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -263,40 +200,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c9ec17f6ae3071418e057cac3dc4cd4
-      internalID: 1420047200
+      spriteID: 866ecbd90c1e4864caf08bc36990639a
+      internalID: -1549242910
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c608c1374eb0684cb9bc15d81800279
-      internalID: -664517267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_8
+      name: Slot Armor_4
       rect:
         serializedVersion: 2
         x: 128
-        y: 16
-        width: 16
+        y: 32
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -305,40 +221,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b5e49e619fd52b4b90af764ecc008d6
-      internalID: -628598979
+      spriteID: 75a86e45910676942a84accf7de3c772
+      internalID: -1655190497
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_9
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4ec10d7415e6fbd45ae1280b78137213
-      internalID: -327822253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_10
+      name: Slot Armor_5
       rect:
         serializedVersion: 2
         x: 160
-        y: 16
-        width: 16
+        y: 32
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -347,19 +242,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1286bb0f0c317747b025da617b8204e
-      internalID: -572461141
+      spriteID: 082d82dfc16869441a5db39e2bf7728d
+      internalID: 1370396379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_11
+      name: Slot Armor_6
       rect:
         serializedVersion: 2
-        x: 176
-        y: 16
-        width: 16
+        x: 192
+        y: 32
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -368,20 +263,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 356019451690ce742815909ca52a534d
-      internalID: 972553206
+      spriteID: cc09ae2c020ad7b45b958bce6bda7cfa
+      internalID: 1673776787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_12
+      name: Slot Armor_7
       rect:
         serializedVersion: 2
-        x: 0
-        y: 16
-        width: 16
-        height: 16
+        x: 224
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -389,20 +284,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29aff0ca9e3177e4ea204be16009b597
-      internalID: 1768765555
+      spriteID: c362d30e94be6754688f230549078666
+      internalID: -1982113585
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_13
+      name: Slot Armor_8
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 16
-        height: 16
+        x: 256
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -410,20 +305,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c401f497c2356474aa354ff6631ff0f2
-      internalID: 578210532
+      spriteID: 4bd99a22e16d3bc4e89718548c0d9ace
+      internalID: 1558255236
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_14
+      name: Slot Armor_9
       rect:
         serializedVersion: 2
-        x: 32
-        y: 16
-        width: 16
-        height: 16
+        x: 288
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -431,20 +326,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0a55cdfee469db4797510b8fdb741aa
-      internalID: -292507268
+      spriteID: 147e40e890e2ae5429a7dd11ccaa152a
+      internalID: 948164322
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_15
+      name: Slot Armor_10
       rect:
         serializedVersion: 2
-        x: 48
-        y: 16
-        width: 16
-        height: 16
+        x: 320
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -452,20 +347,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 899c92810a902684bb121241d31e7554
-      internalID: -1232778470
+      spriteID: 06cd7e2cfc354894f92e579d4a5db610
+      internalID: -1145328408
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_16
+      name: Slot Armor_11
       rect:
         serializedVersion: 2
-        x: 64
-        y: 16
-        width: 16
-        height: 16
+        x: 352
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -473,83 +368,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45dbc32fbd98f7841bed11670fc7cfac
-      internalID: -1560598966
+      spriteID: 275b812adbdc5ff4f83f75248f24a56f
+      internalID: -614259764
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_17
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ac68e4ecd69cb6f47b9f1637507315ef
-      internalID: -1726895551
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_18
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 851179f35fe21d34c95cd5836fa91aec
-      internalID: -1384098617
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_19
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a36c460f45dc41419094b3c57e04a60
-      internalID: -1413890962
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_24
+      name: Slot Armor_12
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -557,41 +389,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27382b83b9daaff4296c39f303c8ca39
-      internalID: -1592434573
+      spriteID: 349e0c6dadfd64a40a92cb101d2974f3
+      internalID: 1417356980
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_25
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e534ed2143d081e499fa007d083f3d12
-      internalID: -973041225
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_26
+      name: Slot Armor_13
       rect:
         serializedVersion: 2
         x: 32
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -599,41 +410,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a37da4a02f8e9bc4c8aeaeace123fc74
-      internalID: 2002486530
+      spriteID: 7130184de7b674d4aac6ef36c650604a
+      internalID: 1448730963
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_27
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29402fc55bad1ae4aa31c2f34f7f821b
-      internalID: -2081956271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_28
+      name: Slot Armor_14
       rect:
         serializedVersion: 2
         x: 64
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -641,41 +431,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cebe692f9f89c474d8e18f9c8e2f3c01
-      internalID: 1277879348
+      spriteID: ba963d19ff05b3745aada3271291e859
+      internalID: -2035968752
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_29
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7e961abe876b1f94e9d4f9c087af3ae7
-      internalID: 1627852509
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_30
+      name: Slot Armor_15
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -683,41 +452,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 023c1cdb59ce2964d8d4541169c9b284
-      internalID: 1051754010
+      spriteID: 0d43357debac57d4399565576952384d
+      internalID: 320955927
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_31
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ccc764bd4b8c0d243989e61d109e8d44
-      internalID: -1031821026
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_32
+      name: Slot Armor_16
       rect:
         serializedVersion: 2
         x: 128
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -725,41 +473,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 35c773ce995f82d4c8e2672ee42626a6
-      internalID: -209875364
+      spriteID: b745a380ad6698847a4a198be88e4e9b
+      internalID: -1015421504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_33
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a745a7329dad45a49b46ccba08147247
-      internalID: 1002712926
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_34
+      name: Slot Armor_17
       rect:
         serializedVersion: 2
         x: 160
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -767,20 +494,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9ed0cd89149389840bce431d7ce04ebc
-      internalID: -2088083485
+      spriteID: 39478a7b996b4df4b869facaabb09bec
+      internalID: -199335357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_35
+      name: Slot Armor_18
       rect:
         serializedVersion: 2
-        x: 176
+        x: 192
         y: 0
-        width: 16
-        height: 16
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -788,8 +515,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fda08f65d3da08f49bddca0cc358b9e0
-      internalID: 1225432159
+      spriteID: 9418563258beb4d4fbd1b42eb0b2d1a0
+      internalID: -72372856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slot Armor_19
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f12e7f855d1afb54188efd15a9f16140
+      internalID: 2130534489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slot Armor_20
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 789f4efbef56dc4469c24c97db1a163b
+      internalID: 2030857014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slot Armor_21
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b788150783ae21e4c9e15e6b747e48f6
+      internalID: 832777436
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slot Armor_22
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db9e9e0756d206b4a9c80c425b7f1f69
+      internalID: -1325518485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Slot Armor_23
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b3557d8dc906ac4d8eba07160881e7c
+      internalID: -274232940
       vertices: []
       indices: 
       edges: []
@@ -805,42 +637,30 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Arrow 1_0: -673901120
-      Arrow 1_1: -1539995853
-      Arrow 1_10: -572461141
-      Arrow 1_11: 972553206
-      Arrow 1_12: 1768765555
-      Arrow 1_13: 578210532
-      Arrow 1_14: -292507268
-      Arrow 1_15: -1232778470
-      Arrow 1_16: -1560598966
-      Arrow 1_17: -1726895551
-      Arrow 1_18: -1384098617
-      Arrow 1_19: -1413890962
-      Arrow 1_2: 2004042012
-      Arrow 1_20: 782143043
-      Arrow 1_21: -685080973
-      Arrow 1_22: 1313783361
-      Arrow 1_23: -1704604577
-      Arrow 1_24: -1592434573
-      Arrow 1_25: -973041225
-      Arrow 1_26: 2002486530
-      Arrow 1_27: -2081956271
-      Arrow 1_28: 1277879348
-      Arrow 1_29: 1627852509
-      Arrow 1_3: 699998550
-      Arrow 1_30: 1051754010
-      Arrow 1_31: -1031821026
-      Arrow 1_32: -209875364
-      Arrow 1_33: 1002712926
-      Arrow 1_34: -2088083485
-      Arrow 1_35: 1225432159
-      Arrow 1_4: -1864906940
-      Arrow 1_5: 769736148
-      Arrow 1_6: 1420047200
-      Arrow 1_7: -664517267
-      Arrow 1_8: -628598979
-      Arrow 1_9: -327822253
+      Slot Armor_0: 574411314
+      Slot Armor_1: 990715884
+      Slot Armor_10: -1145328408
+      Slot Armor_11: -614259764
+      Slot Armor_12: 1417356980
+      Slot Armor_13: 1448730963
+      Slot Armor_14: -2035968752
+      Slot Armor_15: 320955927
+      Slot Armor_16: -1015421504
+      Slot Armor_17: -199335357
+      Slot Armor_18: -72372856
+      Slot Armor_19: 2130534489
+      Slot Armor_2: -821010395
+      Slot Armor_20: 2030857014
+      Slot Armor_21: 832777436
+      Slot Armor_22: -1325518485
+      Slot Armor_23: -274232940
+      Slot Armor_3: -1549242910
+      Slot Armor_4: -1655190497
+      Slot Armor_5: 1370396379
+      Slot Armor_6: 1673776787
+      Slot Armor_7: -1982113585
+      Slot Armor_8: 1558255236
+      Slot Armor_9: 948164322
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
