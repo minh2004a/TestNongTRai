@@ -41,6 +41,8 @@ namespace TinyFarm.Items
         [TextArea(3, 5)]
         public string description;
 
+        public bool isStackable = true;
+
         public int GetItemID()
         {
             return (int)itemCode;

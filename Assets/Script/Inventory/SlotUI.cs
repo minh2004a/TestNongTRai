@@ -18,7 +18,7 @@ public class SlotUI : MonoBehaviour
             iconImage = transform.Find("Icon").GetComponent<Image>();
 
         if (quantityText == null)
-            quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            quantityText = transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()

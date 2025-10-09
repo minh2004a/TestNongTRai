@@ -12,7 +12,7 @@ public class InventoryUIManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int numberOfSlots = 20;
 
-    private List<SlotUI> slotUIList = new List<SlotUI>();
+    private List<SlotUI> slots = new List<SlotUI>();
 
     private void Start()
     {
@@ -56,7 +56,7 @@ public class InventoryUIManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        slotUIList.Clear();
+        slots.Clear();
 
         // Tạo số lượng slots theo setting
         for (int i = 0; i < numberOfSlots; i++)
@@ -69,7 +69,7 @@ public class InventoryUIManager : MonoBehaviour
                 slotUI = slotObj.AddComponent<SlotUI>();
             }
 
-            slotUIList.Add(slotUI);
+            slots.Add(slotUI);
         }
 
         Debug.Log($"Đã tạo {numberOfSlots} slots UI");
@@ -84,15 +84,15 @@ public class InventoryUIManager : MonoBehaviour
 
         var slots = inventoryManager.GetAllSlots();
 
-        for (int i = 0; i < slotUIList.Count; i++)
+        for (int i = 0; i < this.slots.Count; i++)
         {
             if (i < slots.Count)
             {
-                slotUIList[i].SetSlot(slots[i]);
+                this.slots[i].SetSlot(slots[i]);
             }
             else
             {
-                slotUIList[i].ClearSlot();
+                this.slots[i].ClearSlot();
             }
         }
     }
