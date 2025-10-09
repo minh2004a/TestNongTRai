@@ -456,8 +456,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db3ac1a287f770449a58016bb9e288f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotPrefab: {fileID: 1601513523}
-  slotsParent: {fileID: 519291204}
+  slotPrefab: {fileID: 134013039}
+  slotsParent: {fileID: 1601513524}
   inventoryManager: {fileID: 1530262081}
   numberOfSlots: 20
 --- !u!1 &116036192
@@ -4957,8 +4957,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148956b539481c84d82f90aa3f9ce571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iconImage: {fileID: 134013041}
-  quantityText: {fileID: 260536404}
+  iconImage: {fileID: 519291205}
+  quantityText: {fileID: 850296125}
   inventoryPanel: {fileID: 519291203}
 --- !u!1 &1116033284
 GameObject:
