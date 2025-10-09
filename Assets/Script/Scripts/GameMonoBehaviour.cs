@@ -4,15 +4,31 @@ using UnityEngine;
 
 public class GameMonoBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    protected virtual void Awake()
     {
-        
+        this.LoadComponents();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void Start()
     {
-        
+
+    }
+    protected virtual void Reset()
+    {
+        this.LoadComponents();
+        this.ResetValue();
+    }
+    protected virtual void ResetValue()
+    {
+
+    }
+    protected virtual void LoadComponents()
+    {
+
+    }
+
+    protected virtual void OnEnable()
+    {
+
     }
 }

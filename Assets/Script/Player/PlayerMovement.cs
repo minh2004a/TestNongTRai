@@ -2,27 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : GameMonoBehaviour
 {
     [SerializeField] public float speed = 100f;
     protected Vector2 input;
-    [SerializeField] private Rigidbody2D rb;
+
+    [SerializeField] protected Rigidbody2D rb;
+    public Rigidbody2D Rigidbody2D => rb;
+
     [SerializeField] private Animator animator;
+    public Animator Animator => animator;
+
     [SerializeField] private SpriteRenderer spriteRenderer;
+    public SpriteRenderer SpriteRenderer => spriteRenderer;
 
     private Vector2 lastMoveDir = Vector2.down; // hướng mặc định khi bắt đầu game
-    private void Awake()
+    protected override void Awake()
     {
-        if (rb == null)
-        {
-            rb = GetComponentInParent<Rigidbody2D>();
-        }
-        if (animator == null)
-        {
-            animator = GetComponentInChildren<Animator>();
-        }
-        if (spriteRenderer == null)
-            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        base.Awake();
+        this.LoadComponents();
+    }
+
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        this.LoadRigidbody();
+        this.LoadAnimator();
+        this.LoadSpriteRenderer();
+    }
+
+    protected virtual void LoadRigidbody()
+    {
+        if (rb != null) return;
+        this.rb = GetComponentInParent<Rigidbody2D>();
+        Debug.Log(transform.name + ": LoadRigidbody", gameObject);
+    }
+
+    protected virtual void LoadAnimator()
+    {
+        if (animator != null) return;
+        this.animator = transform.parent.GetComponentInChildren<Animator>();
+        Debug.Log(transform.name + ": LoadAnimator", gameObject);
+    }
+
+    protected virtual void LoadSpriteRenderer()
+    {
+        if (spriteRenderer != null) return;
+        this.spriteRenderer = transform.parent.GetComponentInChildren<SpriteRenderer>();
+        Debug.Log(transform.name + ": LoadSpriteRenderer", gameObject);
     }
 
     void Update()
