@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6726836d2b445ff449ca675ec4f8593b, type: 3}
+  m_Name: Seed_Potato
+  m_EditorClassIdentifier: 
+  itemCode: 201
+  itemType: 1
+  itemName: Potato
+  icon: {fileID: 2058964029, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
+  maxStack: 999
+  buyPrice: 0
+  sellPrice: 0
+  canBeDropped: 1
+  canBeSold: 1
+  description: 
+  cropToGrow: {fileID: 11400000, guid: 1273ffdc3decaf540bc5e24466f2950c, type: 2}
+  daysToGrow: 6
+  growStages:
+  - {fileID: 1673481958, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1643509135, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1760123755, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -1320700549, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 38889806, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 302460, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  validSeasons: 00000000
+  maxYield: 1

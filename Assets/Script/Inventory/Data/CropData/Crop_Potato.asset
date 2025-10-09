@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3a3fca8cad6d64286d8d95de0d33b8, type: 3}
+  m_Name: Crop_Potato
+  m_EditorClassIdentifier: 
+  itemCode: 101
+  itemType: 2
+  itemName: khoai tay
+  icon: {fileID: -714913020, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
+  maxStack: 999
+  buyPrice: 0
+  sellPrice: 0
+  canBeDropped: 1
+  canBeSold: 1
+  description: 
+  category: 0
+  isEdible: 0
