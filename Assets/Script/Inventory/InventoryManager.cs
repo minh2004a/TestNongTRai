@@ -212,4 +212,9 @@ public class InventoryManager : GameMonoBehaviour
         }
         Debug.Log("========================");
     }
+
+    public List<InventorySlot> GetAllSlots()
+    {
+        return slots;
+    }
 }
