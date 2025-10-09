@@ -4463,6 +4463,9 @@ MonoBehaviour:
   testItems:
   - {fileID: 11400000, guid: 5c6f575353e15f042b46d1b196b1834f, type: 2}
   - {fileID: 11400000, guid: 1273ffdc3decaf540bc5e24466f2950c, type: 2}
+  - {fileID: 11400000, guid: f79134061ede84e4f984e2095770ee33, type: 2}
+  - {fileID: 11400000, guid: 45d5dc0a5e008d1469a61d756248e5c8, type: 2}
+  - {fileID: 11400000, guid: f3fe456a295174d499d3752da568fee8, type: 2}
   addItemsOnStart: 1
 --- !u!4 &980749087
 Transform:

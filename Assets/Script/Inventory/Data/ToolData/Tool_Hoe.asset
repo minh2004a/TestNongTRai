@@ -15,13 +15,14 @@ MonoBehaviour:
   itemCode: 300
   itemType: 3
   itemName: Cuoc
-  icon: {fileID: 0}
+  icon: {fileID: -2099222160, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
   maxStack: 1
   buyPrice: 0
   sellPrice: 0
   canBeDropped: 0
   canBeSold: 1
   description: "D\xF9ng \u0111\u1EC3 c\xE0y \u0111\u1EA5t tr\u1ED3ng tr\u1ECDt"
+  isStackable: 1
   toolCode: 10
   toolType: 1
   maxDurability: 100
