@@ -76,22 +76,27 @@ public class PlayerMovement : GameMonoBehaviour
     }
 
     private void HandleInput()
+{
+    bool isMoving = input.sqrMagnitude > 0.01f;
+    animator.SetBool("isMoving", isMoving);
+
+    if (isMoving)
     {
-        bool isMoving = input.magnitude > 0.1f;
-        animator.SetBool("isMoving", isMoving);
-
-        // Cập nhật hướng cuối cùng nếu đang di chuyển
-        if (isMoving)
-        {
-            lastMoveDir = input;
-        }
-
-        // Gửi hướng cuối cùng sang Animator (để Idle hiển thị đúng hướng)
-        animator.SetFloat("Horizontal", lastMoveDir.x);
-        animator.SetFloat("Vertical", lastMoveDir.y);
-
-        // Lật sprite nếu đi trái
-        if (lastMoveDir.x < -0.1f) spriteRenderer.flipX = true;
-        else if (lastMoveDir.x > 0.1f) spriteRenderer.flipX = false;
+        // ƯU TIÊN NGANG khi |x| == |y|
+        if (Mathf.Abs(input.x) >= Mathf.Abs(input.y))
+            lastMoveDir = new Vector2(Mathf.Sign(input.x), 0f);
+        else
+            lastMoveDir = new Vector2(0f, Mathf.Sign(input.y));
     }
+
+    // Gửi hướng sang Animator
+    animator.SetFloat("Horizontal", lastMoveDir.x);
+    animator.SetFloat("Vertical",   lastMoveDir.y);
+
+    // Lật sprite theo hướng ngang
+    if (lastMoveDir.x < -0.1f) spriteRenderer.flipX = true;
+    else if (lastMoveDir.x > 0.1f) spriteRenderer.flipX = false;
+}
+
+
 }
