@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e2bced580c331314cac98dc63a4d8389
+guid: d0cb64042244d7740b1f80279a4aa61f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,490 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Arrow 1_0
+      name: dialogue box_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7da41fb812fc654d9f41079594e8bba
+      internalID: 843850719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cb4391bf1e494449baae5c9039af285
+      internalID: 1068555267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bb0708686fd68c46b892ad2d165e90b
+      internalID: -42660452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e2a86bf6fdce68a4eb3d47fe9d8b49c2
+      internalID: 464637974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_4
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a4cc3712839ccc459d4881558c7fb9e
+      internalID: 2137631462
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_5
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 12d433a4a80804d4b9fd6d51346da807
+      internalID: -360855645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_6
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3f82793c5c9413449ccf0abb0971330
+      internalID: 227527228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_7
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae9565a880e85944197957cd4b65e8ce
+      internalID: 1383277795
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_8
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0eafdef8926e39247a0a97a6d279c953
+      internalID: -1613974201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 75b77242bb879ad4885424ecb51cfb1a
+      internalID: 1144994531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_10
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1d0cb8e08e16fb4da1106d84b7d30e2
+      internalID: 845771817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 57f63c3a532604749a8d8be9b462ee7a
+      internalID: 734452722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c16a47db1978ab343bd8631de271df39
+      internalID: -1031764276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_13
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a127eb39530124148b9cf7e8213470b8
+      internalID: 246011829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_14
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 64
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74c360cc4388b734a999b1246a9f52cc
+      internalID: 391656195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8aed9b4dd339c564aab31bf51902f182
+      internalID: -2001946802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_16
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 02b1e3bb51c1c8a4ca26d0263ac2c225
+      internalID: 1358571098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_17
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5c43cb2b3422a8478ea9358fd549a32
+      internalID: 1717799577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_18
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fc44226c263f0e4b8f595deded503c8
+      internalID: 51216908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_19
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8472d55dc351ac747b04403ecc65236c
+      internalID: -1072246309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_20
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 939c7136e7c97cf49848978c981450f8
+      internalID: -31236393
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_21
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cdd84b5febd696418cdd1784c62db84
+      internalID: 1693080322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_22
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adc15868e6b45e349ba137cb3dd7f676
+      internalID: 1692063522
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialogue box_23
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +620,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 644b2a96715a6e84c967ca5754d897fc
-      internalID: -673901120
+      spriteID: 06ade220f49b853479f326d305fc0b0b
+      internalID: 1080409140
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_1
+      name: dialogue box_24
       rect:
         serializedVersion: 2
         x: 16
@@ -158,14 +641,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf2dea9c2b6205f48adee35b54c51fb0
-      internalID: -1539995853
+      spriteID: 8633088309cdf9148a16ddef43fb509e
+      internalID: -985162716
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_2
+      name: dialogue box_25
       rect:
         serializedVersion: 2
         x: 32
@@ -179,14 +662,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f4c7dd10614d96e468256d657305dc12
-      internalID: 2004042012
+      spriteID: 41e951ccd048cba43af42e2508c9c116
+      internalID: 2070801118
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_3
+      name: dialogue box_26
       rect:
         serializedVersion: 2
         x: 48
@@ -200,14 +683,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15f41b7d63438dc4dbdc21ddc33e52e1
-      internalID: 699998550
+      spriteID: 929c2ed6f91944d4cb8b126ec3f6c860
+      internalID: -1891326182
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_4
+      name: dialogue box_27
       rect:
         serializedVersion: 2
         x: 64
@@ -221,14 +704,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f1ddb1f6b434c2946bc7b84023a53cb2
-      internalID: -1864906940
+      spriteID: 6f686bfd9f7c7bd459ed57f806aefc1c
+      internalID: 168541206
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_5
+      name: dialogue box_28
       rect:
         serializedVersion: 2
         x: 80
@@ -242,14 +725,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cea18e112a748da4dadfdaa9b3459a18
-      internalID: 769736148
+      spriteID: c6fc83bd2f11afe499e5ac2d908fc9ef
+      internalID: 441100394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_6
+      name: dialogue box_29
       rect:
         serializedVersion: 2
         x: 96
@@ -263,119 +746,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c9ec17f6ae3071418e057cac3dc4cd4
-      internalID: 1420047200
+      spriteID: c7af08dcb0adb8648ae338a6b3ad0484
+      internalID: -638851156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 32
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6c608c1374eb0684cb9bc15d81800279
-      internalID: -664517267
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9b5e49e619fd52b4b90af764ecc008d6
-      internalID: -628598979
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_9
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4ec10d7415e6fbd45ae1280b78137213
-      internalID: -327822253
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_10
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e1286bb0f0c317747b025da617b8204e
-      internalID: -572461141
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_11
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 16
-        width: 16
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 356019451690ce742815909ca52a534d
-      internalID: 972553206
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_12
+      name: dialogue box_30
       rect:
         serializedVersion: 2
         x: 0
@@ -389,14 +767,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 29aff0ca9e3177e4ea204be16009b597
-      internalID: 1768765555
+      spriteID: df0ec9eac4dd0084db5525003aea9662
+      internalID: 1994905247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_13
+      name: dialogue box_31
       rect:
         serializedVersion: 2
         x: 16
@@ -410,14 +788,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c401f497c2356474aa354ff6631ff0f2
-      internalID: 578210532
+      spriteID: 74fbf5c5f76f9c24794aff32e78d1b72
+      internalID: -193307303
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_14
+      name: dialogue box_32
       rect:
         serializedVersion: 2
         x: 32
@@ -431,14 +809,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e0a55cdfee469db4797510b8fdb741aa
-      internalID: -292507268
+      spriteID: 32caa06476c6dd54e97fcc007b5175ba
+      internalID: 547829137
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_15
+      name: dialogue box_33
       rect:
         serializedVersion: 2
         x: 48
@@ -452,14 +830,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 899c92810a902684bb121241d31e7554
-      internalID: -1232778470
+      spriteID: 24cc59ef9bf6c4f4e9156f04a83f38c3
+      internalID: 394163919
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_16
+      name: dialogue box_34
       rect:
         serializedVersion: 2
         x: 64
@@ -473,14 +851,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45dbc32fbd98f7841bed11670fc7cfac
-      internalID: -1560598966
+      spriteID: e4d8c850d68da8948b3177441b47e1a0
+      internalID: -492322678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_17
+      name: dialogue box_35
       rect:
         serializedVersion: 2
         x: 80
@@ -494,14 +872,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ac68e4ecd69cb6f47b9f1637507315ef
-      internalID: -1726895551
+      spriteID: a93b254714067cb4b9f95835831ae288
+      internalID: -2134005948
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_18
+      name: dialogue box_36
       rect:
         serializedVersion: 2
         x: 96
@@ -515,35 +893,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 851179f35fe21d34c95cd5836fa91aec
-      internalID: -1384098617
+      spriteID: 9b050ed04ff79344f991d9d9103ee937
+      internalID: 2125849051
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_19
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 16
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5a36c460f45dc41419094b3c57e04a60
-      internalID: -1413890962
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_24
+      name: dialogue box_37
       rect:
         serializedVersion: 2
         x: 0
@@ -557,14 +914,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 27382b83b9daaff4296c39f303c8ca39
-      internalID: -1592434573
+      spriteID: 0f2978b2404cdb240b9cad04c081473d
+      internalID: 1656952328
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_25
+      name: dialogue box_38
       rect:
         serializedVersion: 2
         x: 16
@@ -578,14 +935,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e534ed2143d081e499fa007d083f3d12
-      internalID: -973041225
+      spriteID: 70057659d6f8d0046b47dc9d05fed5f9
+      internalID: 90360504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Arrow 1_26
+      name: dialogue box_39
       rect:
         serializedVersion: 2
         x: 32
@@ -599,197 +956,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a37da4a02f8e9bc4c8aeaeace123fc74
-      internalID: 2002486530
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_27
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 29402fc55bad1ae4aa31c2f34f7f821b
-      internalID: -2081956271
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_28
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: cebe692f9f89c474d8e18f9c8e2f3c01
-      internalID: 1277879348
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_29
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7e961abe876b1f94e9d4f9c087af3ae7
-      internalID: 1627852509
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_30
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 023c1cdb59ce2964d8d4541169c9b284
-      internalID: 1051754010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_31
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ccc764bd4b8c0d243989e61d109e8d44
-      internalID: -1031821026
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_32
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 35c773ce995f82d4c8e2672ee42626a6
-      internalID: -209875364
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_33
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a745a7329dad45a49b46ccba08147247
-      internalID: 1002712926
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_34
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ed0cd89149389840bce431d7ce04ebc
-      internalID: -2088083485
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Arrow 1_35
-      rect:
-        serializedVersion: 2
-        x: 176
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fda08f65d3da08f49bddca0cc358b9e0
-      internalID: 1225432159
+      spriteID: f69b17b2d18a04340ba630651333e576
+      internalID: -436897617
       vertices: []
       indices: 
       edges: []
@@ -805,42 +973,46 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Arrow 1_0: -673901120
-      Arrow 1_1: -1539995853
-      Arrow 1_10: -572461141
-      Arrow 1_11: 972553206
-      Arrow 1_12: 1768765555
-      Arrow 1_13: 578210532
-      Arrow 1_14: -292507268
-      Arrow 1_15: -1232778470
-      Arrow 1_16: -1560598966
-      Arrow 1_17: -1726895551
-      Arrow 1_18: -1384098617
-      Arrow 1_19: -1413890962
-      Arrow 1_2: 2004042012
-      Arrow 1_20: 782143043
-      Arrow 1_21: -685080973
-      Arrow 1_22: 1313783361
-      Arrow 1_23: -1704604577
-      Arrow 1_24: -1592434573
-      Arrow 1_25: -973041225
-      Arrow 1_26: 2002486530
-      Arrow 1_27: -2081956271
-      Arrow 1_28: 1277879348
-      Arrow 1_29: 1627852509
-      Arrow 1_3: 699998550
-      Arrow 1_30: 1051754010
-      Arrow 1_31: -1031821026
-      Arrow 1_32: -209875364
-      Arrow 1_33: 1002712926
-      Arrow 1_34: -2088083485
-      Arrow 1_35: 1225432159
-      Arrow 1_4: -1864906940
-      Arrow 1_5: 769736148
-      Arrow 1_6: 1420047200
-      Arrow 1_7: -664517267
-      Arrow 1_8: -628598979
-      Arrow 1_9: -327822253
+      dialogue box_0: 843850719
+      dialogue box_1: 1068555267
+      dialogue box_10: 845771817
+      dialogue box_11: 734452722
+      dialogue box_12: -1031764276
+      dialogue box_13: 246011829
+      dialogue box_14: 391656195
+      dialogue box_15: -2001946802
+      dialogue box_16: 1358571098
+      dialogue box_17: 1717799577
+      dialogue box_18: 51216908
+      dialogue box_19: -1072246309
+      dialogue box_2: -42660452
+      dialogue box_20: -31236393
+      dialogue box_21: 1693080322
+      dialogue box_22: 1692063522
+      dialogue box_23: 1080409140
+      dialogue box_24: -985162716
+      dialogue box_25: 2070801118
+      dialogue box_26: -1891326182
+      dialogue box_27: 168541206
+      dialogue box_28: 441100394
+      dialogue box_29: -638851156
+      dialogue box_3: 464637974
+      dialogue box_30: 1994905247
+      dialogue box_31: -193307303
+      dialogue box_32: 547829137
+      dialogue box_33: 394163919
+      dialogue box_34: -492322678
+      dialogue box_35: -2134005948
+      dialogue box_36: 2125849051
+      dialogue box_37: 1656952328
+      dialogue box_38: 90360504
+      dialogue box_39: -436897617
+      dialogue box_4: 2137631462
+      dialogue box_5: -360855645
+      dialogue box_6: 227527228
+      dialogue box_7: 1383277795
+      dialogue box_8: -1613974201
+      dialogue box_9: 1144994531
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

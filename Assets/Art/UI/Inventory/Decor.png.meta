@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 78b5740b7b07aac448c7dfd57c68f895
+guid: 3a9a75dd79476ec44a69a98ddfff35d3
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,75 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: clouds_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d45d489faa6ecc5439f03820fb7b4640
-      internalID: -736968997
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: clouds_1
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5188fff08043a3947a59cb46a15aab5a
-      internalID: -1501331616
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: clouds_2
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 64
-        width: 48
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 02046e4460e13514a9542f9bac9b9e99
-      internalID: 1935761070
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: clouds_3
+      name: Decor_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
+        width: 30
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -200,19 +137,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7e54c44b36bc6d74b81d7eb16017001a
-      internalID: 57080017
+      spriteID: 80f219c5cf8bd294e84c6a9d5f80d2a9
+      internalID: 1819876215
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: clouds_4
+      name: Decor_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 30
         y: 0
-        width: 48
+        width: 34
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -221,19 +158,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9af803f3d441a02469e7c492b5091702
-      internalID: -2066762675
+      spriteID: 44f4550fb3c04a340be12bbd75746814
+      internalID: 428475456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: clouds_5
+      name: Decor_2
       rect:
         serializedVersion: 2
-        x: 96
+        x: 64
         y: 0
-        width: 48
+        width: 32
         height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -242,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 74fbb8b6cafdf6b4b8b7a073332c6d60
-      internalID: -1055598733
+      spriteID: 747d9ebabb46aa74f8e9ec20d6d63499
+      internalID: -1738686706
       vertices: []
       indices: 
       edges: []
@@ -259,12 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      clouds_0: -736968997
-      clouds_1: -1501331616
-      clouds_2: 1935761070
-      clouds_3: 57080017
-      clouds_4: -2066762675
-      clouds_5: -1055598733
+      Decor_0: 1819876215
+      Decor_1: 428475456
+      Decor_2: -1738686706
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
