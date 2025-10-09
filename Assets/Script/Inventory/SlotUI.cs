@@ -8,7 +8,6 @@ public class SlotUI : MonoBehaviour
 {
     [SerializeField] private Image iconImage;
     [SerializeField] private TextMeshProUGUI quantityText;
-    [SerializeField] public GameObject inventoryPanel;
 
     private InventorySlot currentSlot;
 
@@ -21,25 +20,7 @@ public class SlotUI : MonoBehaviour
             quantityText = transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            this.ToggleInventory();
-        }
-    }
-
-    public void ToggleInventory()
-    {
-        if (!inventoryPanel.activeSelf)
-        {
-            inventoryPanel.SetActive(true);
-        }
-        else
-        {
-            inventoryPanel.SetActive(false);
-        }
-    }
+    
 
     public void SetSlot(InventorySlot slot)
     {

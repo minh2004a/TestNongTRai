@@ -14,6 +14,8 @@ public class InventoryUIManager : MonoBehaviour
 
     private List<SlotUI> slots = new List<SlotUI>();
 
+    [SerializeField] public GameObject inventoryPanel;
+
     private void Start()
     {
         // Tự động tìm InventoryManager nếu chưa gán
@@ -34,6 +36,26 @@ public class InventoryUIManager : MonoBehaviour
         if (inventoryManager != null)
         {
             inventoryManager.onInventoryChanged += RefreshUI;
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            this.ToggleInventory();
+        }
+    }
+
+    public void ToggleInventory()
+    {
+        if (!inventoryPanel.activeSelf)
+        {
+            inventoryPanel.SetActive(true);
+        }
+        else
+        {
+            inventoryPanel.SetActive(false);
         }
     }
 
@@ -100,8 +122,8 @@ public class InventoryUIManager : MonoBehaviour
     /// <summary>
     /// Toggle hiển thị inventory (để bind với phím tắt)
     /// </summary>
-    public void ToggleInventory()
-    {
-        slotsParent.gameObject.SetActive(!slotsParent.gameObject.activeSelf);
-    }
+    //public void ToggleInventory()
+    //{
+    //    slotsParent.gameObject.SetActive(!slotsParent.gameObject.activeSelf);
+    //}
 }
