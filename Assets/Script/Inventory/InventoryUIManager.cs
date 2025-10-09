@@ -28,15 +28,18 @@ public class InventoryUIManager : MonoBehaviour
                 return;
             }
         }
-
-        InitializeSlots();
-        RefreshUI();
-
+        inventoryPanel.SetActive(false);
+        // 🔹 Đăng ký event TRƯỚC khi refresh
+        inventoryManager.onInventoryChanged += RefreshUI;
         // Subscribe vào event khi inventory thay đổi
         if (inventoryManager != null)
         {
             inventoryManager.onInventoryChanged += RefreshUI;
         }
+        InitializeSlots();
+        RefreshUI();
+
+        
     }
 
     private void Update()
