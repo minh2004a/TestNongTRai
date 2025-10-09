@@ -4958,7 +4958,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iconImage: {fileID: 519291205}
-  quantityText: {fileID: 850296125}
+  quantityText: {fileID: 260536404}
   inventoryPanel: {fileID: 519291203}
 --- !u!1 &1116033284
 GameObject:
