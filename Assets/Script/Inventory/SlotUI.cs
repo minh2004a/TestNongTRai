@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,10 +14,13 @@ public class SlotUI : MonoBehaviour
     private void Awake()
     {
         if (iconImage == null)
-            iconImage = transform.Find("Icon").GetComponent<Image>();
+            iconImage = transform.Find("Icon").GetComponentInChildren<Image>();
 
         if (quantityText == null)
-            quantityText = transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
+            quantityText = transform.Find("Quantity").GetComponentInChildren<TextMeshProUGUI>();
+
+        if (quantityText == null)
+            Debug.LogError($"[{gameObject.name}] Không tìm thấy Quantity Text!", this);
     }
 
     
@@ -32,21 +35,25 @@ public class SlotUI : MonoBehaviour
     {
         if (currentSlot == null || currentSlot.IsEmpty())
         {
-            iconImage.enabled = false;
-            quantityText.text = "";
+            // Slot trống
+            if (iconImage != null)
+                iconImage.sprite = null;
+                iconImage.enabled = false;
+
+            if (quantityText != null)
+                quantityText.text = "";
         }
         else
         {
-            iconImage.enabled = true;
-            iconImage.sprite = currentSlot.itemData.icon;
-
-            if (currentSlot.quantity > 1)
+            if (iconImage != null)
             {
-                quantityText.text = currentSlot.quantity.ToString();
+                iconImage.enabled = true;
+                iconImage.sprite = currentSlot.itemData.icon; // ⭐ Dùng itemData
             }
-            else
+            // hien thi so luong
+            if (quantityText != null)
             {
-                quantityText.text = "";
+                quantityText.text = currentSlot.quantity > 1 ? currentSlot.quantity.ToString() : "";
             }
         }
     }
@@ -54,7 +61,11 @@ public class SlotUI : MonoBehaviour
     public void ClearSlot()
     {
         currentSlot = null;
-        iconImage.enabled = false;
-        quantityText.text = "";
+
+        if (iconImage != null)
+            iconImage.enabled = false;
+
+        if (quantityText != null)
+            quantityText.text = "";
     }
 }

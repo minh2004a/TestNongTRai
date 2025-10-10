@@ -1,20 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class InventoryUIManager : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject slotPrefab;
-    [SerializeField] private Transform slotsParent; // InventoryPanel
+    [SerializeField] private Transform slotsParent;
+    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private InventoryManager inventoryManager;
 
     [Header("Settings")]
     [SerializeField] private int numberOfSlots = 20;
 
-    private List<SlotUI> slots = new List<SlotUI>();
-
-    [SerializeField] public GameObject inventoryPanel;
+    private List<SlotUI> slotUIList = new List<SlotUI>(); // ⭐ Đổi tên tránh conflict
 
     private void Start()
     {
@@ -28,37 +26,31 @@ public class InventoryUIManager : MonoBehaviour
                 return;
             }
         }
-        inventoryPanel.SetActive(false);
-        // 🔹 Đăng ký event TRƯỚC khi refresh
-        inventoryManager.onInventoryChanged += RefreshUI;
-        // Subscribe vào event khi inventory thay đổi
+
+        // Ẩn inventory khi bắt đầu
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(false);
+        }
+
+        // Khởi tạo slots
+        InitializeSlots();
+
+        // ⭐ CHỈ subscribe 1 lần duy nhất
         if (inventoryManager != null)
         {
             inventoryManager.onInventoryChanged += RefreshUI;
         }
-        InitializeSlots();
-        RefreshUI();
 
-        
+        // Refresh UI lần đầu
+        RefreshUI();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            this.ToggleInventory();
-        }
-    }
-
-    public void ToggleInventory()
-    {
-        if (!inventoryPanel.activeSelf)
-        {
-            inventoryPanel.SetActive(true);
-        }
-        else
-        {
-            inventoryPanel.SetActive(false);
+            ToggleInventory();
         }
     }
 
@@ -81,7 +73,7 @@ public class InventoryUIManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-        slots.Clear();
+        slotUIList.Clear();
 
         // Tạo số lượng slots theo setting
         for (int i = 0; i < numberOfSlots; i++)
@@ -91,10 +83,11 @@ public class InventoryUIManager : MonoBehaviour
 
             if (slotUI == null)
             {
+                Debug.LogWarning($"Slot {i} không có SlotUI component! Đang thêm...");
                 slotUI = slotObj.AddComponent<SlotUI>();
             }
 
-            slots.Add(slotUI);
+            slotUIList.Add(slotUI);
         }
 
         Debug.Log($"Đã tạo {numberOfSlots} slots UI");
@@ -107,26 +100,54 @@ public class InventoryUIManager : MonoBehaviour
     {
         if (inventoryManager == null) return;
 
-        var slots = inventoryManager.GetAllSlots();
+        // ⭐ Đổi tên biến local để tránh conflict
+        List<InventorySlot> inventorySlots = inventoryManager.GetAllSlots();
 
-        for (int i = 0; i < this.slots.Count; i++)
+        for (int i = 0; i < slotUIList.Count; i++)
         {
-            if (i < slots.Count)
+            if (i < inventorySlots.Count)
             {
-                this.slots[i].SetSlot(slots[i]);
+                slotUIList[i].SetSlot(inventorySlots[i]);
             }
             else
             {
-                this.slots[i].ClearSlot();
+                slotUIList[i].ClearSlot();
             }
         }
     }
 
     /// <summary>
-    /// Toggle hiển thị inventory (để bind với phím tắt)
+    /// Toggle hiển thị inventory
     /// </summary>
-    //public void ToggleInventory()
-    //{
-    //    slotsParent.gameObject.SetActive(!slotsParent.gameObject.activeSelf);
-    //}
+    public void ToggleInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            bool isActive = !inventoryPanel.activeSelf;
+            inventoryPanel.SetActive(isActive);
+            Debug.Log($"Inventory: {(isActive ? "Mở" : "Đóng")}");
+        }
+    }
+
+    /// <summary>
+    /// Mở inventory
+    /// </summary>
+    public void OpenInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(true);
+        }
+    }
+
+    /// <summary>
+    /// Đóng inventory
+    /// </summary>
+    public void CloseInventory()
+    {
+        if (inventoryPanel != null)
+        {
+            inventoryPanel.SetActive(false);
+        }
+    }
 }

@@ -30,6 +30,11 @@ public class InventoryManager : GameMonoBehaviour
         {
             Destroy(gameObject);
         }
+        // Khởi tạo slots trống
+        for (int i = 0; i < inventorySize; i++)
+        {
+            slots.Add(new InventorySlot());
+        }
     }
 
     // Khởi tạo inventory với các slot trống
