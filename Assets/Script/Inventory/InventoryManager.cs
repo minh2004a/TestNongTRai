@@ -45,7 +45,6 @@ public class InventoryManager : GameMonoBehaviour
         {
             slots.Add(new InventorySlot());
         }
-        Debug.Log($"Inventory {inventorySize} slots");
     }
 
     // Thêm item vào inventory
@@ -84,12 +83,10 @@ public class InventoryManager : GameMonoBehaviour
 
         if (success)
         {
-            Debug.Log($"Added {quantity}x {itemData.itemName} to inventory");
             onInventoryChanged?.Invoke();
         }
         else
         {
-            Debug.LogWarning($"Inventory full! Could not add {remainingQuantity}x {itemData.itemName}");
             // Vẫn thêm được một phần
             if (remainingQuantity < quantity)
             {
@@ -111,7 +108,6 @@ public class InventoryManager : GameMonoBehaviour
         // Kiểm tra có đủ item không
         if (!HasItem(itemData, quantity))
         {
-            Debug.LogWarning($"Not enough {itemData.itemName} in inventory");
             return false;
         }
 
@@ -128,7 +124,6 @@ public class InventoryManager : GameMonoBehaviour
             }
         }
 
-        Debug.Log($"Removed {quantity}x {itemData.itemName} from inventory");
         onInventoryChanged?.Invoke();
         return true;
     }
@@ -202,20 +197,6 @@ public class InventoryManager : GameMonoBehaviour
         }
 
         return true;
-    }
-
-    // Debug: Hiển thị toàn bộ inventory
-    public void PrintInventory()
-    {
-        Debug.Log("===INVENTORY CONTENTS ===");
-        for (int i = 0; i < slots.Count; i++)
-        {
-            if (!slots[i].IsEmpty())
-            {
-                Debug.Log($"Slot {i}: {slots[i].itemData.itemName} x{slots[i].quantity}");
-            }
-        }
-        Debug.Log("========================");
     }
 
     public List<InventorySlot> GetAllSlots()

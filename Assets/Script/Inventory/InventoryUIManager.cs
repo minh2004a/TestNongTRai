@@ -12,7 +12,7 @@ public class InventoryUIManager : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private int numberOfSlots = 20;
 
-    private List<SlotUI> slotUIList = new List<SlotUI>(); // ⭐ Đổi tên tránh conflict
+    private List<SlotUI> slotUIList = new List<SlotUI>(); // Đổi tên tránh conflict
 
     private void Start()
     {
@@ -63,9 +63,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Tạo các slot UI
-    /// </summary>
     private void InitializeSlots()
     {
         // Clear các slot cũ nếu có
@@ -93,9 +91,7 @@ public class InventoryUIManager : MonoBehaviour
         Debug.Log($"Đã tạo {numberOfSlots} slots UI");
     }
 
-    /// <summary>
     /// Cập nhật toàn bộ UI từ dữ liệu inventory
-    /// </summary>
     public void RefreshUI()
     {
         if (inventoryManager == null) return;
@@ -116,9 +112,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Toggle hiển thị inventory
-    /// </summary>
     public void ToggleInventory()
     {
         if (inventoryPanel != null)
@@ -129,9 +123,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Mở inventory
-    /// </summary>
     public void OpenInventory()
     {
         if (inventoryPanel != null)
@@ -140,9 +132,7 @@ public class InventoryUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Đóng inventory
-    /// </summary>
     public void CloseInventory()
     {
         if (inventoryPanel != null)
