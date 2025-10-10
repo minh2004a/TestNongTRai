@@ -72,9 +72,7 @@ public class InventoryTester : MonoBehaviour
         Debug.Log("Đã thêm test items vào inventory!");
     }
 
-    /// <summary>
     /// Thêm ngẫu nhiên 1 item
-    /// </summary>
     private void AddRandomItem()
     {
         if (testItems == null || testItems.Length == 0) return;
@@ -92,9 +90,7 @@ public class InventoryTester : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Xóa ngẫu nhiên 1 item
-    /// </summary>
     private void RemoveRandomItem()
     {
         if (testItems == null || testItems.Length == 0) return;
@@ -111,18 +107,14 @@ public class InventoryTester : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Clear inventory
-    /// </summary>
     private void ClearInventory()
     {
         inventoryManager.ClearInventory();
         Debug.Log("Đã xóa toàn bộ inventory!");
     }
 
-    /// <summary>
     /// In ra console tất cả items trong inventory
-    /// </summary>
     private void PrintInventory()
     {
         var slots = inventoryManager.GetAllSlots();
@@ -142,21 +134,5 @@ public class InventoryTester : MonoBehaviour
         {
             Debug.Log("Inventory trống!");
         }
-
-        Debug.Log("================");
-    }
-
-    // Hiển thị hướng dẫn trong Inspector
-    private void OnValidate()
-    {
-        Debug.Log(@"
-        === INVENTORY TESTER ===
-        Phím tắt:
-        - [1]: Thêm item ngẫu nhiên
-        - [2]: Xóa item ngẫu nhiên  
-        - [C]: Clear inventory
-        - [I]: In ra inventory hiện tại
-        ========================
-        ");
     }
 }
