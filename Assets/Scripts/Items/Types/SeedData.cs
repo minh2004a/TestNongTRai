@@ -52,14 +52,5 @@ namespace TinyFarm.Items
             return tooltip;
         }
     }
-
-    /// Enum cho các mùa trong game
-    public enum Season
-    {
-        Spring,     // Mùa xuân
-        Summer,     // Mùa hè
-        Fall,       // Mùa thu
-        Winter      // Mùa đông
-    }
 }
 

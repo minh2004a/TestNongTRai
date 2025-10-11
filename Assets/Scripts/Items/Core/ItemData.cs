@@ -15,6 +15,10 @@ namespace TinyFarm.Items
         [Tooltip("Tên hiển thị của item")]
         public string itemName = "no-name";
 
+        [Header("Basic Info")]
+        [Tooltip("Unique ID cho item này")]
+        public string itemID;
+
         [Tooltip("Icon của item trong UI")]
         public Sprite icon;
 
@@ -42,12 +46,24 @@ namespace TinyFarm.Items
         public string description;
 
         public bool isStackable = true;
+        public bool isConsumable = true;
+        public bool isEquippable = true;
 
         public int GetItemID()
         {
             return (int)itemCode;
         }
 
+        public ItemType GetItemType()
+        {
+            return itemType;
+        }
+
+        protected virtual void ValidateItemData()
+        {
+
+        }
+        
         /// Kiểm tra xem item có thể xếp chồng với item khác không
         public virtual bool CanStackWith(ItemData other)
         {
