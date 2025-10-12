@@ -12,19 +12,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f75b07d8f16fe4469da6e433d3317c8, type: 3}
   m_Name: New Material
   m_EditorClassIdentifier: 
-  itemType: 0
+  materialTier: 0
   itemName: no-name
-  itemID: 
+  itemID: new_material
   icon: {fileID: 0}
-  maxStack: 999
-  buyPrice: 0
-  sellPrice: 0
-  canBeDropped: 1
-  canBeSold: 1
-  canBeStacked: 1
-  canBeConsumable: 1
-  canBeEquippable: 1
+  itemType: 4
   description: No description
+  maxStackSize: 999
+  isStackable: 1
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 1
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
+  sellPrice: 0
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 0
+  isConsumable: 0
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 0
   tier: 0
   usedInRecipes: []
   isRare: 0
