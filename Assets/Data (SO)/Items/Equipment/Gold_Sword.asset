@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
+  m_Name: Gold_Sword
+  m_EditorClassIdentifier: 
+  itemType: 5
+  itemName: Gold_Sword
+  itemID: 
+  icon: {fileID: 641960943, guid: 6613522ba3a7c2643b4e6f83dcce388f, type: 3}
+  maxStack: 1
+  buyPrice: 0
+  sellPrice: 0
+  canBeDropped: 1
+  canBeSold: 1
+  canBeStacked: 0
+  canBeConsumable: 0
+  canBeEquippable: 1
+  description: No description
+  slotType: 0
+  defense: 0
+  attack: 20
+  speed: 0
+  canBeUpgraded: 1
+  upgradedVersion: {fileID: 0}
+  upgradeCost: 0

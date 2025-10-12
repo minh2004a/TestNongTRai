@@ -6,9 +6,6 @@ namespace TinyFarm.Items
     public abstract class ItemData : ScriptableObject
     {
         [Header("Basic Information")]
-        [Tooltip("Mã định danh duy nhất của item")]
-        public ItemCode itemCode = ItemCode.NoItem;
-
         [Tooltip("Loại item")]
         public ItemType itemType = ItemType.NoType;
 
@@ -40,34 +37,36 @@ namespace TinyFarm.Items
         [Tooltip("Item có thể được bán không")]
         public bool canBeSold = true;
 
+        [Tooltip("Item có thể được stack không")]
+        public bool canBeStacked = true;
+
+        [Tooltip("Item có thể được tieu thu không")]
+        public bool canBeConsumable = true;
+
+        [Tooltip("Item có thể được nang cap không")]
+        public bool canBeEquippable = true;
+
         [Header("Description")]
         [Tooltip("Mô tả ngắn gọn về item")]
         [TextArea(3, 5)]
-        public string description;
+        public string description = "No description";
 
-        public bool isStackable = true;
-        public bool isConsumable = true;
-        public bool isEquippable = true;
-
-        public int GetItemID()
+        public string GetItemID()
         {
-            return (int)itemCode;
+            return itemID;
         }
 
-        public ItemType GetItemType()
+        public virtual ItemType GetItemType()
         {
             return itemType;
         }
 
-        protected virtual void ValidateItemData()
-        {
-
-        }
-        
         /// Kiểm tra xem item có thể xếp chồng với item khác không
         public virtual bool CanStackWith(ItemData other)
         {
-            return other != null & this.itemCode == other.itemCode;
+            if (other  == null) return false;
+            if (!canBeStacked) return false;
+            return this.itemID == other.itemID;
         }
 
         /// Lấy thông tin hiển thị tooltip
@@ -82,6 +81,27 @@ namespace TinyFarm.Items
 
             return tooltip;
         }
-    }
 
+        protected virtual void OnValidate()
+        {
+            this.ValidateItemData();
+        }
+        protected virtual void ValidateItemData()
+        {
+            if (maxStack < 1)
+                maxStack = 1;
+
+            if (buyPrice < 0)
+                buyPrice = 0;
+
+            if (sellPrice < 0)
+                sellPrice = 0;
+
+            if (string.IsNullOrEmpty(itemName))
+                itemName = "Unnamed Item";
+
+            if (icon == null)
+                Debug.LogWarning("Item has no icon", this);
+        }
+    }
 }

@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace TinyFarm.Items
 {
     public enum Season

@@ -1,13 +1,11 @@
-using UnityEngine;
-
-namespace TinyFarm.Items
+﻿namespace TinyFarm.Items
 {
     public enum MaterialTier
     {
-        Common,
-        Rare,
-        Epic,
-        Legendary
+        Common,     // Phổ thông (màu trắng/xám)
+        Rare,       // Hiếm (màu xanh dương)
+        Epic,       // Sử thi (màu tím)
+        Legendary   // Huyền thoại (màu vàng/cam)
     }
 }
 

@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6726836d2b445ff449ca675ec4f8593b, type: 3}
   m_Name: Seed_Dau
   m_EditorClassIdentifier: 
-  itemCode: 200
   itemType: 1
-  itemName: Dau
+  itemName: Seed_Dau
+  itemID: 
   icon: {fileID: -1797537465, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
   maxStack: 999
   buyPrice: 0
   sellPrice: 0
   canBeDropped: 1
-  canBeSold: 1
+  canBeSold: 0
+  canBeStacked: 1
+  canBeConsumable: 0
+  canBeEquippable: 0
   description: 
-  cropToGrow: {fileID: 11400000, guid: 5c6f575353e15f042b46d1b196b1834f, type: 2}
-  daysToGrow: 6
-  growStages:
-  - {fileID: -480625177, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  - {fileID: -2142307828, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  - {fileID: 1560967947, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  - {fileID: 1748686779, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  - {fileID: 1114735822, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  - {fileID: 160718672, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
-  validSeasons: 00000000
-  maxYield: 1
+  cropID: 
+  validSeason: 0
+  growthDays: 7
+  requiresDailyWatering: 1
+  minYield: 1
+  maxYield: 3

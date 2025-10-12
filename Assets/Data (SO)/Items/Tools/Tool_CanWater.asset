@@ -10,26 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa292a17e1057044ba430d5a15d3fe90, type: 3}
-  m_Name: Tool_Hoe
+  m_Name: Tool_CanWater
   m_EditorClassIdentifier: 
   itemType: 3
-  itemName: Tool_Hoe
+  itemName: Tool_CanWater
   itemID: 
-  icon: {fileID: 344734576, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
+  icon: {fileID: -410866898, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
   maxStack: 1
   buyPrice: 0
   sellPrice: 0
-  canBeDropped: 0
+  canBeDropped: 1
   canBeSold: 0
   canBeStacked: 0
   canBeConsumable: 0
   canBeEquippable: 0
-  description: "D\xF9ng \u0111\u1EC3 c\xE0y \u0111\u1EA5t tr\u1ED3ng tr\u1ECDt"
+  description: No description
   toolID: 
-  toolType: 1
+  toolType: 2
   maxDurability: 100
   currentDurability: 100
-  durability: 100
+  durability: -1
   efficiency: 1
   useCooldown: 0.5
   canBeUpgraded: 0

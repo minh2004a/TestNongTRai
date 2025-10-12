@@ -12,15 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3a3fca8cad6d64286d8d95de0d33b8, type: 3}
   m_Name: Crop_Dau
   m_EditorClassIdentifier: 
-  itemCode: 100
   itemType: 2
-  itemName: Dau
+  itemName: Crop_Dau
+  itemID: 
   icon: {fileID: -129492976, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
   maxStack: 999
   buyPrice: 0
   sellPrice: 0
   canBeDropped: 1
   canBeSold: 1
+  canBeStacked: 1
+  canBeConsumable: 1
+  canBeEquippable: 0
   description: 
-  category: 1
-  isEdible: 0
+  cropType: 1
+  harvestedSeason: 0
+  nutritionValue: 10
+  energyValue: 5
+  canBeProcessed: 0
+  processedItemID: 
