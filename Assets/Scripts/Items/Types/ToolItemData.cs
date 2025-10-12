@@ -11,9 +11,6 @@ namespace TinyFarm.Items
         [Tooltip("Loại công cụ")]
         public ToolType toolType;
 
-        [Tooltip("Độ bền tối đa của công cụ")]
-        public int maxDurability = 100;
-
         [Tooltip("Độ bền hiện tại (runtime)")]
         [SerializeField] private int currentDurability = 100;
 
@@ -23,10 +20,6 @@ namespace TinyFarm.Items
         [Tooltip("Sức mạnh của công cụ (dùng cho damage, efficiency, etc.)")]
         [Range(1, 10)]
         public int efficiency = 1;
-
-        [Header("Usage Settings")]
-        [Tooltip("Thời gian cooldown giữa các lần sử dụng (giây)")]
-        public float useCooldown = 0.5f;
 
         [Header("Animation & Sound")]
         [Tooltip("Animation clip khi sử dụng công cụ")]

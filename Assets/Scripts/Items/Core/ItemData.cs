@@ -54,7 +54,7 @@ namespace TinyFarm.Items
 
         [Tooltip("Độ bền mất mỗi lần sử dụng")]
         [Min(0)]
-        public float durabilityLossPerUse = 1f;
+        public int durabilityLossPerUse = 1;
 
         // CATEGORY SETTINGS (cho CategoryProperty)
         [Header("Classification")]
@@ -119,8 +119,8 @@ namespace TinyFarm.Items
 
         // Durability
         public bool HasDurability => hasDurability;
-        public float MaxDurability => maxDurability;
-        public float DurabilityLossPerUse => durabilityLossPerUse;
+        public int MaxDurability => maxDurability;
+        public int DurabilityLossPerUse => durabilityLossPerUse;
 
         // Category
         public ItemCategory PrimaryCategory => primaryCategory;
@@ -281,7 +281,7 @@ namespace TinyFarm.Items
             return tooltip;
         }
 
-        /// Lấy màu theo rarity
+        // Lấy màu theo rarity
         private string GetRarityColor()
         {
             return materialTier switch
@@ -303,7 +303,7 @@ namespace TinyFarm.Items
             return itemType;
         }
 
-        /// Kiểm tra xem item có thể xếp chồng với item khác không
+        // Kiểm tra xem item có thể xếp chồng với item khác không
         public virtual bool CanStackWith(ItemData other)
         {
             if (other  == null) return false;
@@ -311,7 +311,7 @@ namespace TinyFarm.Items
             return this.itemID == other.itemID;
         }
 
-        /// Lấy thông tin hiển thị tooltip
+        // Lấy thông tin hiển thị tooltip
 
         public override string ToString()
         {

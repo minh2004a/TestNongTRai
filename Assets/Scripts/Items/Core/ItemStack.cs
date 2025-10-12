@@ -65,13 +65,13 @@ public class ItemStack : MonoBehaviour
         }
     }
 
-    /// Clear stack (remove item)
+    // Clear stack (remove item)
     public void Clear()
     {
         SetItem(null);
     }
 
-    /// Thêm item vào stack
+    // Thêm item vào stack
     public int AddItem(Item itemToAdd, int quantity = -1)
     {
         if (itemToAdd == null) return 0;
@@ -97,9 +97,7 @@ public class ItemStack : MonoBehaviour
         return toAdd - overflow; // Return số lượng đã add thành công
     }
 
-    /// <summary>
-    /// Lấy item từ stack
-    /// </summary>
+    // Lấy item từ stack
     public Item RemoveItem(int quantity = 1)
     {
         if (IsEmpty) return null;
@@ -125,26 +123,20 @@ public class ItemStack : MonoBehaviour
         return null;
     }
 
-    /// <summary>
-    /// Lấy ALL items từ stack
-    /// </summary>
+    // Lấy ALL items từ stack
     public Item RemoveAll()
     {
         return RemoveItem(Quantity);
     }
 
-    /// <summary>
-    /// Split stack thành 2 phần
-    /// </summary>
+    // Split stack thành 2 phần
     public ItemStack Split(int quantity)
     {
         Item splitItem = RemoveItem(quantity);
         return splitItem != null ? new ItemStack(splitItem) : null;
     }
 
-    /// <summary>
-    /// Merge stack khác vào stack này
-    /// </summary>
+    // Merge stack khác vào stack này
     public bool MergeWith(ItemStack other)
     {
         if (other == null || other.IsEmpty) return false;
@@ -175,9 +167,7 @@ public class ItemStack : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Swap items với stack khác
-    /// </summary>
+    // Swap items với stack khác
     public void SwapWith(ItemStack other)
     {
         if (other == null) return;
@@ -189,9 +179,7 @@ public class ItemStack : MonoBehaviour
 
     // ===== ITEM OPERATIONS =====
 
-    /// <summary>
-    /// Sử dụng item trong stack
-    /// </summary>
+    // Sử dụng item trong stack
     public bool UseItem()
     {
         if (IsEmpty) return false;
@@ -206,9 +194,7 @@ public class ItemStack : MonoBehaviour
         return success;
     }
 
-    /// <summary>
-    /// Kiểm tra có thể chấp nhận item không
-    /// </summary>
+    // Kiểm tra có thể chấp nhận item không
     public bool CanAccept(Item itemToCheck)
     {
         if (itemToCheck == null) return false;
@@ -235,9 +221,7 @@ public class ItemStack : MonoBehaviour
         return IsEmpty ? "Empty Stack" : $"{item} ({Quantity}/{MaxStackSize})";
     }
 
-    /// <summary>
-    /// Clone stack
-    /// </summary>
+    // Clone stack
     public ItemStack Clone()
     {
         if (IsEmpty) return new ItemStack();
