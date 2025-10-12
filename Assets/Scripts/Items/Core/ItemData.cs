@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace TinyFarm.Items
 {
     /// Base ScriptableObject cho tất cả các loại item trong game
     public abstract class ItemData : ScriptableObject
     {
+        [Header("Classification")]
+        public ItemCategory category;
+        public List<string> tags = new List<string>();
+
         [Header("Basic Information")]
         [Tooltip("Loại item")]
         public ItemType itemType = ItemType.NoType;
+
+        [Header("Basic Information")]
+        [Tooltip("Do hiem item")]
+        public MaterialTier materialTier;
 
         [Tooltip("Tên hiển thị của item")]
         public string itemName = "no-name";
@@ -45,6 +54,19 @@ namespace TinyFarm.Items
 
         [Tooltip("Item có thể được nang cap không")]
         public bool canBeEquippable = true;
+
+        [Header("Durability")]
+        [Tooltip("Item có độ bền không?")]
+        public bool hasDurability = false;
+
+        [Tooltip("Độ bền tối đa của item")]
+        public int maxDurability = 100;
+
+        [Tooltip("Item bị phá hủy khi hết độ bền?")]
+        public bool destroyOnBreak = true;
+
+        [Tooltip("Hệ số chi phí sửa chữa (nếu có)")]
+        public float repairCostMultiplier = 1f;
 
         [Header("Description")]
         [Tooltip("Mô tả ngắn gọn về item")]
