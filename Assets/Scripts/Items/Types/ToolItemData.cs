@@ -45,11 +45,11 @@ namespace TinyFarm.Items
         {
             base.ValidateItemData();
             // Tool không thể stack
-            canBeStacked = false;
-            maxStack = 1;
+            isStackable = false;
+            maxStackSize = 1;
 
             // Tool không thể ăn
-            canBeConsumable = false;
+            isUsable = false;
 
             // Đảm bảo currentDurability không vượt quá max
             if (currentDurability > maxDurability)

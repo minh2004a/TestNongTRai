@@ -38,10 +38,10 @@ namespace TinyFarm.Items
             base.ValidateItemData();
 
             // Material có thể stack
-            canBeStacked = true;
+            isStackable = true;
 
             // Material không thể ăn hoặc trang bị
-            canBeConsumable = false;
+            isUsable = false;
             canBeEquippable = false;
 
             // Tier cao thì hiếm

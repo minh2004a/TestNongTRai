@@ -47,14 +47,14 @@ namespace TinyFarm.Items
             base.ValidateItemData();
 
             // Equipment không thể stack
-            canBeStacked = false;
-            maxStack = 1;
+            isStackable = false;
+            maxStackSize = 1;
 
             // Equipment có thể trang bị
             canBeEquippable = true;
 
             // Equipment không thể ăn
-            canBeConsumable = false;
+            isUsable = false;
         }
 
         /// Lấy tất cả stats dưới dạng Dictionary

@@ -41,10 +41,10 @@ namespace TinyFarm.Items
             base.ValidateItemData();
 
             // Seed có thể stack
-            canBeStacked = true;
+            isStackable = true;
 
             // Seed không thể ăn hoặc trang bị
-            canBeConsumable = false;
+            isUsable = false;
             canBeEquippable = false;
 
             // Đảm bảo maxYield >= minYield

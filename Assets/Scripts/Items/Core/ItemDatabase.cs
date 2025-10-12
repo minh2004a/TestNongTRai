@@ -149,7 +149,7 @@ namespace TinyFarm.Items
         {
             if (!isInitialized) Initialize();
 
-            return items.Where(i => i.canBeStacked).ToList();
+            return items.Where(i => i.isStackable).ToList();
         }
 
         // Lọc items có thể tiêu thụ
@@ -157,7 +157,7 @@ namespace TinyFarm.Items
         {
             if (!isInitialized) Initialize();
 
-            return items.Where(i => i.canBeConsumable).ToList();
+            return items.Where(i => i.isUsable).ToList();
         }
 
         // Lọc items có thể trang bị

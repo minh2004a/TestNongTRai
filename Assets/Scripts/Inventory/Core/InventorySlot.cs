@@ -32,7 +32,7 @@ public class InventorySlot
     // Kiểm tra có thể thêm item vào slot này khôngg
     public bool CanAddItem(ItemData item)
     {
-        return IsEmpty() || (itemData == item && quantity < itemData.maxStack);
+        return IsEmpty() || (itemData == item && quantity < itemData.maxStackSize);
     }
 
     // Thêm số lượng vào slot
@@ -41,11 +41,11 @@ public class InventorySlot
         int newQuantity = quantity + amount;
 
         // Nếu vượt quá max stack size
-        if (newQuantity > itemData.maxStack)
+        if (newQuantity > itemData.maxStackSize)
         {
-            quantity = itemData.maxStack;
+            quantity = itemData.maxStackSize;
             // Trả về phần thừa
-            return newQuantity - itemData.maxStack;
+            return newQuantity - itemData.maxStackSize;
         }
 
         quantity = newQuantity;

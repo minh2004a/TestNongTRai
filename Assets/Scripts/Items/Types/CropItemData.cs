@@ -40,12 +40,12 @@ namespace TinyFarm.Items
             base.ValidateItemData();
 
             // Crop có thể stack
-            canBeStacked = true;
+            isStackable = true;
 
             // Crop thường có thể ăn (consumable)
             if (nutritionValue > 0 ||  energyValue > 0)
             {
-                canBeConsumable = true;
+                isUsable = true;
             }
 
             // Crop không thể trang bị

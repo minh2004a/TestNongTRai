@@ -29,10 +29,10 @@ namespace TinyFarm.Items
             base.ValidateItemData();
 
             // Resource có thể stack
-            canBeStacked = true;
+            isStackable = true;
 
             // Resource không thể ăn hoặc trang bị
-            canBeConsumable = false;
+            isUsable = false;
             canBeEquippable = false;
 
             // Đảm bảo maxDropAmount >= minDropAmount

@@ -64,7 +64,7 @@ public class InventoryTester : MonoBehaviour
         {
             if (item != null)
             {
-                int quantity = item.canBeStacked ? Random.Range(1, 10) : 1;
+                int quantity = item.isStackable ? Random.Range(1, 10) : 1;
                 inventoryManager.AddItem(item, quantity);
             }
         }
@@ -80,7 +80,7 @@ public class InventoryTester : MonoBehaviour
         ItemData randomItem = testItems[Random.Range(0, testItems.Length)];
         if (randomItem != null)
         {
-            int quantity = randomItem.canBeStacked ? Random.Range(1, 5) : 1;
+            int quantity = randomItem.isStackable ? Random.Range(1, 5) : 1;
             bool success = inventoryManager.AddItem(randomItem, quantity);
 
             if (success)
