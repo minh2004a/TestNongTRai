@@ -9,6 +9,7 @@ namespace TinyFarm.Items
         [Header("Equipment Specific")]
         [Tooltip("Slot trang b?")]
         public EquipmentSlotType slotType;
+        public EquipmentType equipType;
 
         [Header("Base Stats")]
         [Tooltip("Giáp/phong thu")]
@@ -22,6 +23,10 @@ namespace TinyFarm.Items
         [Tooltip("Toc đo di chuyen (%)")]
         [Range(-50, 100)]
         public int speed = 0;
+
+        [Tooltip("HP")]
+        [Range(0, 100)]
+        public int health = 0;
 
         [Header("Upgrade")]
         [Tooltip("Công cụ có thể nâng cấp không")]

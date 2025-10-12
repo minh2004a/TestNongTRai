@@ -2,6 +2,7 @@
 {
     public enum CropType
     {
+        None,
         Vegetable,      // Rau củ (Tomato, Carrot, Potato...)
         Fruit,          // Hoa quả (Strawberry, Melon, Grape...)
         Grain,          // Ngũ cốc (Wheat, Corn, Rice...)

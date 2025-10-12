@@ -24,7 +24,7 @@ public class ItemStack : MonoBehaviour
     public int RemainingSpace => item?.Stackable?.RemainingSpace ?? 0;
 
     // Quick accessors
-    public string ItemName => item?.name ?? "Empty";
+    public string ItemName => item?.Name ?? "Empty";
     public Sprite ItemIcon => item?.Icon;
     public MaterialTier MaterialTier => item?.materialTier ?? MaterialTier.Common;
 

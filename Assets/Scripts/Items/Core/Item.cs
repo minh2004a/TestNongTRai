@@ -40,7 +40,7 @@ namespace TinyFarm.Items
         public string InstanceID => instanceID;
         public ItemData ItemData => itemData;
         public string ID => itemData?.itemID;
-        public string name => itemData?.itemName;
+        public string Name => itemData?.itemName;
         public string Description => itemData?.description;
         public Sprite Icon => itemData?.icon;
         public MaterialTier materialTier => itemData?.materialTier ?? MaterialTier.Common;
@@ -287,7 +287,7 @@ namespace TinyFarm.Items
         {
             string stackInfo = IsStackable ? $" x{CurrentStack}" : "";
             string durabilityInfo = HasDurability ? $" ({durability.DurabilityPercent:F0}%)" : "";
-            return $"{name}{stackInfo}{durabilityInfo}";
+            return $"{Name}{stackInfo}{durabilityInfo}";
         }
         /// <summary>
         /// Load item from save data

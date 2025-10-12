@@ -9,6 +9,12 @@ namespace TinyFarm.Items
         [Tooltip("ID của crop sẽ mọc ra")]
         public string cropID;
 
+        [Header("Tool Specific")]
+        [Tooltip("Loại seed")]
+        public CropType cropType;
+
+        public CropItemData resultCrop;
+
         [Header("Season Requirements")]
         [Tooltip("Mùa có thể trồng")]
         public Season validSeason;

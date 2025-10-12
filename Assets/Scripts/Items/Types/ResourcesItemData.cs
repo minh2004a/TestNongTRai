@@ -18,6 +18,15 @@ namespace TinyFarm.Items
         [Range(1, 10)]
         public int maxDropAmount = 3;
 
+        [Tooltip("Số lượng sau khi tinh chế")]
+        public int refineAmount = 1;
+
+        [Tooltip("Tinh chế được hay không")]
+        public bool isRefinable = false;
+
+        [Tooltip("Kết quả sau khi tinh chế")]
+        public ResourcesItemData refinedResult;
+
 
         public override ItemType GetItemType()
         {
