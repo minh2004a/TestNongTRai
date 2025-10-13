@@ -14,7 +14,7 @@ namespace TinyFarm.Items
         private bool isEquipped = false;
 
         // Properties
-        public EquipmentSlotType EquipmentSlotType => equipmentData?.slotType ?? EquipmentSlotType.None;
+        public EquipmentSlotType SlotType => equipmentData?.slotType ?? EquipmentSlotType.None;
         public EquipmentType EquipmentType => equipmentData?.equipType ?? EquipmentType.None;
         public bool IsEquipped => isEquipped;
 
@@ -22,7 +22,7 @@ namespace TinyFarm.Items
         public int AttackBonus => equipmentData?.attack ?? 0;
         public int DefenseBonus => equipmentData?.defense ?? 0;
         public int HealthBonus => equipmentData?.health ?? 0;
-        public float SpeedBonus => equipmentData?.speed ?? 0f;
+        public int SpeedBonus => equipmentData?.speed ?? 0;
 
         // Events
         public event Action<EquipmentItem> OnEquipped;
@@ -78,9 +78,7 @@ namespace TinyFarm.Items
             return true;
         }
 
-        /// <summary>
         /// Sử dụng equipment (weapon attack, tool use, etc.)
-        /// </summary>
         public override bool Use()
         {
             if (!isEquipped)
@@ -99,6 +97,16 @@ namespace TinyFarm.Items
             }
 
             return true;
+        }
+
+        public string GetDisplayName()
+        {
+            string name = Name;
+
+            if (IsEquipped)
+                name += " [E] ";
+
+            return name;
         }
 
         /// Lấy tổng stats bonus

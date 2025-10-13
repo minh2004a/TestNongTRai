@@ -25,6 +25,7 @@ namespace TinyFarm.Items
             if (Instance == null)
             {
                 Instance = this;
+                transform.parent = null;
                 DontDestroyOnLoad(gameObject);
                 this.InitializeInventory();
             }
@@ -96,6 +97,14 @@ namespace TinyFarm.Items
                 }
             }
             return success;
+        }
+
+        public bool AddItem(Item item)
+        {
+            if (item == null || item.ItemData == null) return false;
+
+            // Nếu bạn đang dùng stack theo ItemData:
+            return AddItem(item.ItemData, item.CurrentStack);
         }
 
         // Xóa item khỏi inventory

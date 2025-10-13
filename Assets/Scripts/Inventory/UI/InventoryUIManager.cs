@@ -120,7 +120,6 @@ public class InventoryUIManager : MonoBehaviour
         {
             bool isActive = !inventoryPanel.activeSelf;
             inventoryPanel.SetActive(isActive);
-            Debug.Log($"Inventory: {(isActive ? "Mở" : "Đóng")}");
         }
     }
 

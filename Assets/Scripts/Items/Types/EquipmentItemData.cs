@@ -10,6 +10,7 @@ namespace TinyFarm.Items
         [Tooltip("Slot trang b?")]
         public EquipmentSlotType slotType;
         public EquipmentType equipType;
+        public List<StatBonus> bonuses;
 
         [Header("Base Stats")]
         [Tooltip("Giáp/phong thu")]
@@ -81,6 +82,19 @@ namespace TinyFarm.Items
             return stats;
         }
 
+        public bool HasBonuses()
+        {
+            if (defense > 0) return true;
+            if (attack > 0) return true;
+            if (speed != 0) return true;
+            if (health > 0) return true;
+
+            if (additionalStats != null && additionalStats.Count > 0)
+                return true;
+
+            return false;
+        }
+
         /// Lấy giá trị của stat cụ thể
         public int GetStatValue(string statName)
         {
@@ -97,6 +111,13 @@ namespace TinyFarm.Items
                     return 0;
             }
         }
+    }
+
+    [System.Serializable]
+    public class StatBonus
+    {
+        public string statName;   // Ví dụ: "Attack", "Defense", "Speed"
+        public int value;         // Giá trị cộng thêm
     }
 }
 
