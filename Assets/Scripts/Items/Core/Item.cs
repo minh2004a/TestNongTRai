@@ -300,7 +300,7 @@ namespace TinyFarm.Items
                 return null;
             }
 
-            ItemData data = database.GetItem(saveData.itemDataID);
+            ItemData data = database.GetItemByID(saveData.itemDataID);
             if (data == null)
             {
                 Debug.LogError($"Cannot find ItemData with ID: {saveData.itemDataID}");

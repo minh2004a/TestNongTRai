@@ -87,7 +87,7 @@ namespace TinyFarm.Items
         }
 
         // Lấy ItemData theo itemID
-        public ItemData GetItem(string itemID)
+        public ItemData GetItemByID(string itemID)
         {
             if (!isInitialized) Initialize();
 
@@ -99,7 +99,7 @@ namespace TinyFarm.Items
         // Lấy ItemData theo itemID với type cast
         public T GetItem<T>(string itemID) where T : ItemData
         {
-            ItemData item = GetItem(itemID);
+            ItemData item = GetItemByID(itemID);
             if (item != null && item is T)
             {
                 return item as T;

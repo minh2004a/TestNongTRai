@@ -8,7 +8,7 @@ namespace TinyFarm.Items
     {
         [Header("Material Specific")]
         [Tooltip("Tier/độ hiếm của material")]
-        public MaterialTier tier = MaterialTier.Common;
+        public MaterialTier tier;
 
         [Header("Crafting Info")]
         [Tooltip("Danh sách recipe IDs sử dụng material này")]
