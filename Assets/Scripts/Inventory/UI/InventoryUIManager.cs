@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using TinyFarm.Items;
 
 public class InventoryUIManager : MonoBehaviour
 {
