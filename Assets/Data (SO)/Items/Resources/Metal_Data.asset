@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91dd6aa777c360c4bba3ec9117c591c2, type: 3}
+  m_Name: Metal_Data
+  m_EditorClassIdentifier: 
+  materialTier: 1
+  itemName: Metal
+  itemID: metal
+  icon: {fileID: 953305145, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
+  itemType: 9
+  description: Metal obtained from chopping trees. Used for crafting
+  maxStackSize: 999
+  isStackable: 1
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 0
+  repairCostMultiplier: 0
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 5
+  sellPrice: 5
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 0
+  isConsumable: 1
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 0
+  resourceType: 3
+  minDropAmount: 1
+  maxDropAmount: 3
+  refineAmount: 1
+  isRefinable: 0
+  refinedResult: {fileID: 0}
