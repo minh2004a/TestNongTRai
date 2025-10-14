@@ -18,8 +18,6 @@ namespace TinyFarm.Items
         [Tooltip("Tool type cần để harvest")]
         [SerializeField] protected ToolType requiredTool = ToolType.NoType;
 
-        [Tooltip("Min tool level cần")]
-        [SerializeField] protected int minToolLevel = 1;
 
         [Header("Visual Feedback")]
         [Tooltip("Particle effect khi bị hit")]
@@ -61,7 +59,6 @@ namespace TinyFarm.Items
         public float HealthPercent => (float)currentHealth / maxHealth * 100f;
         public bool IsDestroyed => isDestroyed;
         public ToolType RequiredTool => requiredTool;
-        public int MinToolLevel => minToolLevel;
 
         protected virtual void Awake()
         {
@@ -303,7 +300,7 @@ namespace TinyFarm.Items
             // Show text popup: "Need [Tool] Level [X]"
             // FloatingTextManager.Instance?.Show($"Need {requiredTool} Lv.{minToolLevel}+", transform.position);
 
-            Debug.Log($"Need {requiredTool} Level {minToolLevel} or higher!");
+            Debug.Log($"Need {requiredTool} or higher!");
         }
 
 
