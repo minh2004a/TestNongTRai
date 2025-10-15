@@ -1,71 +1,260 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
+using System;
+using System.Collections.Generic;
 
-public class SlotUI : MonoBehaviour
+namespace TinyFarm.Items.UI
 {
-    [SerializeField] private Image iconImage;
-    [SerializeField] private TextMeshProUGUI quantityText;
-
-    private InventorySlot currentSlot;
-
-    private void Awake()
+    public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
-        if (iconImage == null)
-            iconImage = transform.Find("Icon").GetComponentInChildren<Image>();
+        [Header("References")]
+        [SerializeField] private Image itemIcon;
+        [SerializeField] private TextMeshProUGUI quantityText;
+        [SerializeField] private Image backgroundImage;
+        [SerializeField] private Image highlightImage;
+        [SerializeField] private GameObject lockedOverlay;
 
-        if (quantityText == null)
-            quantityText = transform.Find("Quantity").GetComponentInChildren<TextMeshProUGUI>();
+        [Header("Visual Settings")]
+        [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private Color highlightColor = Color.yellow;
+        [SerializeField] private Color selectedColor = Color.green;
+        [SerializeField] private Color lockedColor = Color.gray;
 
-        if (quantityText == null)
-            Debug.LogError($"[{gameObject.name}] Không tìm thấy Quantity Text!", this);
-    }
+        [Header("Animation")]
+        [SerializeField] private bool enableHoverAnimation = true;
+        [SerializeField] private float hoverScale = 1.1f;
+        [SerializeField] private float animationSpeed = 10f;
 
-    
+        // State
+        private InventorySlot slot;
+        private bool isHovered = false;
+        private bool isSelected = false;
+        private Vector3 originalScale;
 
-    public void SetSlot(InventorySlot slot)
-    {
-        currentSlot = slot;
-        UpdateUI();
-    }
+        // Events
+        public event Action<SlotUI> OnSlotClicked;
+        public event Action<SlotUI> OnSlotRightClicked;
+        public event Action<SlotUI> OnSlotHoverEnter;
+        public event Action<SlotUI> OnSlotHoverExit;
 
-    public void UpdateUI()
-    {
-        if (currentSlot == null || currentSlot.IsEmpty())
+        // Properties
+        public InventorySlot Slot => slot;
+        public int SlotIndex => slot?.SlotIndex ?? -1;
+        public bool IsEmpty => slot?.IsEmpty ?? true;
+        public bool IsHovered => isHovered;
+        public bool IsSelected => isSelected;
+
+        private void Awake()
         {
-            // Slot trống
-            if (iconImage != null)
-                iconImage.sprite = null;
-                iconImage.enabled = false;
+            originalScale = transform.localScale;
+            ValidateReferences();
+        }
 
-            if (quantityText != null)
+        private void ValidateReferences()
+        {
+            if (itemIcon == null)
+                Debug.LogError("[SlotUI] ItemIcon not assigned!", this);
+
+            if (quantityText == null)
+                Debug.LogWarning("[SlotUI] QuantityText not assigned!", this);
+
+            if (backgroundImage == null)
+                Debug.LogWarning("[SlotUI] BackgroundImage not assigned!", this);
+        }
+
+        /// Bind slot data với UI
+        public void Initialize(InventorySlot inventorySlot)
+        {
+            if (inventorySlot == null)
+            {
+                Debug.LogError("[SlotUI] Cannot initialize with null slot!");
+                return;
+            }
+
+            // Unsubscribe old slot nếu có
+            if (slot != null)
+            {
+                UnsubscribeFromSlot();
+            }
+
+            slot = inventorySlot;
+            SubscribeToSlot();
+
+            // Initial update
+            UpdateUI();
+        }
+
+        private void SubscribeToSlot()
+        {
+            if (slot == null) return;
+
+            slot.OnSlotChanged += HandleSlotChanged;
+            slot.OnSlotLockChanged += HandleLockChanged;
+        }
+
+        private void UnsubscribeFromSlot()
+        {
+            if (slot == null) return;
+
+            slot.OnSlotChanged -= HandleSlotChanged;
+            slot.OnSlotLockChanged -= HandleLockChanged;
+        }
+
+        // Update toàn bộ UI dựa vào slot data
+        public void UpdateUI()
+        {
+            if (slot == null) return;
+
+            UpdateIcon();
+            UpdateQuantity();
+            UpdateBackground();
+            UpdateLockedState();
+        }
+
+        private void UpdateIcon()
+        {
+            if (itemIcon == null) return;
+
+            if (slot.IsEmpty)
+            {
+                itemIcon.sprite = null;
+                itemIcon.enabled = false;
+            }
+            else
+            {
+                itemIcon.sprite = slot.ItemIcon;
+                itemIcon.enabled = true;
+            }
+        }
+
+        private void UpdateQuantity()
+        {
+            if (quantityText == null) return;
+
+            if (slot.IsEmpty || slot.Quantity <= 1)
+            {
                 quantityText.text = "";
+                quantityText.enabled = false;
+            }
+            else
+            {
+                quantityText.text = slot.Quantity.ToString();
+                quantityText.enabled = true;
+            }
         }
-        else
+
+        private void UpdateBackground()
         {
-            if (iconImage != null)
+            if (backgroundImage == null) return;
+
+            if (isSelected)
             {
-                iconImage.enabled = true;
-                iconImage.sprite = currentSlot.itemData.icon; // ⭐ Dùng itemData
+                backgroundImage.color = selectedColor;
             }
-            // hien thi so luong
-            if (quantityText != null)
+            else if (slot.IsLocked)
             {
-                quantityText.text = currentSlot.quantity > 1 ? currentSlot.quantity.ToString() : "";
+                backgroundImage.color = lockedColor;
+            }
+            else
+            {
+                backgroundImage.color = normalColor;
             }
         }
-    }
 
-    public void ClearSlot()
-    {
-        currentSlot = null;
+        private void UpdateLockedState()
+        {
+            if (lockedOverlay != null)
+            {
+                lockedOverlay.SetActive(slot.IsLocked);
+            }
+        }
 
-        if (iconImage != null)
-            iconImage.enabled = false;
+        public void Select()
+        {
+            isSelected = true;
+            UpdateBackground();
 
-        if (quantityText != null)
-            quantityText.text = "";
+            if (highlightImage != null)
+            {
+                highlightImage.enabled = true;
+                highlightImage.color = selectedColor;
+            }
+        }
+
+        public void Deselect()
+        {
+            isSelected = false;
+            UpdateBackground();
+
+            if (highlightImage != null && !isHovered)
+            {
+                highlightImage.enabled = false;
+            }
+        }
+
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            isHovered = true;
+
+            if (highlightImage != null && !isSelected)
+            {
+                highlightImage.enabled = true;
+                highlightImage.color = highlightColor;
+            }
+
+            OnSlotHoverEnter?.Invoke(this);
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            isHovered = false;
+
+            if (highlightImage != null && !isSelected)
+            {
+                highlightImage.enabled = false;
+            }
+
+            OnSlotHoverExit?.Invoke(this);
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (slot?.IsLocked ?? true) return;
+
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                OnSlotClicked?.Invoke(this);
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                OnSlotRightClicked?.Invoke(this);
+            }
+        }
+
+        private void Update()
+        {
+            if (!enableHoverAnimation) return;
+
+            Vector3 targetScale = isHovered ? originalScale * hoverScale : originalScale;
+            transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * animationSpeed);
+        }
+
+        private void HandleSlotChanged(InventorySlot changedSlot)
+        {
+            UpdateUI();
+        }
+
+        private void HandleLockChanged(bool locked)
+        {
+            UpdateLockedState();
+            UpdateBackground();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromSlot();
+        }
     }
 }

@@ -268,9 +268,7 @@ namespace TinyFarm.Items
             return $"{itemData?.itemID ?? "unknown"}_{Guid.NewGuid().ToString("N").Substring(0, 8)}";
         }
 
-        /// <summary>
         /// Save item data to JSON-friendly format
-        /// </summary>
         public ItemSaveData ToSaveData()
         {
             return new ItemSaveData
@@ -289,9 +287,7 @@ namespace TinyFarm.Items
             string durabilityInfo = HasDurability ? $" ({durability.DurabilityPercent:F0}%)" : "";
             return $"{Name}{stackInfo}{durabilityInfo}";
         }
-        /// <summary>
         /// Load item from save data
-        /// </summary>
         public static Item FromSaveData(ItemSaveData saveData, ItemDatabase database)
         {
             if (database == null || string.IsNullOrEmpty(saveData.itemDataID))

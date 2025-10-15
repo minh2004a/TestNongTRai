@@ -130,7 +130,7 @@ namespace TinyFarm.Items
             if (success && inventoryManager != null)
             {
                 // Remove from inventory
-                inventoryManager.RemoveItem(item.ItemData, 1);
+                inventoryManager.RemoveItem(item.ItemData.ItemID, 1);
             }
 
             return success;

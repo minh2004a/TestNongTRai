@@ -157,7 +157,7 @@ namespace TinyFarm.Items
             }
 
             // Thử add item vào inventory
-            if (inventory.AddItem(item.ItemData, quantity))
+            if (inventory.AddItem(item.ItemData.ItemID, quantity))
             {
                 OnPickupSuccess(picker);
                 return true;

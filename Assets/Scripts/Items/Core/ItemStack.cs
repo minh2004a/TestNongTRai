@@ -26,6 +26,8 @@ public class ItemStack : MonoBehaviour
     // Quick accessors
     public string ItemName => item?.Name ?? "Empty";
     public Sprite ItemIcon => item?.Icon;
+
+    public string ItemID => item?.ID;
     public MaterialTier MaterialTier => item?.materialTier ?? MaterialTier.Common;
 
     // ===== CONSTRUCTORS =====
@@ -134,6 +136,20 @@ public class ItemStack : MonoBehaviour
     {
         Item splitItem = RemoveItem(quantity);
         return splitItem != null ? new ItemStack(splitItem) : null;
+    }
+
+    public bool CanSwapWith(ItemStack other)
+    {
+        if (other == null) return false;
+
+        // Empty stacks có thể swap
+        if (IsEmpty || other.IsEmpty) return true;
+
+        // Cùng loại item có thể swap (để merge)
+        if (item.IsSameType(other.Item)) return true;
+
+        // Khác loại cũng có thể swap (normal swap)
+        return true;
     }
 
     // Merge stack khác vào stack này

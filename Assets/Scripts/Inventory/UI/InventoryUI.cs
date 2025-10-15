@@ -1,0 +1,287 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using TMPro;
+using System;
+using System.Collections.Generic;
+
+namespace TinyFarm.Items.UI
+{
+    public class InventoryUI : MonoBehaviour
+    {
+        [Header("References")]
+        [SerializeField] private InventoryManager inventoryManager;
+        [SerializeField] private Transform slotsContainer;
+        [SerializeField] private GameObject slotUIPrefab;
+
+        [Header("UI Elements")]
+        [SerializeField] private TextMeshProUGUI inventoryTitleText;
+        [SerializeField] private TextMeshProUGUI capacityText;
+        [SerializeField] private Button sortButton;
+        [SerializeField] private Button closeButton;
+
+        [Header("Settings")]
+        [SerializeField] private bool autoCreateSlots = true;
+        [SerializeField] private KeyCode toggleKey = KeyCode.I;
+
+        // State
+        private List<SlotUI> slotUIs = new List<SlotUI>();
+        private SlotUI selectedSlot;
+        private bool isOpen = false;
+
+        // Events
+        public event Action OnInventoryOpened;
+        public event Action OnInventoryClosed;
+
+        // Properties
+        public bool IsOpen => isOpen;
+
+        private void Start()
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            // Find InventoryManager if not assigned
+            if (inventoryManager == null)
+            {
+                inventoryManager = FindObjectOfType<InventoryManager>();
+                if (inventoryManager == null)
+                {
+                    Debug.LogError("[InventoryUI] InventoryManager not found!");
+                    return;
+                }
+            }
+
+            // Subscribe to inventory events
+            inventoryManager.OnInventoryChanged += UpdateCapacityText;
+
+            // Setup buttons
+            if (sortButton != null)
+                sortButton.onClick.AddListener(OnSortButtonClicked);
+
+            if (closeButton != null)
+                closeButton.onClick.AddListener(CloseInventory);
+
+            // Create slot UIs
+            if (autoCreateSlots)
+            {
+                CreateSlotUIs();
+            }
+
+            // Initial state
+            gameObject.SetActive(false);
+            isOpen = false;
+        }
+
+        private void CreateSlotUIs()
+        {
+            if (slotUIPrefab == null)
+            {
+                Debug.LogError("[InventoryUI] SlotUI Prefab not assigned!");
+                return;
+            }
+
+            if (slotsContainer == null)
+            {
+                Debug.LogError("[InventoryUI] Slots Container not assigned!");
+                return;
+            }
+
+            // Clear existing slots
+            foreach (Transform child in slotsContainer)
+            {
+                Destroy(child.gameObject);
+            }
+            slotUIs.Clear();
+
+            // Create slot UIs
+            var slots = inventoryManager.GetAllSlots();
+            for (int i = 0; i < slots.Count; i++)
+            {
+                CreateSlotUI(slots[i]);
+            }
+
+            Debug.Log($"[InventoryUI] Created {slotUIs.Count} slot UIs");
+        }
+
+        private void CreateSlotUI(InventorySlot slot)
+        {
+            GameObject slotGO = Instantiate(slotUIPrefab, slotsContainer);
+            SlotUI slotUI = slotGO.GetComponent<SlotUI>();
+
+            if (slotUI != null)
+            {
+                slotUI.Initialize(slot);
+                slotUI.OnSlotClicked += OnSlotUIClicked;
+                slotUI.OnSlotRightClicked += OnSlotUIRightClicked;
+                slotUI.OnSlotHoverEnter += OnSlotUIHoverEnter;
+                slotUI.OnSlotHoverExit += OnSlotUIHoverExit;
+
+                slotUIs.Add(slotUI);
+            }
+        }
+
+        private void Update()
+        {
+            // Toggle inventory
+            if (Input.GetKeyDown(toggleKey))
+            {
+                ToggleInventory();
+            }
+        }
+
+        public void ToggleInventory()
+        {
+            if (isOpen)
+            {
+                CloseInventory();
+            }
+            else
+            {
+                OpenInventory();
+            }
+        }
+
+        public void OpenInventory()
+        {
+            if (isOpen) return;
+
+            gameObject.SetActive(true);
+            isOpen = true;
+
+            UpdateUI();
+            OnInventoryOpened?.Invoke();
+        }
+
+        public void CloseInventory()
+        {
+            if (!isOpen) return;
+
+            gameObject.SetActive(false);
+            isOpen = false;
+
+            DeselectAllSlots();
+            TooltipSystem.Instance?.HideTooltip();
+
+            OnInventoryClosed?.Invoke();
+        }
+
+        public void UpdateUI()
+        {
+            UpdateTitleText();
+            UpdateCapacityText();
+
+            // Update all slot UIs
+            foreach (var slotUI in slotUIs)
+            {
+                slotUI.UpdateUI();
+            }
+        }
+
+        private void UpdateTitleText()
+        {
+            if (inventoryTitleText != null)
+            {
+                inventoryTitleText.text = inventoryManager.InventoryName;
+            }
+        }
+
+        private void UpdateCapacityText()
+        {
+            if (capacityText != null)
+            {
+                int occupied = inventoryManager.OccupiedSlotCount;
+                int total = inventoryManager.InventorySize;
+                capacityText.text = $"{occupied}/{total}";
+            }
+        }
+
+        private void OnSlotUIClicked(SlotUI slotUI)
+        {
+            if (slotUI.IsEmpty) return;
+
+            // Select/Deselect
+            if (selectedSlot == slotUI)
+            {
+                DeselectSlot(slotUI);
+            }
+            else
+            {
+                SelectSlot(slotUI);
+            }
+        }
+
+        private void OnSlotUIRightClicked(SlotUI slotUI)
+        {
+            if (slotUI.IsEmpty) return;
+
+            // Use item
+            slotUI.Slot.UseItem();
+        }
+
+        private void OnSlotUIHoverEnter(SlotUI slotUI)
+        {
+            // Show tooltip
+            TooltipSystem.Instance?.ShowTooltip(slotUI);
+        }
+
+        private void OnSlotUIHoverExit(SlotUI slotUI)
+        {
+            // Hide tooltip
+            TooltipSystem.Instance?.HideTooltip();
+        }
+
+        private void SelectSlot(SlotUI slotUI)
+        {
+            DeselectAllSlots();
+            selectedSlot = slotUI;
+            slotUI.Select();
+        }
+
+        private void DeselectSlot(SlotUI slotUI)
+        {
+            slotUI.Deselect();
+            if (selectedSlot == slotUI)
+            {
+                selectedSlot = null;
+            }
+        }
+
+        private void DeselectAllSlots()
+        {
+            foreach (var slotUI in slotUIs)
+            {
+                slotUI.Deselect();
+            }
+            selectedSlot = null;
+        }
+
+        private void OnSortButtonClicked()
+        {
+            inventoryManager.SortInventory();
+            UpdateUI();
+        }
+
+
+        private void OnDestroy()
+        {
+            if (inventoryManager != null)
+            {
+                inventoryManager.OnInventoryChanged -= UpdateCapacityText;
+            }
+
+            foreach (var slotUI in slotUIs)
+            {
+                if (slotUI != null)
+                {
+                    slotUI.OnSlotClicked -= OnSlotUIClicked;
+                    slotUI.OnSlotRightClicked -= OnSlotUIRightClicked;
+                    slotUI.OnSlotHoverEnter -= OnSlotUIHoverEnter;
+                    slotUI.OnSlotHoverExit -= OnSlotUIHoverExit;
+                }
+            }
+        }
+    }
+}
