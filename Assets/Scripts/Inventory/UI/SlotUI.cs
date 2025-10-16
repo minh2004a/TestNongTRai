@@ -15,6 +15,8 @@ namespace TinyFarm.Items.UI
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image highlightImage;
         [SerializeField] private GameObject lockedOverlay;
+        private SlotUI slotUI;
+        private InventoryDescription descriptionPanel;
 
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
@@ -50,6 +52,13 @@ namespace TinyFarm.Items.UI
         {
             originalScale = transform.localScale;
             ValidateReferences();
+        }
+
+        public void Setup(SlotUI slot, InventoryDescription description)
+        {
+            slotUI = slot;
+            descriptionPanel = description;
+            UpdateUI();
         }
 
         private void ValidateReferences()

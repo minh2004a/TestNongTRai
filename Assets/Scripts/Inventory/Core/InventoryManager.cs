@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TinyFarm.Items;
+using TinyFarm.Items.UI;
 using UnityEngine;
 
 namespace TinyFarm.Items
@@ -12,9 +13,11 @@ namespace TinyFarm.Items
         [Header("Inventory Settings")]
         [SerializeField] private int inventorySize = 30;
         [SerializeField] private string inventoryName = "Player Inventory";
+        public static InventoryManager Instance { get; private set; }
 
         [Header("References")]
         [SerializeField] private ItemDatabase itemDatabase;
+        public InventoryDescription descriptionPanel;
 
         [Header("Slots")]
         [SerializeField] private List<InventorySlot> slots;

@@ -130,6 +130,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1542039177}
     m_Modifications:
+    - target: {fileID: -4445710002158639587, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
+      propertyPath: itemIcon
+      value: 
+      objectReference: {fileID: 2062099150}
     - target: {fileID: 6547239515343708076, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -214,7 +218,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIArmor
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4445710002158639587, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -224,6 +229,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6547239515343708076, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
   m_PrefabInstance: {fileID: 31639066}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &31639068 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -2416631902402845159, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
+  m_PrefabInstance: {fileID: 31639066}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &41409199
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +698,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIGloves
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -692,6 +709,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6547239515343708076, guid: f3bae5e4a8cad894eb651c23d3e13269, type: 3}
   m_PrefabInstance: {fileID: 572680223}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &572680225 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1794874087415450569, guid: f3bae5e4a8cad894eb651c23d3e13269, type: 3}
+  m_PrefabInstance: {fileID: 572680223}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &625994097
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +936,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIBoots
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -918,6 +947,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6547239515343708076, guid: fc35f79dcf80b2b4a9bb9d168446a0b1, type: 3}
   m_PrefabInstance: {fileID: 667773278}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &667773280 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -5860598589647225996, guid: fc35f79dcf80b2b4a9bb9d168446a0b1, type: 3}
+  m_PrefabInstance: {fileID: 667773278}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &684850344
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1010,7 +1050,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIBoots_1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2191,7 +2232,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIHelmet
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2201,6 +2243,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6547239515343708076, guid: 288f6484cdfaa7344b5a93c05624cff2, type: 3}
   m_PrefabInstance: {fileID: 1214110367}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1214110369 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 211096654590032784, guid: 288f6484cdfaa7344b5a93c05624cff2, type: 3}
+  m_PrefabInstance: {fileID: 1214110367}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1216359660 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6330799562823749182, guid: d5cec8913f272bb41aabd08cf854d955, type: 3}
@@ -2320,7 +2373,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SlotUIPants
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -2330,6 +2384,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6547239515343708076, guid: ca310435297f29047a01eab5c5d1e73c, type: 3}
   m_PrefabInstance: {fileID: 1221131119}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1221131121 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7992848356780506431, guid: ca310435297f29047a01eab5c5d1e73c, type: 3}
+  m_PrefabInstance: {fileID: 1221131119}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1338884330
 GameObject:
   m_ObjectHideFlags: 0
@@ -3776,6 +3841,7 @@ MonoBehaviour:
   inventorySize: 30
   inventoryName: Player Inventory
   itemDatabase: {fileID: 11400000, guid: 4da6d66e6937ad341988258e1a15a70e, type: 2}
+  descriptionPanel: {fileID: 0}
   slots:
   - slotIndex: 0
     itemStack: {fileID: 0}
@@ -3945,6 +4011,17 @@ MonoBehaviour:
   timeSinceLastAutoSave: 0
   isSaving: 0
   isLoading: 0
+--- !u!114 &2062099150 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7039583033916387373, guid: d18b90381981ba643a5c02910b1ce098, type: 3}
+  m_PrefabInstance: {fileID: 31639066}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2071935488
 GameObject:
   m_ObjectHideFlags: 0
@@ -3957,6 +4034,7 @@ GameObject:
   - component: {fileID: 2071935491}
   - component: {fileID: 2071935490}
   - component: {fileID: 2071935492}
+  - component: {fileID: 2071935493}
   m_Layer: 5
   m_Name: CharacterEquipmentUI
   m_TagString: Untagged
@@ -4042,6 +4120,24 @@ MonoBehaviour:
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
+--- !u!114 &2071935493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2071935488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d755ac93637d1640b3fdd7fb79d6795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  helmetSlot: {fileID: 1214110369}
+  armorSlot: {fileID: 31639068}
+  glovesSlot: {fileID: 572680225}
+  pantsSlot: {fileID: 1221131121}
+  bootsSlot: {fileID: 667773280}
+  characterImage: {fileID: 816915627}
 --- !u!1001 &8634793189039639776
 PrefabInstance:
   m_ObjectHideFlags: 0

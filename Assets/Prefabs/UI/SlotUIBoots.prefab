@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 6547239515343708076}
   - component: {fileID: 8270926492975140714}
   - component: {fileID: 4647352732284623411}
-  - component: {fileID: 7020214001521989695}
+  - component: {fileID: -5860598589647225996}
   m_Layer: 5
   m_Name: SlotUIBoots
   m_TagString: Untagged
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7020214001521989695
+--- !u!114 &-5860598589647225996
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -161,18 +161,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7409234663947386798}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 148956b539481c84d82f90aa3f9ce571, type: 3}
+  m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 0}
-  quantityText: {fileID: 0}
-  backgroundImage: {fileID: 0}
-  highlightImage: {fileID: 0}
-  lockedOverlay: {fileID: 0}
-  normalColor: {r: 1, g: 1, b: 1, a: 1}
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
-  lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  enableHoverAnimation: 1
-  hoverScale: 1.1
-  animationSpeed: 10
+  itemIcon: {fileID: 7039583033916387373}
+  emptySlotIcon: {fileID: 4647352732284623411}
+  highlightBorder: {fileID: 0}
+  slotType: 6
