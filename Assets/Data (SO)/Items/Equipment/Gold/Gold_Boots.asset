@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
+  m_Name: Gold_Boots
+  m_EditorClassIdentifier: 
+  materialTier: 2
+  itemName: gold_boots
+  itemID: gold_boots
+  icon: {fileID: 1119749988, guid: 6613522ba3a7c2643b4e6f83dcce388f, type: 3}
+  itemType: 5
+  description: "Gi\xE0y v\xE0ng"
+  maxStackSize: 1
+  isStackable: 0
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 0
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
+  sellPrice: 0
+  isSellable: 0
+  isPurchasable: 1
+  isUsable: 0
+  isConsumable: 0
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 1
+  slotType: 6
+  equipType: 5
+  bonuses: []
+  defense: 5
+  attack: 0
+  speed: 5
+  health: 10
+  canBeUpgraded: 0
+  upgradedVersion: {fileID: 0}
+  upgradeCost: 0

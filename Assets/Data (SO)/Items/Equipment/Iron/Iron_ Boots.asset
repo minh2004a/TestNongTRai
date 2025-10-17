@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f75b07d8f16fe4469da6e433d3317c8, type: 3}
-  m_Name: New Material
+  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
+  m_Name: Iron_ Boots
   m_EditorClassIdentifier: 
-  materialTier: 0
+  materialTier: 1
   itemName: no-name
-  itemID: new_material
-  icon: {fileID: 0}
-  itemType: 4
+  itemID: iron_Boots
+  icon: {fileID: -1683668179, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
+  itemType: 5
   description: No description
-  maxStackSize: 999
-  isStackable: 1
+  maxStackSize: 1
+  isStackable: 0
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -47,10 +47,14 @@ MonoBehaviour:
   isConsumable: 0
   cooldown: 0
   canBeDropped: 1
-  canBeEquippable: 0
-  tier: 0
-  usedInRecipes: []
-  isRare: 0
-  canBeRefined: 0
-  refinedMaterialID: 
-  refineRequiredAmount: 5
+  canBeEquippable: 1
+  slotType: 6
+  equipType: 5
+  bonuses: []
+  defense: 0
+  attack: 0
+  speed: 0
+  health: 0
+  canBeUpgraded: 1
+  upgradedVersion: {fileID: 11400000, guid: d4bd938f6a140044ca741f3efab30dc8, type: 2}
+  upgradeCost: 0

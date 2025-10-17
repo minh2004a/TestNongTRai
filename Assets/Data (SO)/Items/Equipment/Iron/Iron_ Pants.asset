@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
+  m_Name: Iron_ Pants
+  m_EditorClassIdentifier: 
+  materialTier: 1
+  itemName: no-name
+  itemID: iron_
+  icon: {fileID: -1957197159, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
+  itemType: 5
+  description: No description
+  maxStackSize: 1
+  isStackable: 0
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 1
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
+  sellPrice: 0
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 0
+  isConsumable: 0
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 1
+  slotType: 5
+  equipType: 4
+  bonuses: []
+  defense: 0
+  attack: 0
+  speed: 0
+  health: 0
+  canBeUpgraded: 1
+  upgradedVersion: {fileID: 11400000, guid: 471003013caa6934391b6bfc62489a68, type: 2}
+  upgradeCost: 0
