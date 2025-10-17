@@ -240,7 +240,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 964863cde4d66c24e858abcd1eab80ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemIcon: {fileID: 7039583033916387373}
-  emptySlotIcon: {fileID: 4647352732284623411}
+  backgroundImage: {fileID: 4647352732284623411}
+  itemIcon: {fileID: 9099093350042107640}
+  emptySlotIcon: {fileID: 7039583033916387373}
   highlightBorder: {fileID: 0}
   slotType: 3
+  normalColor: {r: 1, g: 1, b: 1, a: 1}
+  hoverColor: {r: 1, g: 1, b: 0.8, a: 1}

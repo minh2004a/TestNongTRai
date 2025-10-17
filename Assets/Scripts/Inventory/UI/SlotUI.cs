@@ -20,9 +20,12 @@ namespace TinyFarm.Items.UI
         [SerializeField] private TextMeshProUGUI quantityText;
         [SerializeField] private Image backgroundImage;
         [SerializeField] private GameObject lockedOverlay;
+
+        //DATA REFERENCE - Đây là cái quan trọng!
         private SlotUI slotUI;
         private InventoryDescription descriptionPanel;
         private DragDropHandler dragDropHandler;
+        private InventorySlot inventorySlot;
 
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
@@ -68,6 +71,10 @@ namespace TinyFarm.Items.UI
             slotUI = slot;
             descriptionPanel = description;
             UpdateUI();
+        }
+        public InventorySlot GetInventorySlot()
+        {
+            return inventorySlot;
         }
 
         private void ValidateReferences()

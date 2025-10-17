@@ -15,14 +15,11 @@ namespace TinyFarm.Items.UI
         [SerializeField] private GameObject slotUIPrefab;
 
         [Header("UI Elements")]
-        [SerializeField] private TextMeshProUGUI inventoryTitleText;
-        [SerializeField] private TextMeshProUGUI capacityText;
-        [SerializeField] private Button sortButton;
         [SerializeField] private Button closeButton;
 
         [Header("Settings")]
         [SerializeField] private bool autoCreateSlots = true;
-        [SerializeField] private KeyCode toggleKey = KeyCode.I;
+        [SerializeField] private KeyCode toggleKey = KeyCode.E;
 
         // State
         private List<SlotUI> slotUIs = new List<SlotUI>();
@@ -54,13 +51,8 @@ namespace TinyFarm.Items.UI
                 }
             }
 
-            // Subscribe to inventory events
-            inventoryManager.OnInventoryChanged += UpdateCapacityText;
 
             // Setup buttons
-            if (sortButton != null)
-                sortButton.onClick.AddListener(OnSortButtonClicked);
-
             if (closeButton != null)
                 closeButton.onClick.AddListener(CloseInventory);
 
@@ -170,31 +162,10 @@ namespace TinyFarm.Items.UI
 
         public void UpdateUI()
         {
-            UpdateTitleText();
-            UpdateCapacityText();
-
             // Update all slot UIs
             foreach (var slotUI in slotUIs)
             {
                 slotUI.UpdateUI();
-            }
-        }
-
-        private void UpdateTitleText()
-        {
-            if (inventoryTitleText != null)
-            {
-                inventoryTitleText.text = inventoryManager.InventoryName;
-            }
-        }
-
-        private void UpdateCapacityText()
-        {
-            if (capacityText != null)
-            {
-                int occupied = inventoryManager.OccupiedSlotCount;
-                int total = inventoryManager.InventorySize;
-                capacityText.text = $"{occupied}/{total}";
             }
         }
 
@@ -267,10 +238,6 @@ namespace TinyFarm.Items.UI
 
         private void OnDestroy()
         {
-            if (inventoryManager != null)
-            {
-                inventoryManager.OnInventoryChanged -= UpdateCapacityText;
-            }
 
             foreach (var slotUI in slotUIs)
             {

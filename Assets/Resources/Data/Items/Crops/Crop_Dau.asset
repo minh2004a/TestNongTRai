@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3a3fca8cad6d64286d8d95de0d33b8, type: 3}
+  m_Name: Crop_Dau
+  m_EditorClassIdentifier: 
+  materialTier: 0
+  itemName: Crop_Dau
+  itemID: crop_dau
+  icon: {fileID: -129492976, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
+  itemType: 2
+  description: 
+  maxStackSize: 999
+  isStackable: 1
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 1
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
+  sellPrice: 0
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 1
+  isConsumable: 0
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 0
+  cropType: 1
+  harvestedSeason: 1
+  nutritionValue: 10
+  energyValue: 5
+  canBeProcessed: 0
+  processedItemID: 

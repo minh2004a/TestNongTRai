@@ -9,17 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
-  m_Name: Iron_ Pants
+  m_Script: {fileID: 11500000, guid: ea3a3fca8cad6d64286d8d95de0d33b8, type: 3}
+  m_Name: Crop_Potato
   m_EditorClassIdentifier: 
-  materialTier: 1
-  itemName: no-name
-  itemID: iron_
-  icon: {fileID: -1957197159, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
-  itemType: 5
-  description: No description
-  maxStackSize: 1
-  isStackable: 0
+  materialTier: 0
+  itemName: Crop_Potato
+  itemID: crop_potato
+  icon: {fileID: -714913020, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
+  itemType: 2
+  description: 
+  maxStackSize: 999
+  isStackable: 1
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -43,18 +43,14 @@ MonoBehaviour:
   sellPrice: 0
   isSellable: 1
   isPurchasable: 1
-  isUsable: 0
+  isUsable: 1
   isConsumable: 0
   cooldown: 0
   canBeDropped: 1
-  canBeEquippable: 1
-  slotType: 5
-  equipType: 4
-  bonuses: []
-  defense: 0
-  attack: 0
-  speed: 0
-  health: 0
-  canBeUpgraded: 1
-  upgradedVersion: {fileID: 11400000, guid: 471003013caa6934391b6bfc62489a68, type: 2}
-  upgradeCost: 0
+  canBeEquippable: 0
+  cropType: 2
+  harvestedSeason: 1
+  nutritionValue: 10
+  energyValue: 5
+  canBeProcessed: 0
+  processedItemID: 

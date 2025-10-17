@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using TinyFarm.Items;
 using UnityEngine;
 
-[Serializable]
-public class ItemStack : MonoBehaviour
+public class ItemStack
 {
     [SerializeField] private Item item;
 

@@ -16,7 +16,6 @@ namespace TinyFarm.Items.UI
         public Image backgroundImage;
         public Image itemIcon;
         public Image emptySlotIcon; // Icon mờ khi trống
-        public Image highlightBorder;
 
         [Header("Settings")]
         public EquipmentSlotType slotType;
@@ -157,9 +156,6 @@ namespace TinyFarm.Items.UI
             // Visual feedback
             if (backgroundImage != null)
                 backgroundImage.color = hoverColor;
-
-            if (highlightBorder != null)
-                highlightBorder.enabled = true;
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -171,9 +167,6 @@ namespace TinyFarm.Items.UI
             // Reset visual
             if (backgroundImage != null)
                 backgroundImage.color = normalColor;
-
-            if (highlightBorder != null)
-                highlightBorder.enabled = false;
         }
 
         public void OnPointerClick(PointerEventData eventData)

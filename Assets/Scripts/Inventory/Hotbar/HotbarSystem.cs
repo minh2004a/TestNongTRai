@@ -126,7 +126,6 @@ namespace TinyFarm.Items.UI
         #region Selection Management
 
         // Chọn slot theo index (0-based)
-        /// </summary>
         public void SelectSlot(int index)
         {
             if (index < 0 || index >= hotbarSize)
@@ -144,9 +143,7 @@ namespace TinyFarm.Items.UI
             Debug.Log($"[HotbarSystem] Selected slot {selectedSlotIndex}: {GetSelectedSlot()?.ItemName ?? "Empty"}");
         }
 
-        /// <summary>
         /// Chọn slot kế tiếp
-        /// </summary>
         public void SelectNextSlot()
         {
             int nextIndex = (selectedSlotIndex + 1) % hotbarSize;
@@ -197,26 +194,20 @@ namespace TinyFarm.Items.UI
             return hotbarSlots[index];
         }
 
-        /// <summary>
         /// Lấy tất cả hotbar slots
-        /// </summary>
         public List<InventorySlot> GetAllHotbarSlots()
         {
             return new List<InventorySlot>(hotbarSlots);
         }
 
-        /// <summary>
         /// Kiểm tra slot có item không
-        /// </summary>
         public bool HasItemInSlot(int index)
         {
             InventorySlot slot = GetHotbarSlot(index);
             return slot != null && !slot.IsEmpty;
         }
 
-        /// <summary>
         /// Kiểm tra selected slot có item không
-        /// </summary>
         public bool HasSelectedItem()
         {
             return GetSelectedSlot()?.HasItem ?? false;

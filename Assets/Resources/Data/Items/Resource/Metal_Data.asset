@@ -9,21 +9,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
-  m_Name: Iron_ Boots
+  m_Script: {fileID: 11500000, guid: 91dd6aa777c360c4bba3ec9117c591c2, type: 3}
+  m_Name: Metal_Data
   m_EditorClassIdentifier: 
   materialTier: 1
-  itemName: no-name
-  itemID: iron_Boots
-  icon: {fileID: -1683668179, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
-  itemType: 5
-  description: No description
-  maxStackSize: 1
-  isStackable: 0
+  itemName: Metal
+  itemID: metal_data
+  icon: {fileID: 953305145, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}
+  itemType: 9
+  description: Metal obtained from chopping trees. Used for crafting
+  maxStackSize: 999
+  isStackable: 1
   hasDurability: 0
   maxDurability: 0
-  destroyOnBreak: 1
-  repairCostMultiplier: 1
+  destroyOnBreak: 0
+  repairCostMultiplier: 0
   durabilityLossPerUse: 0
   category:
     categoryID: 
@@ -39,22 +39,18 @@ MonoBehaviour:
     categoryColor: {r: 1, g: 1, b: 1, a: 1}
     categoryIcon: {fileID: 0}
     sortOrder: 0
-  basePrice: 0
-  sellPrice: 0
+  basePrice: 5
+  sellPrice: 5
   isSellable: 1
   isPurchasable: 1
   isUsable: 0
-  isConsumable: 0
+  isConsumable: 1
   cooldown: 0
   canBeDropped: 1
-  canBeEquippable: 1
-  slotType: 6
-  equipType: 5
-  bonuses: []
-  defense: 0
-  attack: 0
-  speed: 0
-  health: 0
-  canBeUpgraded: 1
-  upgradedVersion: {fileID: 11400000, guid: d4bd938f6a140044ca741f3efab30dc8, type: 2}
-  upgradeCost: 0
+  canBeEquippable: 0
+  resourceType: 3
+  minDropAmount: 1
+  maxDropAmount: 3
+  refineAmount: 1
+  isRefinable: 0
+  refinedResult: {fileID: 0}

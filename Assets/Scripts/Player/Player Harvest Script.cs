@@ -8,7 +8,7 @@ public class PlayerHarvestScript : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float harvestRange = 2f;
-    [SerializeField] private KeyCode harvestKey = KeyCode.E;
+    [SerializeField] private KeyCode harvestKey = KeyCode.Y;
 
     private ToolItem equippedTool;
 

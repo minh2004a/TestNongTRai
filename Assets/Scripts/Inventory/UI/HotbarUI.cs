@@ -125,7 +125,7 @@ namespace TinyFarm.Items.UI
             }
 
             // Xử lý phím dùng vật phẩm (Giả định phím Space hoặc E)
-            if (Input.GetKeyDown(KeyCode.Space)) // Ví dụ: Sử dụng item khi nhấn Space
+            if (Input.GetKeyDown(KeyCode.F)) // Ví dụ: Sử dụng item khi nhấn Space
             {
                 hotbarSystem.UseSelectedItem();
             }
