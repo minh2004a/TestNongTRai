@@ -7,16 +7,22 @@ using System.Collections.Generic;
 
 namespace TinyFarm.Items.UI
 {
-    public class SlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+    public class SlotUI : MonoBehaviour, 
+        IPointerEnterHandler, 
+        IPointerExitHandler, 
+        IPointerClickHandler, 
+        IBeginDragHandler, 
+        IDragHandler, 
+        IEndDragHandler
     {
         [Header("References")]
         [SerializeField] private Image itemIcon;
         [SerializeField] private TextMeshProUGUI quantityText;
         [SerializeField] private Image backgroundImage;
-        [SerializeField] private Image highlightImage;
         [SerializeField] private GameObject lockedOverlay;
         private SlotUI slotUI;
         private InventoryDescription descriptionPanel;
+        private DragDropHandler dragDropHandler;
 
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
@@ -52,6 +58,9 @@ namespace TinyFarm.Items.UI
         {
             originalScale = transform.localScale;
             ValidateReferences();
+            dragDropHandler = GetComponent<DragDropHandler>();
+            if (dragDropHandler == null)
+                dragDropHandler = gameObject.AddComponent<DragDropHandler>();
         }
 
         public void Setup(SlotUI slot, InventoryDescription description)
@@ -184,12 +193,6 @@ namespace TinyFarm.Items.UI
         {
             isSelected = true;
             UpdateBackground();
-
-            if (highlightImage != null)
-            {
-                highlightImage.enabled = true;
-                highlightImage.color = selectedColor;
-            }
         }
 
         public void Deselect()
@@ -197,34 +200,18 @@ namespace TinyFarm.Items.UI
             isSelected = false;
             UpdateBackground();
 
-            if (highlightImage != null && !isHovered)
-            {
-                highlightImage.enabled = false;
-            }
+            
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             isHovered = true;
-
-            if (highlightImage != null && !isSelected)
-            {
-                highlightImage.enabled = true;
-                highlightImage.color = highlightColor;
-            }
-
             OnSlotHoverEnter?.Invoke(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovered = false;
-
-            if (highlightImage != null && !isSelected)
-            {
-                highlightImage.enabled = false;
-            }
-
             OnSlotHoverExit?.Invoke(this);
         }
 
@@ -240,6 +227,21 @@ namespace TinyFarm.Items.UI
             {
                 OnSlotRightClicked?.Invoke(this);
             }
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            dragDropHandler.OnBeginDrag(eventData);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            dragDropHandler.OnDrag(eventData);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            dragDropHandler.OnEndDrag(eventData);
         }
 
         private void Update()

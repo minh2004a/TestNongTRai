@@ -31,7 +31,7 @@ namespace TinyFarm.Items.UI
             bootsSlot.Setup(EquipmentSlotType.Boots);
         }
 
-        public void EquipItem(ItemData item, EquipmentSlotType type)
+        public void EquipItem(EquipmentItemData item, EquipmentSlotType type)
         {
             switch (type)
             {

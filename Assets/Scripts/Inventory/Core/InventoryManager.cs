@@ -76,6 +76,7 @@ namespace TinyFarm.Items
             Debug.Log($"[InventoryManager] Initialized with {inventorySize} slots");
         }
 
+
         private void SubscribeToSlotEvents(InventorySlot slot)
         {
             slot.OnSlotChanged += HandleSlotChanged;
@@ -332,6 +333,117 @@ namespace TinyFarm.Items
 
             slot1.SwapWith(slot2);
             return true;
+        }
+
+        // Swap 2 slots bằng reference trực tiếp
+        /// </summary>
+        public bool SwapSlots(InventorySlot slot1, InventorySlot slot2)
+        {
+            if (slot1 == null || slot2 == null) return false;
+
+            slot1.SwapWith(slot2);
+            return true;
+        }
+
+        // Try equip item from inventory slot to equipment slot
+        public bool TryEquipItem(InventorySlot fromSlot, EquipmentSlotUI toSlot)
+        {
+            if (fromSlot == null || fromSlot.IsEmpty) return false;
+
+            Item item = fromSlot.Item;
+            ItemData itemData = item.ItemData;
+
+            // Check if item is equipment
+            if (itemData.GetItemType() != ItemType.Equipment)
+            {
+                Debug.LogWarning($"[InventoryManager] {itemData.itemName} is not equipment!");
+                return false;
+            }
+
+            EquipmentItemData equipData = itemData as EquipmentItemData;
+            if (equipData == null) return false;
+
+            // Check if equipment type matches slot type
+            if (!CanEquipInSlot(equipData, toSlot.slotType))
+            {
+                Debug.LogWarning($"[InventoryManager] Cannot equip {equipData.itemName} in {toSlot.slotType} slot!");
+                return false;
+            }
+
+            // Equip item
+            toSlot.EquipItem(equipData);
+
+            // Remove from inventory
+            RemoveItemFromSlot(fromSlot.SlotIndex, 1);
+
+            Debug.Log($"[InventoryManager] Equipped {equipData.itemName}");
+            return true;
+        }
+
+        // Check if equipment can be equipped in this slot type
+        private bool CanEquipInSlot(EquipmentItemData equipData, EquipmentSlotType slotType)
+        {
+            // Map equipment type to slot type
+            switch (equipData.equipType)
+            {
+                case EquipmentType.Helmet:
+                    return slotType == EquipmentSlotType.Helmet;
+
+                case EquipmentType.Armor:
+                    return slotType == EquipmentSlotType.Armor;
+
+                case EquipmentType.Gloves:
+                    return slotType == EquipmentSlotType.Gloves;
+
+                case EquipmentType.Pants:
+                    return slotType == EquipmentSlotType.Pants;
+
+                case EquipmentType.Boots:
+                    return slotType == EquipmentSlotType.Boots;
+
+                default:
+                    return false;
+            }
+        }
+
+        // Use item from inventory slot
+        public bool UseItem(InventorySlot slot)
+        {
+            if (slot == null || slot.IsEmpty) return false;
+
+            Item item = slot.Item;
+            ItemData itemData = item.ItemData;
+
+            // Check item type
+            switch (itemData.GetItemType())
+            {
+                case ItemType.Tool:
+                    // Equip tool (nếu có tool system)
+                    Debug.Log($"[InventoryManager] Using tool: {itemData.itemName}");
+                    // ToolManager.Instance.EquipTool(item as ToolItem);
+                    return true;
+
+                case ItemType.Seed:
+                    // Use seed for planting
+                    Debug.Log($"[InventoryManager] Using seed: {itemData.itemName}");
+                    // FarmingManager.Instance.PlantSeed(item as SeedItem);
+                    return true;
+
+                case ItemType.Crop:
+                    // Eat or sell crop
+                    Debug.Log($"[InventoryManager] Using crop: {itemData.itemName}");
+                    RemoveItemFromSlot(slot.SlotIndex, 1);
+                    return true;
+
+                case ItemType.Equipment:
+                    // Try to equip
+                    Debug.Log($"[InventoryManager] Equipment should be dragged to equipment slot");
+                    return false;
+
+                default:
+                    Debug.LogWarning($"[InventoryManager] Cannot use {itemData.itemName}");
+                    return false;
+            }
         }
 
         /// Merge 2 slots (nếu cùng item type)

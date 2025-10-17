@@ -16,7 +16,11 @@ namespace TinyFarm.Items
     {
         None,
         Weapon,
-        Armor
+        Helmet,       // Mu
+        Armor,        // Ao
+        Pants,        // Quan
+        Boots,        // Giay
+        Gloves        // Gang tay
     }
 }
 
