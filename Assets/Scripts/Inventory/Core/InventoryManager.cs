@@ -11,7 +11,7 @@ namespace TinyFarm.Items
     public class InventoryManager : MonoBehaviour
     {
         [Header("Inventory Settings")]
-        [SerializeField] private int inventorySize = 30;
+        [SerializeField] private int inventorySize = 40;
         [SerializeField] private string inventoryName = "Player Inventory";
         public static InventoryManager Instance { get; private set; }
 

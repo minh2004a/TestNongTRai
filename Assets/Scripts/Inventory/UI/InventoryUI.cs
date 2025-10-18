@@ -234,8 +234,6 @@ namespace TinyFarm.Items.UI
             inventoryManager.SortInventory();
             UpdateUI();
         }
-
-
         private void OnDestroy()
         {
 
