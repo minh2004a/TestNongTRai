@@ -42,13 +42,9 @@ namespace TinyFarm.Items.UI
         {
             // Hotkey selection (1-9, 0 for slot 10)
             HandleHotkeyInput();
-
-            // Mouse scroll wheel selection
-            HandleScrollInput();
         }
 
         // Khởi tạo hotbar system
-        /// </summary>
         public void Initialize()
         {
             if (isInitialized) return;
@@ -150,18 +146,14 @@ namespace TinyFarm.Items.UI
             SelectSlot(nextIndex);
         }
 
-        /// <summary>
         /// Chọn slot trước đó
-        /// </summary>
         public void SelectPreviousSlot()
         {
             int prevIndex = (selectedSlotIndex - 1 + hotbarSize) % hotbarSize;
             SelectSlot(prevIndex);
         }
 
-        /// <summary>
         /// Lấy slot đang được chọn
-        /// </summary>
         public InventorySlot GetSelectedSlot()
         {
             if (selectedSlotIndex < 0 || selectedSlotIndex >= hotbarSlots.Count)
@@ -170,9 +162,7 @@ namespace TinyFarm.Items.UI
             return hotbarSlots[selectedSlotIndex];
         }
 
-        /// <summary>
         /// Lấy item đang được chọn
-        /// </summary>
         public Item GetSelectedItem()
         {
             InventorySlot slot = GetSelectedSlot();
@@ -183,9 +173,7 @@ namespace TinyFarm.Items.UI
 
         #region Slot Access
 
-        /// <summary>
         /// Lấy hotbar slot theo index
-        /// </summary>
         public InventorySlot GetHotbarSlot(int index)
         {
             if (index < 0 || index >= hotbarSlots.Count)
@@ -218,7 +206,6 @@ namespace TinyFarm.Items.UI
         #region Item Operations
 
         // Sử dụng item trong selected slot
-        /// </summary>
         public bool UseSelectedItem()
         {
             InventorySlot selectedSlot = GetSelectedSlot();
@@ -238,9 +225,7 @@ namespace TinyFarm.Items.UI
             return used;
         }
 
-        /// <summary>
         /// Xóa item khỏi selected slot
-        /// </summary>
         public Item RemoveSelectedItem(int quantity = 1)
         {
             InventorySlot selectedSlot = GetSelectedSlot();
@@ -253,9 +238,7 @@ namespace TinyFarm.Items.UI
             return selectedSlot.RemoveItem(quantity);
         }
 
-        /// <summary>
         /// Swap 2 hotbar slots
-        /// </summary>
         public bool SwapHotbarSlots(int index1, int index2)
         {
             if (!allowHotbarSwap)
@@ -281,7 +264,6 @@ namespace TinyFarm.Items.UI
 
         #region Input Handling
         // Xử lý hotkey input (1-9, 0)
-        /// </summary>
         private void HandleHotkeyInput()
         {
             // Number keys 1-9
@@ -305,25 +287,6 @@ namespace TinyFarm.Items.UI
                 {
                     SelectSlot(9);
                 }
-            }
-        }
-
-        /// <summary>
-        /// Xử lý mouse scroll input
-        /// </summary>
-        private void HandleScrollInput()
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-
-            if (scroll > 0f)
-            {
-                // Scroll up - previous slot
-                SelectPreviousSlot();
-            }
-            else if (scroll < 0f)
-            {
-                // Scroll down - next slot
-                SelectNextSlot();
             }
         }
 

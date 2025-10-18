@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BackGround
+    uniqueID: 3149386923
+    locked: 0
+  - name: Water
+    uniqueID: 618115813
+    locked: 0
   - name: Object
     uniqueID: 3216995721
     locked: 0

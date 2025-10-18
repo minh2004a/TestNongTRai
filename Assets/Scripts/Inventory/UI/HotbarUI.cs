@@ -60,7 +60,6 @@ namespace TinyFarm.Items.UI
             hotbarSystem.OnHotbarInitialized -= CreateHotbarSlots;
 
             int hotbarSize = hotbarSystem.HotbarSize;
-            int currentSlotIndex = 0;
 
             // Xóa các Slot cũ nếu có
             foreach (var slotUI in hotbarSlotUIs)
@@ -111,17 +110,6 @@ namespace TinyFarm.Items.UI
                     hotbarSystem.SelectSlot(i);
                     return;
                 }
-            }
-
-            // Xử lý cuộn chuột (Mouse Scroll Wheel)
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll > 0f)
-            {
-                hotbarSystem.SelectPreviousSlot();
-            }
-            else if (scroll < 0f)
-            {
-                hotbarSystem.SelectNextSlot();
             }
 
             // Xử lý phím dùng vật phẩm (Giả định phím Space hoặc E)
