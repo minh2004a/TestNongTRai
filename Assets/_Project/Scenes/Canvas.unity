@@ -674,7 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d014e5ff0501f6488b55099f388d28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotUI: {fileID: 6529668776973473482, guid: dc5d11a978dbc70468ae3a653d379fc3, type: 3}
+  slotUI: {fileID: 2523404113726516617, guid: dc5d11a978dbc70468ae3a653d379fc3, type: 3}
   canvas: {fileID: 1407601491}
   raycaster: {fileID: 1407601489}
   dragVisualPrefab: {fileID: 5424147873640375856, guid: a37f7fbcc1bcb314ab59be5ae8c09cd7, type: 3}
