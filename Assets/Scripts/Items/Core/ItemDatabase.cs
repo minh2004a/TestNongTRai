@@ -19,55 +19,119 @@ namespace TinyFarm.Items
 
         // Cache dictionaries để truy xuất nhanh
         private Dictionary<string, ItemData> itemDictionary;
-        private Dictionary<ItemType, ItemData> itemByType;
         private bool isInitialized = false;
 
         public Dictionary<ItemType, List<ItemData>> itemsByType = new Dictionary<ItemType, List<ItemData>>();
 
         // Khởi tạo database và cache data
+
+        private void OnEnable()
+        {
+            // Auto-initialize khi ScriptableObject được load
+            if (autoLoadAllItems)
+            {
+                Initialize();
+            }
+        }
         public void Initialize()
         {
-            if (isInitialized) return;
-            
-            LoadAllItems();
-            BuildCacheDictionary();
-            isInitialized = true;
+            if (isInitialized && itemDictionary != null && itemDictionary.Count > 0)
+            {
+                Debug.Log($"[ItemDatabase] Already initialized with {itemDictionary.Count} items");
+                return;
+            }
 
-            Debug.Log($"[ItemDatabase] Initialized with {itemDictionary.Count} items.");
+            Debug.Log("[ItemDatabase] Starting initialization...");
+
+            // Load items trước
+            LoadAllItems();
+
+            // Build cache sau
+            BuildCacheDictionary();
+
+            // CHỈ set flag SAU KHI hoàn thành THÀNH CÔNG
+            if (itemDictionary != null && itemDictionary.Count > 0)
+            {
+                isInitialized = true;
+                Debug.Log($"[ItemDatabase] ✅ Successfully initialized with {itemDictionary.Count} items");
+            }
+            else
+            {
+                isInitialized = false;
+                Debug.LogError("[ItemDatabase] ❌ Initialization FAILED - itemDictionary is empty!");
+                Debug.LogError($"[ItemDatabase] Items in list: {items.Count}");
+            }
         }
 
         // Load tất cả ItemData từ Resources (nếu autoLoad = true)
         public void LoadAllItems()
         {
-            if (!autoLoadAllItems) return;
+            Debug.Log("[ItemDatabase] LoadAllItems called");
+            Debug.Log($"[ItemDatabase] autoLoadAllItems: {autoLoadAllItems}");
+            Debug.Log($"[ItemDatabase] Current items count: {items.Count}");
 
-            // Load tất cả ItemData từ thư mục Resources / Data / Items và subfolders
-            List<ItemData> loadedItems = new List<ItemData>();
-            // Load tất cả ItemData từ thư mục Resources/Data/Items
-            ItemData[] mainItems = Resources.LoadAll<ItemData>("Data/Items");
-
-            loadedItems.AddRange(mainItems);
-
-            // Load từ các subfolders (Crops, Equipment, Seeds, Tools, etc.)
-            string[] subfolders = new string[]
+            // Nếu items list đã có data từ Inspector, sử dụng nó
+            if (items != null && items.Count > 0)
             {
-                "Data/Items/Crops",
-                "Data/Items/Equipment",
-                "Data/Items/Equipment/Gold",
-                "Data/Items/Equipment/Iron",
-                "Data/Items/Equipment/Wood",
-                "Data/Items/Materials",
-                "Data/Items/Resource",
-                "Data/Items/Seeds",
-                "Data/Items/Tools"
+                Debug.Log($"[ItemDatabase] Using {items.Count} items from Inspector");
+
+                // Validate items
+                for (int i = items.Count - 1; i >= 0; i--)
+                {
+                    if (items[i] == null)
+                    {
+                        Debug.LogWarning($"[ItemDatabase] Removing null item at index {i}");
+                        items.RemoveAt(i);
+                    }
+                    else if (string.IsNullOrEmpty(items[i].itemID))
+                    {
+                        Debug.LogWarning($"[ItemDatabase] Item '{items[i].name}' has empty itemID!");
+                    }
+                }
+                return;
+            }
+
+            // Nếu không có items và autoLoad = false, skip
+            if (!autoLoadAllItems)
+            {
+                Debug.LogWarning("[ItemDatabase] No items in list and autoLoad is disabled!");
+                return;
+            }
+
+            // Load từ Resources với nhiều paths
+            Debug.Log("[ItemDatabase] Loading items from Resources...");
+
+            List<ItemData> loadedItems = new List<ItemData>();
+
+            // Try multiple paths
+            string[] possiblePaths = new string[]
+            {
+                "Data/Items",
+                "Data/Farming/Items",
+                "Items"
             };
 
-            foreach (string subfolder in subfolders)
+            foreach (string path in possiblePaths)
             {
-                ItemData[] subItems = Resources.LoadAll<ItemData>(subfolder);
-                loadedItems.AddRange(subItems);
+                ItemData[] foundItems = Resources.LoadAll<ItemData>(path);
+                if (foundItems.Length > 0)
+                {
+                    Debug.Log($"[ItemDatabase] Found {foundItems.Length} items at '{path}'");
+                    loadedItems.AddRange(foundItems);
+                }
             }
-            Debug.Log($"[ItemDatabase] Resources.LoadAll found {loadedItems.Count} items");
+
+            Debug.Log($"[ItemDatabase] Total items found: {loadedItems.Count}");
+
+            if (loadedItems.Count == 0)
+            {
+                Debug.LogWarning("[ItemDatabase] No items found in any Resources path!");
+                Debug.LogWarning("[ItemDatabase] Checked paths: " + string.Join(", ", possiblePaths));
+                return;
+            }
+
+            // Clear và load items từ Resources
+            items.Clear();
 
             foreach (var item in loadedItems)
             {
@@ -83,31 +147,45 @@ namespace TinyFarm.Items
                     continue;
                 }
 
-                if (!items.Contains(item))
+                // Check for duplicates
+                if (items.Any(i => i.itemID == item.itemID))
                 {
-                    items.Add(item);
-                    Debug.Log($"[ItemDatabase] Added item: {item.itemID}");
+                    Debug.LogWarning($"[ItemDatabase] Duplicate itemID '{item.itemID}' found, skipping...");
+                    continue;
                 }
+
+                items.Add(item);
+                Debug.Log($"[ItemDatabase] Loaded item: {item.itemID} ({item.itemName})");
             }
 
-            Debug.Log($"[ItemDatabase] Total items in list after loading: {items.Count}");
+            Debug.Log($"[ItemDatabase] Total items loaded: {items.Count}");
         }
 
         // Xây dựng cache dictionaries để truy xuất nhanh
         private void BuildCacheDictionary()
         {
-            // Dictionary theo itemID
+            Debug.Log("[ItemDatabase] Building cache dictionary...");
+            Debug.Log($"[ItemDatabase] Items to process: {items.Count}");
+
+            // Initialize dictionary
             itemDictionary = new Dictionary<string, ItemData>();
+
+            int validCount = 0;
+            int nullCount = 0;
+            int emptyIDCount = 0;
+
             foreach (var item in items)
             {
                 if (item == null)
                 {
+                    nullCount++;
                     Debug.LogWarning("[ItemDatabase] Null item in items list!");
                     continue;
                 }
 
                 if (string.IsNullOrEmpty(item.itemID))
                 {
+                    emptyIDCount++;
                     Debug.LogWarning($"[ItemDatabase] Item '{item.name}' has no itemID!");
                     continue;
                 }
@@ -119,9 +197,13 @@ namespace TinyFarm.Items
                 else
                 {
                     itemDictionary[item.itemID] = item;
+                    validCount++;
                     Debug.Log($"[ItemDatabase] Cached: {item.itemID}");
                 }
             }
+
+            Debug.Log($"[ItemDatabase] Cache built! Valid: {validCount}, Null: {nullCount}, Empty ID: {emptyIDCount}");
+            Debug.Log($"[ItemDatabase] Dictionary size: {itemDictionary.Count}");
 
             // Dictionary theo ItemType
             itemsByType = new Dictionary<ItemType, List<ItemData>>();
@@ -138,33 +220,56 @@ namespace TinyFarm.Items
                 itemsByType[type] = itemsOfType;
             }
 
-            Debug.Log($"[ItemDatabase] Cache built! Dictionary size: {itemDictionary.Count}");
+            Debug.Log($"[ItemDatabase] Types dictionary built with {itemsByType.Count} types");
         }
 
         // Lấy ItemData theo itemID
         public ItemData GetItemByID(string itemID)
         {
-            if (!isInitialized || itemDictionary == null)
-                Debug.LogWarning($"[ItemDatabase] ⚠️ Not initialized yet! Calling Initialize() manually...");
-            Initialize();
+            // Ensure initialized
+            if (!isInitialized || itemDictionary == null || itemDictionary.Count == 0)
+            {
+                Debug.LogWarning($"[ItemDatabase] ⚠️ Not properly initialized!");
+                Debug.LogWarning($"[ItemDatabase] isInitialized: {isInitialized}");
+                Debug.LogWarning($"[ItemDatabase] itemDictionary null: {itemDictionary == null}");
+                Debug.LogWarning($"[ItemDatabase] itemDictionary count: {(itemDictionary != null ? itemDictionary.Count : 0)}");
+                Debug.LogWarning($"[ItemDatabase] Calling Initialize()...");
 
+                Initialize();
+            }
+
+            // Double check after initialize
             if (itemDictionary == null)
             {
-                Debug.LogError("[ItemDatabase] ❌ itemDictionary is STILL NULL after Initialize!");
-                return null;
+                Debug.LogError("[ItemDatabase] ❌ itemDictionary is NULL after Initialize!");
+                Debug.LogError($"[ItemDatabase] Items count: {items.Count}");
+                Debug.LogError("[ItemDatabase] Trying to build dictionary directly...");
+
+                // Last resort: build directly
+                BuildCacheDictionary();
+
+                if (itemDictionary == null)
+                {
+                    Debug.LogError("[ItemDatabase] ❌ STILL NULL after BuildCacheDictionary!");
+                    return null;
+                }
             }
 
             if (itemDictionary.TryGetValue(itemID, out ItemData item))
             {
                 Debug.Log($"[ItemDatabase] ✅ Found {itemID}");
                 return item;
-
             }
             else
             {
-                Debug.LogError($"[ItemDatabase] ❌ Item '{itemID}' not found in dictionary. Total items: {itemDictionary.Count}");
-                return null;
+                Debug.LogError($"[ItemDatabase] ❌ Item '{itemID}' not found in dictionary.");
+                Debug.LogError($"[ItemDatabase] Total items in dictionary: {itemDictionary.Count}");
 
+                // Show first 10 available IDs
+                var availableIDs = itemDictionary.Keys.Take(10).ToList();
+                Debug.LogError($"[ItemDatabase] Sample available IDs: {string.Join(", ", availableIDs)}");
+
+                return null;
             }
         }
 
@@ -299,14 +404,7 @@ namespace TinyFarm.Items
                 }
             }
         }
-        private void OnEnable()
-        {
-            // Auto-initialize khi ScriptableObject được load
-            if (autoLoadAllItems)
-            {
-                Initialize();
-            }
-        }
+        
     }
 }
 

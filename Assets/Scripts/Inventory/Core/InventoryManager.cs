@@ -41,6 +41,33 @@ namespace TinyFarm.Items
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            // Validate ItemDatabase
+            if (itemDatabase == null)
+            {
+                Debug.LogError("[InventoryManager] ItemDatabase is not assigned in Inspector!");
+                Debug.LogError("[InventoryManager] Please assign ItemDatabase in the Inspector!");
+                return;
+            }
+
+            Debug.Log($"[InventoryManager] Using ItemDatabase: {itemDatabase.name}");
+            Debug.Log($"[InventoryManager] Items in database: {itemDatabase.items.Count}");
+
+            // CRITICAL: Force initialize ItemDatabase TRƯỚC KHI init inventory
+            itemDatabase.Initialize();
+
+            Debug.Log($"[InventoryManager] ItemDatabase initialized");
+
+            // Initialize inventory
             Initialize();
         }
 
@@ -52,12 +79,8 @@ namespace TinyFarm.Items
             // Validate references
             if (itemDatabase == null)
             {
-                itemDatabase = Resources.Load<ItemDatabase>("ItemDatabase");
-                if (itemDatabase == null)
-                {
-                    Debug.LogError("[InventoryManager] ItemDatabase not found!");
-                    return;
-                }
+                Debug.LogError("[InventoryManager] ItemDatabase is null! Cannot initialize!");
+                return;
             }
 
             // Initialize data structures
