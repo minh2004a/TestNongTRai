@@ -3342,9 +3342,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b0749528ec3f0644980a146befa6198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 0}
+  inventoryManager: {fileID: 1909291318}
   slotsContainer: {fileID: 2143818520}
-  hotBarSlotPrefab: {fileID: 0}
+  hotBarSlotPrefab: {fileID: 6415082182887572559, guid: 52bee9e411f3cd140917add62e3b1c00, type: 3}
   hotBarSize: 10
   autoCreateSlots: 1
   hotKeys: 31000000320000003300000034000000350000003600000037000000380000003900000030000000
