@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &27785532
 RectTransform:
   m_ObjectHideFlags: 0
@@ -538,6 +538,53 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513680024}
   m_CullTransparentMesh: 1
+--- !u!1 &520665693
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 520665694}
+  - component: {fileID: 520665695}
+  m_Layer: 0
+  m_Name: InventoryTabTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &520665694
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520665693}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1574726627}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &520665695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520665693}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1089952902383ea47869790bb49e4720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryManager: {fileID: 1909291318}
+  tabController: {fileID: 860593851}
+  addTestItemsOnStart: 1
 --- !u!1 &551641033
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,9 +1555,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 640ff8a4914a87a4c87ce764a4937352, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryMainPanel: {fileID: 604914963}
-  inventoryCropPanel: {fileID: 2004709319}
-  inventoryToolPanel: {fileID: 731550450}
+  inventoryMainPanel: {fileID: 679977189}
+  inventoryCropPanel: {fileID: 27785531}
+  inventoryToolPanel: {fileID: 1998492056}
   buttonAll: {fileID: 604914965}
   buttonCrop: {fileID: 2004709321}
   buttonTool: {fileID: 731550452}
@@ -2924,6 +2971,7 @@ Transform:
   - {fileID: 551641034}
   - {fileID: 1932221313}
   - {fileID: 649302301}
+  - {fileID: 520665694}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576801137
@@ -3972,7 +4020,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1998492057
 RectTransform:
   m_ObjectHideFlags: 0

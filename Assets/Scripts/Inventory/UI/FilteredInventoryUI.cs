@@ -129,19 +129,31 @@ namespace TinyFarm.Items.UI
 
             if (showAllTypes)
             {
-                // Show tất cả items
-                return allSlots;
+                // Show tất cả items (non-empty slots)
+                var result = allSlots.Where(slot => !slot.IsEmpty).ToList();
+                Debug.Log($"[FilteredInventoryUI] Show all: {result.Count} non-empty slots");
+                return result;
             }
             else
             {
                 // Filter theo allowed types
-                return allSlots.Where(slot =>
+                var result = allSlots.Where(slot =>
                 {
                     if (slot.IsEmpty) return false;
 
                     ItemType itemType = slot.Item.ItemData.GetItemType();
-                    return allowedTypes.Contains(itemType);
+                    bool allowed = allowedTypes.Contains(itemType);
+
+                    if (allowed)
+                    {
+                        Debug.Log($"[FilteredInventoryUI] ✅ {slot.ItemName} ({itemType}) - ALLOWED");
+                    }
+
+                    return allowed;
                 }).ToList();
+
+                Debug.Log($"[FilteredInventoryUI] Filtered by {string.Join(", ", allowedTypes)}: {result.Count} items");
+                return result;
             }
         }
 

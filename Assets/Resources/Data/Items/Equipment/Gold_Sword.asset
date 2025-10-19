@@ -12,23 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbb33da04936f674c8fc9715b8d38e71, type: 3}
   m_Name: Gold_Sword
   m_EditorClassIdentifier: 
-  itemType: 5
+  materialTier: 0
   itemName: Gold_Sword
-  itemID: 
+  itemID: gold_sword
   icon: {fileID: 641960943, guid: 6613522ba3a7c2643b4e6f83dcce388f, type: 3}
-  maxStack: 1
-  buyPrice: 0
-  sellPrice: 0
-  canBeDropped: 1
-  canBeSold: 1
-  canBeStacked: 0
-  canBeConsumable: 0
-  canBeEquippable: 1
+  itemType: 9
   description: No description
+  maxStackSize: 1
+  isStackable: 0
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 1
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
+  sellPrice: 0
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 0
+  isConsumable: 0
+  cooldown: 0
+  canBeDropped: 1
+  canBeEquippable: 1
   slotType: 0
+  equipType: 0
+  bonuses: []
   defense: 0
   attack: 20
   speed: 0
+  health: 0
   canBeUpgraded: 1
   upgradedVersion: {fileID: 0}
   upgradeCost: 0

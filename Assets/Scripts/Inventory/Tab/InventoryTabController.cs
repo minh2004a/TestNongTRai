@@ -94,7 +94,7 @@ namespace TinyFarm.Items.UI
             foreach (var panel in buttonPanelMap.Values)
             {
                 if (panel != null)
-                    panel.SetActive(true);
+                    panel.SetActive(false);
             }
 
             // Reset tất cả buttons về inactive state

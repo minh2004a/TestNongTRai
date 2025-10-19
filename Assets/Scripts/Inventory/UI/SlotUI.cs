@@ -130,7 +130,21 @@ namespace TinyFarm.Items.UI
         // Update toàn bộ UI dựa vào slot data
         public void UpdateUI()
         {
-            if (slot == null) return;
+            if (slot == null)
+            {
+                // Clear UI nếu slot null
+                if (itemIcon != null)
+                {
+                    itemIcon.sprite = null;
+                    itemIcon.enabled = false;
+                }
+                if (quantityText != null)
+                {
+                    quantityText.text = "";
+                    quantityText.enabled = false;
+                }
+                return;
+            }
 
             UpdateIcon();
             UpdateQuantity();
