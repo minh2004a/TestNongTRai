@@ -7,54 +7,56 @@ using System.Collections.Generic;
 
 namespace TinyFarm.Items.UI
 {
-    public class SlotUI : MonoBehaviour,
+    public class HotbarSlotUI : MonoBehaviour,
         ISlotUIBase,
-        IPointerEnterHandler, 
-        IPointerExitHandler, 
-        IPointerClickHandler, 
-        IBeginDragHandler, 
-        IDragHandler, 
+        IPointerEnterHandler,
+        IPointerExitHandler,
+        IPointerClickHandler,
+        IBeginDragHandler,
+        IDragHandler,
         IEndDragHandler,
         IDropHandler
     {
         [Header("References")]
         [SerializeField] private Image itemIcon;
         [SerializeField] private TextMeshProUGUI quantityText;
+        [SerializeField] private TextMeshProUGUI keyNumberText;
         [SerializeField] private Image backgroundImage;
+        [SerializeField] private Image selectionBorder;
         [SerializeField] private GameObject lockedOverlay;
-
-        //DATA REFERENCE - Đây là cái quan trọng!
-        private SlotUI slotUI;
-        private InventoryDescription descriptionPanel;
-        private DragDropHandler dragDropHandler;
-        private InventorySlot inventorySlot;
 
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
         [SerializeField] private Color highlightColor = Color.yellow;
         [SerializeField] private Color selectedColor = Color.green;
         [SerializeField] private Color lockedColor = Color.gray;
+        [SerializeField] private Color borderColor = new Color(1f, 0.8f, 0f, 1f); // Gold color
 
         [Header("Animation")]
         [SerializeField] private bool enableHoverAnimation = true;
         [SerializeField] private float hoverScale = 1.1f;
         [SerializeField] private float animationSpeed = 10f;
 
-        // State
+        // Data reference
+        private DragDropHandler dragDropHandler;
         private InventorySlot slot;
+        private int slotNumber; // 0-9
+
+        // State
         private bool isHovered = false;
         private bool isSelected = false;
         private Vector3 originalScale;
 
         // Events
-        public event Action<SlotUI> OnSlotClicked;
-        public event Action<SlotUI> OnSlotRightClicked;
-        public event Action<SlotUI> OnSlotHoverEnter;
-        public event Action<SlotUI> OnSlotHoverExit;
+        public event Action<HotbarSlotUI> OnSlotClicked;
+        public event Action<HotbarSlotUI> OnSlotRightClicked;
+        public event Action<HotbarSlotUI> OnSlotHoverEnter;
+        public event Action<HotbarSlotUI> OnSlotHoverExit;
 
         // Properties
         public InventorySlot Slot => slot;
         public int SlotIndex => slot?.SlotIndex ?? -1;
+        public int SlotNumber => slotNumber;
         public bool IsEmpty => slot?.IsEmpty ?? true;
         public bool IsHovered => isHovered;
         public bool IsSelected => isSelected;
@@ -63,53 +65,52 @@ namespace TinyFarm.Items.UI
         {
             originalScale = transform.localScale;
             ValidateReferences();
+
             dragDropHandler = GetComponent<DragDropHandler>();
             if (dragDropHandler == null)
                 dragDropHandler = gameObject.AddComponent<DragDropHandler>();
         }
 
-        public void Setup(SlotUI slot, InventoryDescription description)
-        {
-            slotUI = slot;
-            descriptionPanel = description;
-            UpdateUI();
-        }
-        public InventorySlot GetInventorySlot()
-        {
-            return inventorySlot;
-        }
-
         private void ValidateReferences()
         {
             if (itemIcon == null)
-                Debug.LogError("[SlotUI] ItemIcon not assigned!", this);
+                Debug.LogError("[HotBarSlotUI] ItemIcon not assigned!", this);
 
             if (quantityText == null)
-                Debug.LogWarning("[SlotUI] QuantityText not assigned!", this);
+                Debug.LogWarning("[HotBarSlotUI] QuantityText not assigned!", this);
+
+            if (keyNumberText == null)
+                Debug.LogWarning("[HotBarSlotUI] KeyNumberText not assigned!", this);
 
             if (backgroundImage == null)
-                Debug.LogWarning("[SlotUI] BackgroundImage not assigned!", this);
+                Debug.LogWarning("[HotBarSlotUI] BackgroundImage not assigned!", this);
+
+            if (selectionBorder == null)
+                Debug.LogWarning("[HotBarSlotUI] SelectionBorder not assigned!", this);
         }
 
-        /// Bind slot data với UI
-        public void Initialize(InventorySlot inventorySlot)
+        /// <summary>
+        /// Bind slot data with UI
+        /// </summary>
+        public void Initialize(InventorySlot inventorySlot, int number)
         {
             if (inventorySlot == null)
             {
-                Debug.LogError("[SlotUI] Cannot initialize with null slot!");
+                Debug.LogError("[HotBarSlotUI] Cannot initialize with null slot!");
                 return;
             }
 
-            // Unsubscribe old slot nếu có
+            // Unsubscribe old slot if exists
             if (slot != null)
             {
                 UnsubscribeFromSlot();
             }
 
             slot = inventorySlot;
-            SubscribeToSlot();
+            slotNumber = number;
 
-            // Initial update
+            SubscribeToSlot();
+            UpdateKeyNumber();
             UpdateUI();
         }
 
@@ -129,12 +130,23 @@ namespace TinyFarm.Items.UI
             slot.OnSlotLockChanged -= HandleLockChanged;
         }
 
-        // Update toàn bộ UI dựa vào slot data
+        private void UpdateKeyNumber()
+        {
+            if (keyNumberText == null) return;
+
+            // Display 0-9 (0 represents the 10th slot)
+            int displayNumber = slotNumber == 9 ? 0 : slotNumber + 1;
+            keyNumberText.text = displayNumber.ToString();
+        }
+
+        /// <summary>
+        /// Update entire UI based on slot data
+        /// </summary>
         public void UpdateUI()
         {
             if (slot == null)
             {
-                // Clear UI nếu slot null
+                // Clear UI if slot is null
                 if (itemIcon != null)
                 {
                     itemIcon.sprite = null;
@@ -151,6 +163,7 @@ namespace TinyFarm.Items.UI
             UpdateIcon();
             UpdateQuantity();
             UpdateBackground();
+            UpdateSelectionBorder();
             UpdateLockedState();
         }
 
@@ -190,17 +203,28 @@ namespace TinyFarm.Items.UI
         {
             if (backgroundImage == null) return;
 
-            if (isSelected)
-            {
-                backgroundImage.color = selectedColor;
-            }
-            else if (slot.IsLocked)
+            if (slot.IsLocked)
             {
                 backgroundImage.color = lockedColor;
+            }
+            else if (isHovered && !isSelected)
+            {
+                backgroundImage.color = highlightColor;
             }
             else
             {
                 backgroundImage.color = normalColor;
+            }
+        }
+
+        private void UpdateSelectionBorder()
+        {
+            if (selectionBorder == null) return;
+
+            selectionBorder.enabled = isSelected;
+            if (isSelected)
+            {
+                selectionBorder.color = borderColor;
             }
         }
 
@@ -215,26 +239,28 @@ namespace TinyFarm.Items.UI
         public void Select()
         {
             isSelected = true;
+            UpdateSelectionBorder();
             UpdateBackground();
         }
 
         public void Deselect()
         {
             isSelected = false;
+            UpdateSelectionBorder();
             UpdateBackground();
-
-            
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             isHovered = true;
+            UpdateBackground();
             OnSlotHoverEnter?.Invoke(this);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovered = false;
+            UpdateBackground();
             OnSlotHoverExit?.Invoke(this);
         }
 
@@ -254,21 +280,23 @@ namespace TinyFarm.Items.UI
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            dragDropHandler.OnBeginDrag(eventData);
+            if (slot?.IsLocked ?? true) return;
+            dragDropHandler?.OnBeginDrag(eventData);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            dragDropHandler.OnDrag(eventData);
+            dragDropHandler?.OnDrag(eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            dragDropHandler.OnEndDrag(eventData);
+            dragDropHandler?.OnEndDrag(eventData);
         }
 
         public void OnDrop(PointerEventData eventData)
         {
+            if (slot?.IsLocked ?? true) return;
             dragDropHandler?.OnDrop(eventData);
         }
 
@@ -297,3 +325,4 @@ namespace TinyFarm.Items.UI
         }
     }
 }
+

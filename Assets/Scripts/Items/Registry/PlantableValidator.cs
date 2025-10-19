@@ -12,8 +12,8 @@ namespace TinyFarm.Items
 
         [Header("Validation Settings")]
         [SerializeField] private bool strictSeasonCheck = true;
-        [SerializeField] private bool checkSoilQuality = false;
-        [SerializeField] private int minSoilQuality = 1;
+        //[SerializeField] private bool checkSoilQuality = false;
+        //[SerializeField] private int minSoilQuality = 1;
 
         public Season CurrentSeason
         {

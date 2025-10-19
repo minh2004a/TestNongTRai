@@ -12,7 +12,7 @@ public class InventoryTester : MonoBehaviour
     public ItemData[] testItems;
 
     [Header("Test Settings")]
-    public bool autoAddTestItems = true;
+    public bool autoAddTestItems = false;
     public KeyCode addItemKey = KeyCode.T;
     public KeyCode removeItemKey = KeyCode.R;
     public KeyCode clearInventoryKey = KeyCode.C;
@@ -73,16 +73,11 @@ public class InventoryTester : MonoBehaviour
 
         bool newState = !inventoryUI.gameObject.activeSelf;
         inventoryUI.gameObject.SetActive(newState);
-
-        Debug.Log($"[TEST] Inventory {(newState ? "Opened" : "Closed")} with [{toggleInventoryKey}]");
     }
 
     [ContextMenu("Debug Test Items")]
     public void DebugTestItems()
     {
-        Debug.Log("=== TEST ITEMS DEBUG ===");
-        Debug.Log($"Total test items: {testItems.Length}");
-
         for (int i = 0; i < testItems.Length; i++)
         {
             ItemData item = testItems[i];
@@ -92,8 +87,6 @@ public class InventoryTester : MonoBehaviour
             }
             else
             {
-                Debug.Log($"[{i}] Name: {item.itemName} | ID: '{item.itemID}' | Type: {item.itemType}");
-
                 // Check if ID is empty
                 if (string.IsNullOrEmpty(item.itemID))
                 {
@@ -101,7 +94,6 @@ public class InventoryTester : MonoBehaviour
                 }
             }
         }
-        Debug.Log("========================");
     }
 
     [ContextMenu("Add Test Items")]

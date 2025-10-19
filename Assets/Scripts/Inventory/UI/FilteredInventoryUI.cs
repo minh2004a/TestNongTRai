@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using UnityEngine;
 using System.Linq;
 using TinyFarm.Items;
+using UnityEngine;
 
 namespace TinyFarm.Items.UI
 {
@@ -9,7 +9,7 @@ namespace TinyFarm.Items.UI
     {
         [Header("Filter Settings")]
         [SerializeField] private ItemType[] allowedTypes;
-        [SerializeField] private bool showAllTypes = true; // Cho tab "All"
+        [SerializeField] private bool showAllTypes = true;
 
         [Header("References")]
         [SerializeField] private InventoryManager inventoryManager;
@@ -21,6 +21,7 @@ namespace TinyFarm.Items.UI
 
         private List<SlotUI> slotUIs = new List<SlotUI>();
         private bool isInitialized = false;
+        private bool needsRefresh = false; // Flag để track cần refresh
 
         private void Awake()
         {
@@ -32,20 +33,22 @@ namespace TinyFarm.Items.UI
 
         private void OnEnable()
         {
-            // Refresh khi panel được bật
-            if (isInitialized)
-            {
-                RefreshDisplay();
-            }
-            else
+            if (!isInitialized)
             {
                 Initialize();
             }
+
+            // CRITICAL: Luôn refresh khi panel được bật
+            RefreshDisplay();
+            needsRefresh = false;
         }
 
         public void Initialize()
         {
-            if (isInitialized) return;
+            if (isInitialized)
+            {
+                return;
+            }
 
             if (inventoryManager == null)
             {
@@ -56,12 +59,25 @@ namespace TinyFarm.Items.UI
             CreateSlotUIs();
 
             // Subscribe to inventory events
-            inventoryManager.OnInventoryChanged += RefreshDisplay;
+            inventoryManager.OnInventoryChanged += OnInventoryChangedHandler;
 
             isInitialized = true;
-            RefreshDisplay();
 
-            Debug.Log($"[FilteredInventoryUI] Initialized - ShowAll: {showAllTypes}, Types: {string.Join(", ", allowedTypes)}");
+            Debug.Log($"[FilteredInventoryUI] {gameObject.name} - Initialized (ShowAll: {showAllTypes}, Types: {string.Join(", ", allowedTypes)})");
+        }
+
+        private void OnInventoryChangedHandler()
+        {
+            if (gameObject.activeSelf)
+            {
+                // Panel đang active → refresh ngay
+                RefreshDisplay();
+            }
+            else
+            {
+                // Panel đang inactive → đánh dấu cần refresh
+                needsRefresh = true;
+            }
         }
 
         private void CreateSlotUIs()
@@ -90,74 +106,86 @@ namespace TinyFarm.Items.UI
                 {
                     slotUIs.Add(slotUI);
                 }
+                else
+                {
+                    Debug.LogError($"[FilteredInventoryUI] SlotPrefab missing SlotUI component!");
+                }
             }
 
-            Debug.Log($"[FilteredInventoryUI] Created {slotUIs.Count} slot UIs");
+            Debug.Log($"[FilteredInventoryUI] {gameObject.name} - Created {slotUIs.Count} slot UIs");
         }
 
         public void RefreshDisplay()
         {
-            if (!isInitialized || inventoryManager == null) return;
+            if (!isInitialized)
+            {
+                return;
+            }
 
-            // Get filtered slots from inventory
+            if (inventoryManager == null)
+            {
+                return;
+            }
+
+            // Get filtered slots
             List<InventorySlot> filteredSlots = GetFilteredSlots();
 
-            // Update UI slots
+            // Update ALL UI slots
             for (int i = 0; i < slotUIs.Count; i++)
             {
+                if (slotUIs[i] == null)
+                {
+                    continue;
+                }
+
                 if (i < filteredSlots.Count)
                 {
-                    // Show slot with item - Dùng Initialize() thay vì SetSlot()
+                    // Show slot with item
                     slotUIs[i].Initialize(filteredSlots[i]);
                     slotUIs[i].gameObject.SetActive(true);
                 }
                 else
                 {
-                    // Hide unused slot - Initialize với empty slot
+                    // Create empty slot
                     InventorySlot emptySlot = new InventorySlot(i, SlotType.Normal);
                     slotUIs[i].Initialize(emptySlot);
-                    slotUIs[i].gameObject.SetActive(true); // Hoặc false nếu muốn ẩn
+                    slotUIs[i].gameObject.SetActive(true);
                 }
             }
-
-            Debug.Log($"[FilteredInventoryUI] Refreshed display with {filteredSlots.Count} items");
         }
 
         private List<InventorySlot> GetFilteredSlots()
         {
+            if (inventoryManager == null)
+            {
+                return new List<InventorySlot>();
+            }
+
             var allSlots = inventoryManager.GetAllSlots();
+
+            if (allSlots == null)
+            {
+                return new List<InventorySlot>();
+            }
 
             if (showAllTypes)
             {
-                // Show tất cả items (non-empty slots)
-                var result = allSlots.Where(slot => !slot.IsEmpty).ToList();
-                Debug.Log($"[FilteredInventoryUI] Show all: {result.Count} non-empty slots");
-                return result;
+                // Tab "All" - show ALL non-empty slots
+                return allSlots.Where(slot => !slot.IsEmpty).ToList();
             }
             else
             {
-                // Filter theo allowed types
-                var result = allSlots.Where(slot =>
+                // Filtered tabs
+                return allSlots.Where(slot =>
                 {
                     if (slot.IsEmpty) return false;
 
                     ItemType itemType = slot.Item.ItemData.GetItemType();
-                    bool allowed = allowedTypes.Contains(itemType);
-
-                    if (allowed)
-                    {
-                        Debug.Log($"[FilteredInventoryUI] ✅ {slot.ItemName} ({itemType}) - ALLOWED");
-                    }
-
-                    return allowed;
+                    return allowedTypes.Contains(itemType);
                 }).ToList();
-
-                Debug.Log($"[FilteredInventoryUI] Filtered by {string.Join(", ", allowedTypes)}: {result.Count} items");
-                return result;
             }
         }
 
-        // Public method để set filter từ bên ngoài
         public void SetFilter(ItemType[] types)
         {
             allowedTypes = types;
@@ -173,15 +201,22 @@ namespace TinyFarm.Items.UI
 
         private void OnDisable()
         {
-            // Optional: Có thể để trống hoặc clear
         }
 
         private void OnDestroy()
         {
+
             if (inventoryManager != null)
             {
-                inventoryManager.OnInventoryChanged -= RefreshDisplay;
+                inventoryManager.OnInventoryChanged -= OnInventoryChangedHandler;
             }
+        }
+
+        // Debug helper
+        [ContextMenu("Force Refresh")]
+        public void ForceRefresh()
+        {
+            RefreshDisplay();
         }
     }
 }

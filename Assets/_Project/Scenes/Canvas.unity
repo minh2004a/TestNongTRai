@@ -538,53 +538,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 513680024}
   m_CullTransparentMesh: 1
---- !u!1 &520665693
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 520665694}
-  - component: {fileID: 520665695}
-  m_Layer: 0
-  m_Name: InventoryTabTester
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &520665694
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 520665693}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1574726627}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &520665695
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 520665693}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1089952902383ea47869790bb49e4720, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventoryManager: {fileID: 1909291318}
-  tabController: {fileID: 860593851}
-  addTestItemsOnStart: 1
 --- !u!1 &551641033
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,7 +586,7 @@ MonoBehaviour:
   startSlotIndex: 10
   allowHotbarSwap: 1
   inventoryManager: {fileID: 1909291318}
-  selectedSlotIndex: 10
+  selectedSlotIndex: 0
   hotbarSlots: []
   isInitialized: 0
 --- !u!1 &557952941
@@ -994,11 +947,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d014e5ff0501f6488b55099f388d28c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotUI: {fileID: 2523404113726516617, guid: dc5d11a978dbc70468ae3a653d379fc3, type: 3}
   canvas: {fileID: 1407601491}
   raycaster: {fileID: 1407601489}
-  dragVisualPrefab: {fileID: 5424147873640375856, guid: a37f7fbcc1bcb314ab59be5ae8c09cd7, type: 3}
   dragAlpha: 0.6
+  dragIconSize: {x: 64, y: 64}
+  validDropColor: {r: 0, g: 1, b: 0, a: 0.3}
+  invalidDropColor: {r: 1, g: 0, b: 0, a: 0.3}
 --- !u!1 &679977189
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1520,7 @@ MonoBehaviour:
   activeScale: 1.1
   inactiveScale: 1
   allInventoryUI: {fileID: 679977193}
-  seedInventoryUI: {fileID: 27785535}
+  cropInventoryUI: {fileID: 0}
   toolInventoryUI: {fileID: 1998492060}
 --- !u!1 &880371644
 GameObject:
@@ -2971,7 +2925,6 @@ Transform:
   - {fileID: 551641034}
   - {fileID: 1932221313}
   - {fileID: 649302301}
-  - {fileID: 520665694}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576801137
@@ -3386,12 +3339,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1747188838}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a3e931440d1b4947af91d82413a3b4f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1b0749528ec3f0644980a146befa6198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hotbarSystem: {fileID: 551641035}
+  inventoryManager: {fileID: 0}
   slotsContainer: {fileID: 2143818520}
-  slotUIPrefab: {fileID: 6415082182887572559, guid: 52bee9e411f3cd140917add62e3b1c00, type: 3}
+  hotBarSlotPrefab: {fileID: 0}
+  hotBarSize: 10
+  autoCreateSlots: 1
+  hotKeys: 31000000320000003300000034000000350000003600000037000000380000003900000030000000
 --- !u!1 &1804118571
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,7 +34,7 @@ namespace TinyFarm.Items
         private Dictionary<ResourcesType, int> totalResourcesHarvested = new Dictionary<ResourcesType, int>();
 
         // Events
-        public event Action<HarvestableObject, ResourceItem> OnResourceHarvested;
+        //public event Action<HarvestableObject, ResourceItem> OnResourceHarvested;
 
         // Properties
         public int TotalObjects => allHarvestables.Count;

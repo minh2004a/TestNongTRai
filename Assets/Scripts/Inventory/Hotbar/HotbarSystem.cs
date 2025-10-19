@@ -111,7 +111,6 @@ namespace TinyFarm.Items.UI
 
             isInitialized = true;
             OnHotbarInitialized?.Invoke();
-            Debug.Log($"[HotbarSystem] Initialized with {hotbarSlots.Count} slots");
         }
 
         private void SubscribeToSlotEvents(InventorySlot slot, int hotbarIndex)

@@ -28,10 +28,10 @@ namespace TinyFarm.Items.UI
         [Header("Tab Content (Optional)")]
         [Tooltip("Nếu có FilteredInventoryUI, gán vào đây để auto refresh")]
         [SerializeField] private FilteredInventoryUI allInventoryUI;
-        [SerializeField] private FilteredInventoryUI seedInventoryUI;
+        [SerializeField] private FilteredInventoryUI cropInventoryUI;
         [SerializeField] private FilteredInventoryUI toolInventoryUI;
 
-        private Dictionary<Button, GameObject> buttonPanelMap;
+        private Dictionary<Button, TabData> buttonTabMap;
         private Button currentActiveButton;
 
         private class TabData
@@ -55,18 +55,16 @@ namespace TinyFarm.Items.UI
         {
             // Mở tab All mặc định
             SwitchTab(buttonAll);
-            //SwitchTab(buttonCrop);
-            //SwitchTab(buttonTool);
         }
 
         private void InitializeTabSystem()
         {
-            // Map buttons với panels tương ứng
-            buttonPanelMap = new Dictionary<Button, GameObject>
+            // Map buttons với panels và inventory UIs
+            buttonTabMap = new Dictionary<Button, TabData>
             {
-                { buttonAll, inventoryMainPanel },
-                { buttonCrop, inventoryCropPanel },
-                { buttonTool, inventoryToolPanel }
+                { buttonAll, new TabData(inventoryMainPanel, allInventoryUI) },
+                { buttonCrop, new TabData(inventoryCropPanel, cropInventoryUI) },
+                { buttonTool, new TabData(inventoryToolPanel, toolInventoryUI) },
             };
 
             // Subscribe button events
@@ -78,41 +76,53 @@ namespace TinyFarm.Items.UI
 
             if (buttonTool != null)
                 buttonTool.onClick.AddListener(() => SwitchTab(buttonTool));
-
-            Debug.Log("[InventoryTabController] Initialized with " + buttonPanelMap.Count + " tabs");
+            Debug.Log($"[InventoryTabController] Initialized with {buttonTabMap.Count} tabs");
         }
 
         public void SwitchTab(Button targetButton)
         {
-            if (!buttonPanelMap.ContainsKey(targetButton))
+            if (!buttonTabMap.ContainsKey(targetButton))
             {
                 Debug.LogWarning("[InventoryTabController] Button not found in map!");
                 return;
             }
 
             // Deactivate tất cả panels
-            foreach (var panel in buttonPanelMap.Values)
+            foreach (var tabData in buttonTabMap.Values)
             {
-                if (panel != null)
-                    panel.SetActive(false);
+                if (tabData.panel != null)
+                    tabData.panel.SetActive(false);
             }
 
             // Reset tất cả buttons về inactive state
-            foreach (var button in buttonPanelMap.Keys)
+            foreach (var button in buttonTabMap.Keys)
             {
                 SetButtonVisual(button, false);
             }
 
             // Activate panel và button được chọn
-            GameObject targetPanel = buttonPanelMap[targetButton];
-            if (targetPanel != null)
+            TabData targetTab = buttonTabMap[targetButton];
+            if (targetTab.panel != null)
             {
-                targetPanel.SetActive(true);
+                targetTab.panel.SetActive(true);
                 SetButtonVisual(targetButton, true);
                 currentActiveButton = targetButton;
 
-                Debug.Log($"[InventoryTabController] Switched to {targetPanel.name}");
+                // QUAN TRỌNG: Force refresh inventory UI
+                if (targetTab.inventoryUI != null)
+                {
+                    // Delay một chút để đảm bảo panel đã active
+                    StartCoroutine(RefreshAfterDelay(targetTab.inventoryUI));
+                }
+
+                Debug.Log($"[InventoryTabController] Switched to {targetTab.panel.name}");
             }
+        }
+
+        private System.Collections.IEnumerator RefreshAfterDelay(FilteredInventoryUI inventoryUI)
+        {
+            yield return null; // Wait 1 frame
+            inventoryUI.RefreshDisplay();
         }
 
         private void SetButtonVisual(Button button, bool isActive)
