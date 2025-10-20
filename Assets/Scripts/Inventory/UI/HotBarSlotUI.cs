@@ -23,6 +23,7 @@ namespace TinyFarm.Items.UI
         [SerializeField] private TextMeshProUGUI keyNumberText;
         [SerializeField] private Image backgroundImage;
         [SerializeField] private Image selectionBorder;
+        [SerializeField] private Image selectionItem;
         [SerializeField] private GameObject lockedOverlay;
 
         [Header("Visual Settings")]
@@ -87,6 +88,8 @@ namespace TinyFarm.Items.UI
 
             if (selectionBorder == null)
                 Debug.LogWarning("[HotBarSlotUI] SelectionBorder not assigned!", this);
+            if (selectionItem == null)
+                Debug.LogWarning("[HotBarSlotUI] SelectionItem not assigned!", this);
         }
 
         /// <summary>
@@ -160,11 +163,12 @@ namespace TinyFarm.Items.UI
                 return;
             }
 
-            UpdateIcon();
-            UpdateQuantity();
-            UpdateBackground();
-            UpdateSelectionBorder();
-            UpdateLockedState();
+            this.UpdateIcon();
+            this.UpdateQuantity();
+            this.UpdateBackground();
+            this.UpdateSelectionItem();
+            this.UpdateSelectionBorder();
+            this.UpdateLockedState();
         }
 
         private void UpdateIcon()
@@ -227,6 +231,16 @@ namespace TinyFarm.Items.UI
                 selectionBorder.color = borderColor;
             }
         }
+        private void UpdateSelectionItem()
+        {
+            if (selectionItem == null) return;
+
+            selectionItem.enabled = isSelected;
+            if (isSelected)
+            {
+                selectionItem.color = highlightColor;
+            }
+        }
 
         private void UpdateLockedState()
         {
@@ -240,6 +254,7 @@ namespace TinyFarm.Items.UI
         {
             isSelected = true;
             UpdateSelectionBorder();
+            UpdateSelectionItem();
             UpdateBackground();
         }
 
@@ -247,6 +262,7 @@ namespace TinyFarm.Items.UI
         {
             isSelected = false;
             UpdateSelectionBorder();
+            UpdateSelectionItem();
             UpdateBackground();
         }
 
