@@ -230,12 +230,25 @@ namespace TinyFarm.Items.UI
         {
             isHovered = true;
             OnSlotHoverEnter?.Invoke(this);
+
+            // Show tooltip
+            if (!IsEmpty && TooltipSystem.Instance != null)
+            {
+                Debug.Log($"[SlotUI] Showing tooltip for: {slot.ItemData.itemName}");
+                TooltipSystem.Instance.ShowTooltip(slot);
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovered = false;
             OnSlotHoverExit?.Invoke(this);
+
+            // Hide tooltip
+            if (TooltipSystem.Instance != null)
+            {
+                TooltipSystem.Instance.HideTooltip();
+            }
         }
 
         public void OnPointerClick(PointerEventData eventData)

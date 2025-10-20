@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
-using System.Collections.Generic;
 
 namespace TinyFarm.Items.UI
 {
@@ -29,7 +28,6 @@ namespace TinyFarm.Items.UI
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
         [SerializeField] private Color highlightColor = Color.yellow;
-        [SerializeField] private Color selectedColor = Color.green;
         [SerializeField] private Color lockedColor = Color.gray;
         [SerializeField] private Color borderColor = new Color(1f, 0.8f, 0f, 1f); // Gold color
 
@@ -92,9 +90,7 @@ namespace TinyFarm.Items.UI
                 Debug.LogWarning("[HotBarSlotUI] SelectionItem not assigned!", this);
         }
 
-        /// <summary>
         /// Bind slot data with UI
-        /// </summary>
         public void Initialize(InventorySlot inventorySlot, int number)
         {
             if (inventorySlot == null)
@@ -142,9 +138,7 @@ namespace TinyFarm.Items.UI
             keyNumberText.text = displayNumber.ToString();
         }
 
-        /// <summary>
-        /// Update entire UI based on slot data
-        /// </summary>
+        // Update entire UI based on slot data
         public void UpdateUI()
         {
             if (slot == null)

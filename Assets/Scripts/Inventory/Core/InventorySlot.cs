@@ -22,6 +22,7 @@ namespace TinyFarm.Items
         public bool IsEmpty => itemStack?.IsEmpty ?? true;
         public bool HasItem => !IsEmpty;
         public Item Item => itemStack?.Item;
+        public ItemData ItemData => itemStack?.Item?.ItemData;
         public int Quantity => itemStack?.Quantity ?? 0;
         public bool IsFull => itemStack?.IsFull ?? false;
 

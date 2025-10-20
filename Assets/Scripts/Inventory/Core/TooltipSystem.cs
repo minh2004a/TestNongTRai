@@ -9,49 +9,87 @@ namespace TinyFarm.Items.UI
 {
     public class TooltipSystem : MonoBehaviour
     {
-        private static TooltipSystem instance;
-        public static TooltipSystem Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<TooltipSystem>();
-                }
-                return instance;
-            }
-        }
+        public static TooltipSystem Instance { get; private set; }
 
-        [Header("References")]
+        [Header("UI References")]
         [SerializeField] private GameObject tooltipPanel;
+        [SerializeField] private RectTransform tooltipRectTransform;
+        [SerializeField] private CanvasGroup canvasGroup;
+
+        [Header("Content References")]
         [SerializeField] private TextMeshProUGUI itemNameText;
+        [SerializeField] private TextMeshProUGUI itemTypeText;
         [SerializeField] private TextMeshProUGUI descriptionText;
-        [SerializeField] private TextMeshProUGUI statsText;
-        [SerializeField] private Image itemIconImage;
+        [SerializeField] private GameObject separator;
 
         [Header("Settings")]
-        [SerializeField] private Vector2 offset = new Vector2(10, -10);
-        [SerializeField] private float showDelay = 0.5f;
+        [SerializeField] private Vector2 offset = new Vector2(100f, 0f);
+        [SerializeField] private float padding = 40f;
+        [SerializeField] private float fadeSpeed = 100f;
+        [SerializeField] private bool followCursor = true;
+        [SerializeField] private Color normalTextColor = new Color(0.2f, 0.1f, 0.05f);
+        [SerializeField] private Color typeTextColor = Color.gray;
 
-        // State
-        private RectTransform tooltipRect;
-        private float showTimer;
-        private bool isShowing;
-        private SlotUI currentSlot;
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private Camera mainCamera;
+        private bool isVisible = false;
+
         private void Awake()
         {
-            if (instance != null && instance != this)
+            // Singleton pattern
+            if (Instance != null && Instance != this)
             {
                 Destroy(gameObject);
                 return;
             }
+            Instance = this;
 
-            instance = this;
-            tooltipRect = tooltipPanel.GetComponent<RectTransform>();
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            if (canvas == null)
+            {
+                canvas = GetComponentInParent<Canvas>();
+            }
+            if (mainCamera  == null)
+            {
+                mainCamera = Camera.main;
+            }
+
+            if (tooltipPanel == null)
+            {
+                Debug.LogError("[TooltipSystem] Tooltip Panel not assigned!");
+                return;
+            }
+
+            if (tooltipRectTransform == null)
+                tooltipRectTransform = tooltipPanel.GetComponent<RectTransform>();
+
+            if (canvasGroup == null)
+                canvasGroup = tooltipPanel.GetComponent<CanvasGroup>();
+
+            // Start hidden
             HideTooltip();
         }
 
-        // Show tooltip cho slot
+        private void Update()
+        {
+            if (isVisible && followCursor)
+            {
+                UpdatePosition();
+            }
+
+            // Smooth fade in/out
+            if (canvasGroup != null)
+            {
+                float targetAlpha = isVisible ? 1f : 0f;
+                canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, targetAlpha, Time.deltaTime * fadeSpeed);
+            }
+        }
+
+        // Show tooltip for SlotUI
         public void ShowTooltip(SlotUI slotUI)
         {
             if (slotUI == null || slotUI.IsEmpty)
@@ -60,156 +98,181 @@ namespace TinyFarm.Items.UI
                 return;
             }
 
-            currentSlot = slotUI;
-            showTimer = 0f;
-            isShowing = true;
+            ShowTooltip(slotUI.Slot);
         }
 
-        /// Show tooltip ngay lập tức
-        public void ShowTooltipImmediate(SlotUI slotUI)
+        /// <summary>
+        /// Show tooltip for HotBarSlotUI
+        /// </summary>
+        //public void ShowTooltip(HotBarSlotUI hotBarSlotUI)
+        //{
+        //    if (hotBarSlotUI == null || hotBarSlotUI.IsEmpty)
+        //    {
+        //        HideTooltip();
+        //        return;
+        //    }
+
+        //    ShowTooltip(hotBarSlotUI.Slot);
+        //}
+
+        // Show tooltip for InventorySlot
+        /// </summary>
+        public void ShowTooltip(InventorySlot slot)
         {
-            ShowTooltip(slotUI);
-            showTimer = showDelay;
-            UpdateTooltip();
-        }
-
-        /// Hide tooltip
-        public void HideTooltip()
-        {
-            isShowing = false;
-            currentSlot = null;
-            tooltipPanel.SetActive(false);
-        }
-
-        private void Update()
-        {
-            if (!isShowing) return;
-
-            // Delay before showing
-            showTimer += Time.deltaTime;
-
-            if (showTimer >= showDelay)
+            if (slot == null || slot.IsEmpty)
             {
-                UpdateTooltip();
+                Debug.LogWarning("[TooltipSystem] Slot is null or empty");
+                HideTooltip();
+                return;
             }
 
-            // Update position to follow mouse
-            UpdatePosition();
+            ItemData itemData = slot.ItemData;
+            if (itemData == null)
+            {
+                Debug.LogWarning("[TooltipSystem] ItemData is null");
+                HideTooltip();
+                return;
+            }
+
+            ShowTooltip(itemData);
         }
 
-        private void UpdateTooltip()
+        // Show tooltip for ItemData
+        public void ShowTooltip(ItemData itemData)
         {
-            if (currentSlot == null || currentSlot.IsEmpty)
+            if (itemData == null)
             {
                 HideTooltip();
                 return;
             }
 
-            tooltipPanel.SetActive(true);
-
-            Item item = currentSlot.Slot.Item;
-            UpdateTooltipContent(item);
-        }
-
-        private void UpdateTooltipContent(Item item)
-        {
-            if (item == null) return;
-
-            // Item name
+            // Set item name
             if (itemNameText != null)
             {
-                itemNameText.text = item.Name;
-                itemNameText.color = GetRarityColor(item.materialTier);
+                itemNameText.text = itemData.itemName;
+                itemNameText.color = normalTextColor;
             }
 
-            // Description
+            // Set item type
+            if (itemTypeText != null)
+            {
+                itemTypeText.text = GetItemTypeText(itemData.itemType);
+                itemTypeText.color = typeTextColor;
+            }
+
+            // Set description
             if (descriptionText != null)
             {
-                descriptionText.text = item.Description;
+                descriptionText.text = itemData.description;
+                descriptionText.color = normalTextColor;
             }
 
-            // Stats
-            if (statsText != null)
-            {
-                statsText.text = GetStatsText(item);
-            }
+            // Show separator
+            if (separator != null)
+                separator.SetActive(true);
 
-            // Icon
-            if (itemIconImage != null)
-            {
-                itemIconImage.sprite = item.Icon;
-            }
+            // Show tooltip
+            tooltipPanel.SetActive(true);
+            isVisible = true;
+
+            UpdatePosition();
+
+            // Force rebuild layout để tooltip size đúng
+            LayoutRebuilder.ForceRebuildLayoutImmediate(tooltipRectTransform);
         }
 
-        private string GetStatsText(Item item)
+        public void HideTooltip()
         {
-            string stats = "";
+            isVisible = false;
 
-            // Stack info
-            if (item.IsStackable)
+            if (canvasGroup != null && canvasGroup.alpha <= 0.01f)
             {
-                stats += $"Stack: {item.CurrentStack}/{item.Stackable.MaxStackSize}\n";
+                tooltipPanel.SetActive(false);
             }
-
-            // Durability info
-            if (item.HasDurability)
-            {
-                stats += $"Durability: {item.Durability.CurrentDurability:F0}/{item.Durability.MaxDurability}\n";
-            }
-
-            // Item type
-            stats += $"\nType: {item.ItemData.GetItemType()}";
-
-            // Material tier
-            stats += $"\nTier: {item.materialTier}";
-
-            return stats;
-        }
-
-        private Color GetRarityColor(MaterialTier tier)
-        {
-            return tier switch
-            {
-                MaterialTier.Common => Color.white,
-                MaterialTier.Rare => Color.blue,
-                MaterialTier.Epic => new Color(0.6f, 0f, 1f), // Purple
-                MaterialTier.Legendary => new Color(1f, 0.5f, 0f), // Orange
-                _ => Color.white
-            };
         }
 
         private void UpdatePosition()
         {
-            if (tooltipRect == null) return;
+            if (tooltipRectTransform == null || canvas == null)
+                return;
 
             Vector2 mousePosition = Input.mousePosition;
-            tooltipRect.position = mousePosition + offset;
 
-            // Clamp to screen
-            Vector3[] corners = new Vector3[4];
-            tooltipRect.GetWorldCorners(corners);
+            // Convert mouse position to canvas space
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.transform as RectTransform,
+                mousePosition,
+                canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : mainCamera,
+                out localPoint
+            );
 
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
+            // Get canvas rect and tooltip size
+            RectTransform canvasRect = canvas.transform as RectTransform;
+            Rect canvasPixelRect = canvasRect.rect;
+            Vector2 tooltipSize = tooltipRectTransform.sizeDelta;
 
+            // Calculate tooltip position with offset
+            Vector2 tooltipPosition = localPoint + offset;
+
+            // Smart positioning - flip if tooltip goes off screen
             // Check right edge
-            if (corners[2].x > screenWidth)
+            if (tooltipPosition.x + tooltipSize.x > canvasPixelRect.width / 2 - padding)
             {
-                tooltipRect.position = new Vector2(
-                    mousePosition.x - tooltipRect.sizeDelta.x - offset.x,
-                    tooltipRect.position.y
-                );
+                tooltipPosition.x = localPoint.x - tooltipSize.x - offset.x;
             }
 
             // Check bottom edge
-            if (corners[0].y < 0)
+            if (tooltipPosition.y - tooltipSize.y < -canvasPixelRect.height / 2 + padding)
             {
-                tooltipRect.position = new Vector2(
-                    tooltipRect.position.x,
-                    mousePosition.y + tooltipRect.sizeDelta.y - offset.y
-                );
+                tooltipPosition.y = localPoint.y + tooltipSize.y - offset.y;
             }
 
+            // Check left edge
+            if (tooltipPosition.x < -canvasPixelRect.width / 2 + padding)
+            {
+                tooltipPosition.x = -canvasPixelRect.width / 2 + padding;
+            }
+
+            // Check top edge
+            if (tooltipPosition.y > canvasPixelRect.height / 2 - padding)
+            {
+                tooltipPosition.y = canvasPixelRect.height / 2 - padding;
+            }
+            // Apply position smoothly
+            if (fadeSpeed > 0)
+            {
+                tooltipRectTransform.anchoredPosition = Vector2.Lerp(
+                    tooltipRectTransform.anchoredPosition,
+                    tooltipPosition,
+                    Time.deltaTime * fadeSpeed
+                );
+            }
+            else
+            {
+                tooltipRectTransform.anchoredPosition = tooltipPosition;
+            }
+        }
+
+        private string GetItemTypeText(ItemType type)
+        {
+            switch (type)
+            {
+                case ItemType.Tool: return "Tool";
+                case ItemType.Equipment: return "Equipment";
+                case ItemType.Consumable: return "Consumable";
+                case ItemType.Seed: return "Seed";
+                case ItemType.Crop: return "Crop";
+                default: return "Item";
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
     }
 }
