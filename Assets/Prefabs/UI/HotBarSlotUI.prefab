@@ -423,7 +423,6 @@ MonoBehaviour:
   lockedOverlay: {fileID: 2861591590767943662}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
   highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  selectedColor: {r: 0, g: 1, b: 0, a: 1}
   lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   borderColor: {r: 1, g: 0.8, b: 0, a: 1}
   enableHoverAnimation: 1

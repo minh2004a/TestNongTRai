@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿using System;
 using TinyFarm.Items;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace TinyFarm.Items.UI
 {
@@ -10,260 +11,240 @@ namespace TinyFarm.Items.UI
         IPointerEnterHandler,
         IPointerExitHandler
     {
-        [Header("UI References")]
-        public Image background;
-        public Image trashIconClosed;
-        public Image trashIconOpen;
-        public GameObject warningOverlay;
-        public CanvasGroup canvasGroup;
+        [Header("Visual References")]
+        [SerializeField] private Image trashCanImage;
+        [SerializeField] private Sprite closedSprite;
+        [SerializeField] private Sprite openSprite;
 
-        [Header("Visual Settings")]
-        public Color normalColor = Color.white;
-        public Color hoverColor = new Color(1f, 0.8f, 0.8f); // Light red
-        public Color dropColor = new Color(1f, 0.5f, 0.5f); // Red
+        [Header("Settings")]
+        [SerializeField] private bool requireConfirmation = true;
+        [SerializeField] private float autoCloseDelay = 0.5f;
 
-        [Header("Animation")]
-        public float animationSpeed = 5f;
-        public float scaleOnHover = 1.1f;
+        [Header("Visual Feedback")]
+        [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private bool enableScaleAnimation = true;
+        [SerializeField] private float hoverScale = 1.1f;
+        [SerializeField] private float animationSpeed = 10f;
 
-        [Header("Confirmation")]
-        public bool requireConfirmation = true;
-        public string confirmationMessage = "Delete this item?";
-
-        private bool isHoveringWithItem = false;
+        // State
+        private bool isHovered = false;
         private bool isOpen = false;
         private Vector3 originalScale;
-        private RectTransform rectTransform;
+        private float closeTimer = 0.5f;
+
+        // Events
+        public event Action<Item> OnItemTrashed;
+        public event Action OnTrashCanOpened;
+        public event Action OnTrashCanClosed;
 
         private void Awake()
         {
-            rectTransform = GetComponent<RectTransform>();
-            originalScale = rectTransform.localScale;
+            ValidateReferences();
+            originalScale = transform.localScale;
+            Close();
+        }
 
-            if (canvasGroup == null)
+        private void ValidateReferences()
+        {
+            if (trashCanImage == null)
             {
-                canvasGroup = GetComponent<CanvasGroup>();
-                if (canvasGroup == null)
-                    canvasGroup = gameObject.AddComponent<CanvasGroup>();
+                trashCanImage = GetComponent<Image>();
+                if (trashCanImage == null)
+                {
+                    Debug.LogError("[TrashCanUI] TrashCanImage not found!", this);
+                }
             }
 
-            SetTrashState(false);
+            if (closedSprite == null)
+                Debug.LogWarning("[TrashCanUI] ClosedSprite not assigned!", this);
 
-            if (warningOverlay != null)
-                warningOverlay.SetActive(false);
+            if (openSprite == null)
+                Debug.LogWarning("[TrashCanUI] OpenSprite not assigned!", this);
         }
 
         private void Update()
         {
-            // Check if user is dragging something
-            bool isDragging = Input.GetMouseButton(0) &&
-                              EventSystem.current.currentSelectedGameObject != null;
-
-            // Animate trash can open/close
-            if (isHoveringWithItem && !isOpen)
+            // Auto close after delay
+            if (isOpen && !isHovered)
             {
-                SetTrashState(true);
-            }
-            else if (!isHoveringWithItem && isOpen)
-            {
-                SetTrashState(false);
+                closeTimer += Time.deltaTime;
+                if (closeTimer >= autoCloseDelay)
+                {
+                    Close();
+                }
             }
 
-            // Smooth scale animation
-            Vector3 targetScale = isHoveringWithItem ?
-                originalScale * scaleOnHover : originalScale;
-
-            rectTransform.localScale = Vector3.Lerp(
-                rectTransform.localScale,
-                targetScale,
-                Time.deltaTime * animationSpeed
-            );
+            // Scale animation
+            if (enableScaleAnimation)
+            {
+                Vector3 targetScale = isHovered ? originalScale * hoverScale : originalScale;
+                transform.localScale = Vector3.Lerp(transform.localScale, targetScale, Time.deltaTime * animationSpeed);
+            }
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            // Check if dragging an item
-            if (eventData.pointerDrag != null)
-            {
-                SlotUI slotUI = eventData.pointerDrag.GetComponent<SlotUI>();
-
-                if (slotUI != null && slotUI.GetInventorySlot() != null &&
-                    !slotUI.GetInventorySlot().IsEmpty)
-                {
-                    isHoveringWithItem = true;
-
-                    if (background != null)
-                        background.color = hoverColor;
-
-                    if (warningOverlay != null)
-                        warningOverlay.SetActive(true);
-                }
-            }
+            isHovered = true;
+            Open();
+            UpdateVisuals();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            isHoveringWithItem = false;
-
-            if (background != null)
-                background.color = normalColor;
-
-            if (warningOverlay != null)
-                warningOverlay.SetActive(false);
+            isHovered = false;
+            closeTimer = 0.5f;
+            UpdateVisuals();
         }
 
         public void OnDrop(PointerEventData eventData)
         {
-            GameObject droppedObject = eventData.pointerDrag;
+            Debug.Log("[TrashCanUI] OnDrop called");
 
-            if (droppedObject == null) return;
+            // Get the dragged object
+            GameObject draggedObject = eventData.pointerDrag;
+            if (draggedObject == null)
+            {
+                Debug.LogWarning("[TrashCanUI] No dragged object!");
+                return;
+            }
 
-            // Get SlotUI
-            SlotUI slotUI = droppedObject.GetComponent<SlotUI>();
+            // Try to get slot UI from dragged object
+            SlotUI slotUI = draggedObject.GetComponent<SlotUI>();
+            HotbarSlotUI hotbarSlotUI = draggedObject.GetComponent<HotbarSlotUI>();
+
+            InventorySlot slot = null;
 
             if (slotUI != null)
             {
-                InventorySlot slot = slotUI.GetInventorySlot();
-
-                if (slot != null && !slot.IsEmpty)
-                {
-                    DeleteItem(slot, slotUI);
-                }
+                slot = slotUI.Slot;
+            }
+            else if (hotbarSlotUI != null)
+            {
+                slot = hotbarSlotUI.Slot;
             }
 
-            // Reset state
-            isHoveringWithItem = false;
+            if (slot == null || slot.IsEmpty)
+            {
+                Debug.LogWarning("[TrashCanUI] Invalid slot or empty slot!");
+                return;
+            }
 
-            if (background != null)
-                background.color = normalColor;
-
-            if (warningOverlay != null)
-                warningOverlay.SetActive(false);
-        }
-
-        private void DeleteItem(InventorySlot slot, SlotUI slotUI)
-        {
-            string itemName = slot.Item.Name;
-            int quantity = slot.Quantity;
-
-            // Show confirmation dialog (optional)
+            // Confirmation
             if (requireConfirmation)
             {
-                // TODO: Implement confirmation dialog
-                // For now, just log and delete
-                Debug.LogWarning($"[TrashCan] Deleting {quantity}x {itemName}");
-            }
-
-            // Play delete animation
-            PlayDeleteAnimation();
-
-            // Delete item
-            InventoryManager.Instance.ClearSlot(slot.SlotIndex);
-
-            // Update UI
-            slotUI.UpdateUI();
-
-            Debug.Log($"[TrashCan] 🗑️ Deleted {quantity}x {itemName}");
-
-            // Play sound effect
-            // AudioManager.Instance.PlaySFX("trash_delete");
-        }
-
-        private void SetTrashState(bool open)
-        {
-            isOpen = open;
-
-            if (trashIconClosed != null)
-                trashIconClosed.enabled = !open;
-
-            if (trashIconOpen != null)
-                trashIconOpen.enabled = open;
-        }
-
-        private void PlayDeleteAnimation()
-        {
-            // Flash red
-            if (background != null)
-            {
-                background.color = dropColor;
-                StartCoroutine(FadeBackToNormal());
-            }
-
-            // Scale animation
-            StartCoroutine(ScalePulse());
-        }
-
-        private System.Collections.IEnumerator FadeBackToNormal()
-        {
-            float elapsed = 0f;
-            float duration = 0.3f;
-
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-
-                if (background != null)
+                if (ConfirmTrash(slot))
                 {
-                    background.color = Color.Lerp(
-                        dropColor,
-                        normalColor,
-                        elapsed / duration
-                    );
+                    TrashItem(slot);
                 }
-
-                yield return null;
+            }
+            else
+            {
+                TrashItem(slot);
             }
         }
 
-        private System.Collections.IEnumerator ScalePulse()
+        private bool ConfirmTrash(InventorySlot slot)
         {
-            float elapsed = 0f;
-            float duration = 0.2f;
-            Vector3 pulseScale = originalScale * 1.2f;
+            // Simple confirmation - can be replaced with a proper UI dialog
+            string itemName = slot.ItemName;
+            int quantity = slot.Quantity;
 
-            // Scale up
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                rectTransform.localScale = Vector3.Lerp(
-                    originalScale,
-                    pulseScale,
-                    elapsed / duration
-                );
-                yield return null;
-            }
+            string message = quantity > 1
+                ? $"Delete {quantity}x {itemName}?"
+                : $"Delete {itemName}?";
 
-            elapsed = 0f;
+            Debug.Log($"[TrashCanUI] {message}");
 
-            // Scale back down
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                rectTransform.localScale = Vector3.Lerp(
-                    pulseScale,
-                    originalScale,
-                    elapsed / duration
-                );
-                yield return null;
-            }
-
-            rectTransform.localScale = originalScale;
+            // For now, always return true
+            // TODO: Implement proper confirmation dialog
+            return true;
         }
 
-        // Show/Hide trash can
-        public void SetVisible(bool visible)
+        private void TrashItem(InventorySlot slot)
         {
-            if (canvasGroup != null)
-            {
-                canvasGroup.alpha = visible ? 1f : 0f;
-                canvasGroup.blocksRaycasts = visible;
-            }
+            if (slot == null || slot.IsEmpty)
+                return;
+
+            Item trashedItem = slot.Item;
+            string itemName = slot.ItemName;
+            int quantity = slot.Quantity;
+
+            Debug.Log($"[TrashCanUI] Trashing {quantity}x {itemName}");
+
+            // Clear the slot
+            slot.Clear();
+
+            // Trigger event
+            OnItemTrashed?.Invoke(trashedItem);
+
+            // Visual feedback
+            PlayTrashEffect();
         }
 
-        [ContextMenu("Test Delete Animation")]
-        private void TestAnimation()
+        private void PlayTrashEffect()
         {
-            PlayDeleteAnimation();
+            // Simple shake effect or particle effect can be added here
+            // For now, just open the lid briefly
+            Open();
+            closeTimer = 0f;
+
+            Debug.Log("[TrashCanUI] Item trashed!");
+        }
+
+        private void Open()
+        {
+            if (isOpen) return;
+
+            isOpen = true;
+            closeTimer = 0f;
+
+            if (openSprite != null && trashCanImage != null)
+            {
+                trashCanImage.sprite = openSprite;
+            }
+
+            OnTrashCanOpened?.Invoke();
+            Debug.Log("[TrashCanUI] Trash can opened");
+        }
+
+        private void Close()
+        {
+            if (!isOpen) return;
+
+            isOpen = false;
+
+            if (closedSprite != null && trashCanImage != null)
+            {
+                trashCanImage.sprite = closedSprite;
+            }
+
+            OnTrashCanClosed?.Invoke();
+        }
+
+        private void UpdateVisuals()
+        {
+            if (trashCanImage == null) return;
+        }
+
+        // Public methods
+        public void SetConfirmationRequired(bool required)
+        {
+            requireConfirmation = required;
+        }
+
+        public void SetAutoCloseDelay(float delay)
+        {
+            autoCloseDelay = Mathf.Max(0f, delay);
+        }
+
+        public void ForceOpen()
+        {
+            Open();
+        }
+
+        public void ForceClose()
+        {
+            Close();
         }
     }
 }
