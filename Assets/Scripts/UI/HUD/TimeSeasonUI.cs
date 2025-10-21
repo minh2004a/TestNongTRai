@@ -55,6 +55,11 @@ namespace TinyFarm.Items.UI
         private RectTransform dayBackgroundRect;
         private Vector3 originalDayBackgroundPos;
 
+        private readonly string[] weekdays =
+        {
+            "Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"
+        };
+
         /// Enum cho thời gian trong ngày (dựa vào sprite sheet)
         private enum TimeOfDay
         {
@@ -211,7 +216,12 @@ namespace TinyFarm.Items.UI
 
             if (dayNumberText != null)
             {
-                dayNumberText.text = currentDay.ToString();
+                // Xác định thứ trong tuần
+                int weekdayIndex = (currentDay - 1) % 7;
+                string weekdayName = weekdays[weekdayIndex];
+
+                // Hiển thị "Thứ X - Ngày Y"
+                dayNumberText.text = $"{weekdayName}, {currentDay}";
 
                 if (dayChanged && enableDayChangeAnimation)
                 {
