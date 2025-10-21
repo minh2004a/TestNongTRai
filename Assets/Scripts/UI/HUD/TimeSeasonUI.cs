@@ -7,10 +7,8 @@ using UnityEngine.UI;
 
 namespace TinyFarm.Items.UI
 {
-    /// <summary>
     /// UI hiển thị thời gian và mùa theo style Stardew Valley
     /// Sử dụng sprite sheet với multiple frames cho Season và Day/Night
-    /// </summary>
     public class TimeSeasonUI : MonoBehaviour
     {
         [Header("Main Panel")]
@@ -57,9 +55,7 @@ namespace TinyFarm.Items.UI
         private RectTransform dayBackgroundRect;
         private Vector3 originalDayBackgroundPos;
 
-        /// <summary>
         /// Enum cho thời gian trong ngày (dựa vào sprite sheet)
-        /// </summary>
         private enum TimeOfDay
         {
             Morning = 0,    // 6:00 - 12:00
@@ -101,9 +97,7 @@ namespace TinyFarm.Items.UI
             UnsubscribeFromEvents();
         }
 
-        /// <summary>
         /// Validate sprite sheet có đủ sprites không
-        /// </summary>
         private void ValidateSpriteSheet()
         {
             if (seasonDayNightSprites == null || seasonDayNightSprites.Length == 0)
