@@ -7,20 +7,23 @@ using UnityEngine.UI;
 
 namespace TinyFarm.Items.UI
 {
+    /// <summary>
     /// UI hiển thị thời gian và mùa theo style Stardew Valley
-    /// Thiết kế: Bảng gỗ với icon mùa, ngày và tiền
+    /// Sử dụng sprite sheet với multiple frames cho Season và Day/Night
+    /// </summary>
     public class TimeSeasonUI : MonoBehaviour
     {
         [Header("Main Panel")]
         [SerializeField] private Image backgroundPanel; // Bảng gỗ nền
         [SerializeField] private Sprite woodPanelSprite;
 
-        [Header("Season Icon")]
-        [SerializeField] private Image seasonIcon;
-        [SerializeField] private Sprite springIcon;
-        [SerializeField] private Sprite summerIcon;
-        [SerializeField] private Sprite fallIcon;
-        [SerializeField] private Sprite winterIcon;
+        [Header("Season & Day/Night Icon (Sprite Sheet)")]
+        [SerializeField] private Image seasonDayNightIcon;
+        [SerializeField] private Sprite[] seasonDayNightSprites; // Array 15 sprites (hoặc 20)
+
+        [Header("Sprite Sheet Layout")]
+        [Tooltip("Số sprites trong 1 hàng (thường là 5)")]
+        [SerializeField] private int spritesPerRow = 5;
 
         [Header("Day Display")]
         [SerializeField] private TextMeshProUGUI dayNumberText; // Số ngày lớn
@@ -38,6 +41,14 @@ namespace TinyFarm.Items.UI
         [SerializeField] private Image clockIcon;
         [SerializeField] private Sprite clockSprite;
 
+        [Header("Day/Night Settings")]
+        [Tooltip("Giờ bắt đầu ban ngày (0-24)")]
+        [SerializeField] private float dayStartHour = 6f;
+        [Tooltip("Giờ bắt đầu buổi tối (0-24)")]
+        [SerializeField] private float eveningStartHour = 18f;
+        [Tooltip("Giờ bắt đầu ban đêm (0-24)")]
+        [SerializeField] private float nightStartHour = 20f;
+
         [Header("Layout Settings")]
         [SerializeField] private float iconSize = 80f;
         [SerializeField] private float spacing = 10f;
@@ -49,20 +60,33 @@ namespace TinyFarm.Items.UI
         [SerializeField] private bool enableDayChangeAnimation = true;
 
         // Cache
-        private Season currentSeason;
+        private Season currentSeason = Season.Spring;
         private int currentDay = -1;
         private int currentMoney = 0;
+        private TimeOfDay currentTimeOfDay = TimeOfDay.Morning;
         private RectTransform seasonIconRect;
         private RectTransform dayBackgroundRect;
         private Vector3 originalDayBackgroundPos;
+
+        /// <summary>
+        /// Enum cho thời gian trong ngày (dựa vào sprite sheet)
+        /// </summary>
+        private enum TimeOfDay
+        {
+            Morning = 0,    // 6:00 - 12:00
+            Afternoon = 1,  // 12:00 - 18:00
+            Evening = 2,    // 18:00 - 20:00
+            Night = 3,      // 20:00 - 6:00
+            Midnight = 4    // Optional: deep night
+        }
 
         private void Awake()
         {
             InitializeUI();
 
-            if (seasonIcon != null)
+            if (seasonDayNightIcon != null)
             {
-                seasonIconRect = seasonIcon.GetComponent<RectTransform>();
+                seasonIconRect = seasonDayNightIcon.GetComponent<RectTransform>();
             }
 
             if (dayBackground != null)
@@ -75,6 +99,7 @@ namespace TinyFarm.Items.UI
         private void Start()
         {
             SetupInitialStyle();
+            ValidateSpriteSheet();
         }
 
         private void OnEnable()
@@ -86,6 +111,24 @@ namespace TinyFarm.Items.UI
         private void OnDisable()
         {
             UnsubscribeFromEvents();
+        }
+
+        /// <summary>
+        /// Validate sprite sheet có đủ sprites không
+        /// </summary>
+        private void ValidateSpriteSheet()
+        {
+            if (seasonDayNightSprites == null || seasonDayNightSprites.Length == 0)
+            {
+                Debug.LogError("TimeSeasonUI: Sprite sheet is empty! Please assign sprites.");
+                return;
+            }
+
+            int expectedCount = 4 * spritesPerRow; // 4 seasons * 5 times = 20 sprites
+            if (seasonDayNightSprites.Length < expectedCount)
+            {
+                Debug.LogWarning($"TimeSeasonUI: Expected {expectedCount} sprites but got {seasonDayNightSprites.Length}");
+            }
         }
 
         /// <summary>
@@ -185,18 +228,49 @@ namespace TinyFarm.Items.UI
         }
 
         /// <summary>
-        /// Update time display
+        /// Update time display và icon dựa trên giờ
         /// </summary>
         private void UpdateTime(float dayTime)
         {
-            if (timeText != null && TimeManager.Instance != null)
+            if (TimeManager.Instance == null) return;
+
+            // Update time text
+            if (timeText != null)
             {
                 timeText.text = TimeManager.Instance.GetTimeString();
+            }
+
+            // Tính giờ hiện tại (0-24)
+            float currentHour = dayTime * 24f;
+
+            // Determine time of day
+            TimeOfDay newTimeOfDay = GetTimeOfDay(currentHour);
+
+            // Update icon nếu time of day thay đổi
+            if (newTimeOfDay != currentTimeOfDay)
+            {
+                currentTimeOfDay = newTimeOfDay;
+                UpdateSeasonDayNightIcon();
             }
         }
 
         /// <summary>
-        /// Update season icon and day number
+        /// Xác định thời gian trong ngày dựa trên giờ
+        /// </summary>
+        private TimeOfDay GetTimeOfDay(float hour)
+        {
+            if (hour >= nightStartHour || hour < dayStartHour)
+                return TimeOfDay.Night;
+            else if (hour >= eveningStartHour)
+                return TimeOfDay.Evening;
+            else if (hour >= 12f)
+                return TimeOfDay.Afternoon;
+            else
+                return TimeOfDay.Morning;
+        }
+
+        /// <summary>
+        /// Update season icon và day number
         /// </summary>
         private void UpdateSeasonAndDay()
         {
@@ -205,24 +279,10 @@ namespace TinyFarm.Items.UI
             Session session = SessionManager.Instance.GetCurrentSession();
             if (session == null) return;
 
-            // Update season icon
+            // Update season
             Season newSeason = session.currentSeason;
             bool seasonChanged = newSeason != currentSeason;
             currentSeason = newSeason;
-
-            if (seasonIcon != null)
-            {
-                Sprite newIcon = GetSeasonIcon(currentSeason);
-
-                if (seasonChanged && enableDayChangeAnimation)
-                {
-                    StartCoroutine(AnimateSeasonChange(newIcon));
-                }
-                else
-                {
-                    seasonIcon.sprite = newIcon;
-                }
-            }
 
             // Update day number
             int newDay = session.currentDay;
@@ -238,87 +298,88 @@ namespace TinyFarm.Items.UI
                     StartCoroutine(AnimateDayChange());
                 }
             }
-        }
 
-        /// <summary>
-        /// Update money display
-        /// </summary>
-        public void UpdateMoney(int amount)
-        {
-            currentMoney = amount;
-
-            if (moneyText != null)
+            // Update icon
+            if (seasonChanged || dayChanged)
             {
-                moneyText.text = FormatMoney(currentMoney);
+                UpdateSeasonDayNightIcon(seasonChanged);
             }
         }
 
         /// <summary>
-        /// Format số tiền với dấu phẩy
+        /// Update sprite icon dựa trên Season và TimeOfDay
+        /// Layout sprite sheet: 
+        /// Row 0: Spring (Morning, Afternoon, Evening, Night, Midnight)
+        /// Row 1: Summer (Morning, Afternoon, Evening, Night, Midnight)
+        /// Row 2: Fall (Morning, Afternoon, Evening, Night, Midnight)
+        /// Row 3: Winter (Morning, Afternoon, Evening, Night, Midnight)
         /// </summary>
-        private string FormatMoney(int amount)
+        private void UpdateSeasonDayNightIcon(bool animated = false)
         {
-            return amount.ToString("N0").Replace(",", " "); // 3500 -> "3 500"
-        }
+            if (seasonDayNightIcon == null || seasonDayNightSprites == null || seasonDayNightSprites.Length == 0)
+                return;
 
-        /// <summary>
-        /// Get season icon sprite
-        /// </summary>
-        private Sprite GetSeasonIcon(Season season)
-        {
-            return season switch
+            // Calculate sprite index
+            int seasonIndex = (int)currentSeason; // 0-3
+            int timeIndex = (int)currentTimeOfDay; // 0-4
+            int spriteIndex = seasonIndex * spritesPerRow + timeIndex;
+
+            // Clamp to valid range
+            spriteIndex = Mathf.Clamp(spriteIndex, 0, seasonDayNightSprites.Length - 1);
+
+            Sprite newSprite = seasonDayNightSprites[spriteIndex];
+
+            if (newSprite == null)
             {
-                Season.Spring => springIcon,
-                Season.Summer => summerIcon,
-                Season.Fall => fallIcon,
-                Season.Winter => winterIcon,
-                _ => springIcon
-            };
+                Debug.LogWarning($"TimeSeasonUI: Sprite at index {spriteIndex} is null!");
+                return;
+            }
+
+            if (animated && enableDayChangeAnimation)
+            {
+                StartCoroutine(AnimateIconChange(newSprite));
+            }
+            else
+            {
+                seasonDayNightIcon.sprite = newSprite;
+            }
         }
 
         /// <summary>
-        /// Animation khi đổi mùa (rotate và scale)
+        /// Animation khi đổi icon (fade hoặc scale)
         /// </summary>
-        private System.Collections.IEnumerator AnimateSeasonChange(Sprite newIcon)
+        private System.Collections.IEnumerator AnimateIconChange(Sprite newSprite)
         {
             if (seasonIconRect == null) yield break;
 
-            float duration = 0.4f;
+            float duration = 0.3f;
             float elapsed = 0f;
 
             Vector3 originalScale = seasonIconRect.localScale;
-            Vector3 originalRotation = seasonIconRect.localEulerAngles;
 
-            // Rotate and scale down
+            // Scale down
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
                 float t = elapsed / duration;
-
                 seasonIconRect.localScale = Vector3.Lerp(originalScale, Vector3.zero, t);
-                seasonIconRect.localEulerAngles = Vector3.Lerp(originalRotation, new Vector3(0, 0, 180), t);
-
                 yield return null;
             }
 
             // Change sprite
-            seasonIcon.sprite = newIcon;
+            seasonDayNightIcon.sprite = newSprite;
 
-            // Rotate back and scale up
+            // Scale up
             elapsed = 0f;
             while (elapsed < duration)
             {
                 elapsed += Time.deltaTime;
                 float t = elapsed / duration;
-
                 seasonIconRect.localScale = Vector3.Lerp(Vector3.zero, originalScale, t);
-                seasonIconRect.localEulerAngles = Vector3.Lerp(new Vector3(0, 0, 180), new Vector3(0, 0, 360), t);
-
                 yield return null;
             }
 
             seasonIconRect.localScale = originalScale;
-            seasonIconRect.localEulerAngles = originalRotation;
         }
 
         /// <summary>
@@ -362,19 +423,37 @@ namespace TinyFarm.Items.UI
         }
 
         /// <summary>
+        /// Update money display
+        /// </summary>
+        public void UpdateMoney(int amount)
+        {
+            currentMoney = amount;
+
+            if (moneyText != null)
+            {
+                moneyText.text = FormatMoney(currentMoney);
+            }
+        }
+
+        /// <summary>
+        /// Format số tiền với dấu phẩy
+        /// </summary>
+        private string FormatMoney(int amount)
+        {
+            return amount.ToString("N0").Replace(",", " "); // 3500 -> "3 500"
+        }
+
+        /// <summary>
         /// Force update all displays
         /// </summary>
         public void ForceUpdate()
         {
             UpdateTime(TimeManager.Instance?.CurrentDayTime ?? 0f);
             UpdateSeasonAndDay();
-
-            // Update money if you have player data
-            // UpdateMoney(PlayerData.Instance?.Money ?? 0);
         }
 
         /// <summary>
-        /// Set money amount (call this from inventory/shop systems)
+        /// Set money amount với animation
         /// </summary>
         public void SetMoney(int amount)
         {
@@ -385,7 +464,6 @@ namespace TinyFarm.Items.UI
             {
                 moneyText.text = FormatMoney(currentMoney);
 
-                // Optional: animate money change
                 if (amount != oldMoney)
                 {
                     StartCoroutine(AnimateMoneyChange(oldMoney, amount));
@@ -394,7 +472,7 @@ namespace TinyFarm.Items.UI
         }
 
         /// <summary>
-        /// Animate money change with counter effect
+        /// Animate money change với counter effect
         /// </summary>
         private System.Collections.IEnumerator AnimateMoneyChange(int from, int to)
         {
@@ -441,6 +519,25 @@ namespace TinyFarm.Items.UI
                 SessionManager.Instance.ChangeSeason(nextSeason);
             }
         }
+
+        [ContextMenu("Preview All Sprites")]
+        private void PreviewAllSprites()
+        {
+            if (seasonDayNightSprites == null || seasonDayNightSprites.Length == 0)
+            {
+                Debug.LogError("No sprites assigned!");
+                return;
+            }
+
+            Debug.Log($"Total sprites: {seasonDayNightSprites.Length}");
+            for (int i = 0; i < seasonDayNightSprites.Length; i++)
+            {
+                int season = i / spritesPerRow;
+                int time = i % spritesPerRow;
+                Debug.Log($"Index {i}: Season={season}, Time={time}, Sprite={(seasonDayNightSprites[i] != null ? seasonDayNightSprites[i].name : "NULL")}");
+            }
+        }
 #endif
     }
 }
+
