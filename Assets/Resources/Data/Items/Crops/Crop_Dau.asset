@@ -22,7 +22,7 @@ MonoBehaviour:
   isStackable: 1
   hasDurability: 0
   maxDurability: 0
-  destroyOnBreak: 1
+  destroyOnBreak: 0
   repairCostMultiplier: 1
   durabilityLossPerUse: 0
   category:
@@ -48,9 +48,9 @@ MonoBehaviour:
   cooldown: 0
   canBeDropped: 1
   canBeEquippable: 0
-  cropType: 1
+  cropType: 2
   harvestedSeason: 1
   nutritionValue: 10
   energyValue: 5
-  canBeProcessed: 0
+  canBeProcessed: 1
   processedItemID: 

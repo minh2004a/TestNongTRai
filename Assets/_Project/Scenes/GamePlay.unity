@@ -3164,6 +3164,7 @@ RectTransform:
   m_Children:
   - {fileID: 1747188839}
   - {fileID: 513680025}
+  - {fileID: 2115493978}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4606,6 +4607,77 @@ MonoBehaviour:
   animationSpeed: 10
   hoverSound: {fileID: 0}
   clickSound: {fileID: 0}
+--- !u!1 &2115493977
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2115493978}
+  - component: {fileID: 2115493979}
+  m_Layer: 5
+  m_Name: TimeSeasonUI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2115493978
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115493977}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1407601492}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2115493979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115493977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c2ed6668041904b850862b12daadcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  backgroundPanel: {fileID: 0}
+  woodPanelSprite: {fileID: 0}
+  seasonIcon: {fileID: 0}
+  springIcon: {fileID: 0}
+  summerIcon: {fileID: 0}
+  fallIcon: {fileID: 0}
+  winterIcon: {fileID: 0}
+  dayNumberText: {fileID: 0}
+  dayBackground: {fileID: 0}
+  dayTextColor: {r: 0.2, g: 0.1, b: 0, a: 1}
+  moneyText: {fileID: 0}
+  moneyIcon: {fileID: 0}
+  coinSprite: {fileID: 0}
+  moneyTextColor: {r: 1, g: 0.85, b: 0, a: 1}
+  timeText: {fileID: 0}
+  clockIcon: {fileID: 0}
+  clockSprite: {fileID: 0}
+  iconSize: 80
+  spacing: 10
+  panelPadding: {x: 15, y: 10}
+  bounceAmount: 5
+  bounceSpeed: 2
+  enableDayChangeAnimation: 1
 --- !u!1 &2143818519
 GameObject:
   m_ObjectHideFlags: 0
