@@ -15,7 +15,6 @@ namespace TinyFarm.Items.UI
     {
         [Header("Main Panel")]
         [SerializeField] private Image backgroundPanel; // Bảng gỗ nền
-        [SerializeField] private Sprite woodPanelSprite;
 
         [Header("Season & Day/Night Icon (Sprite Sheet)")]
         [SerializeField] private Image seasonDayNightIcon;
@@ -28,18 +27,13 @@ namespace TinyFarm.Items.UI
         [Header("Day Display")]
         [SerializeField] private TextMeshProUGUI dayNumberText; // Số ngày lớn
         [SerializeField] private Image dayBackground; // Background cho số ngày
-        [SerializeField] private Color dayTextColor = new Color(0.2f, 0.1f, 0f); // Màu nâu đậm
 
         [Header("Money Display")]
         [SerializeField] private TextMeshProUGUI moneyText;
         [SerializeField] private Image moneyIcon; // Icon coin
-        [SerializeField] private Sprite coinSprite;
-        [SerializeField] private Color moneyTextColor = new Color(1f, 0.85f, 0f); // Màu vàng
 
         [Header("Time Display")]
         [SerializeField] private TextMeshProUGUI timeText; // HH:MM
-        [SerializeField] private Image clockIcon;
-        [SerializeField] private Sprite clockSprite;
 
         [Header("Day/Night Settings")]
         [Tooltip("Giờ bắt đầu ban ngày (0-24)")]
@@ -48,11 +42,6 @@ namespace TinyFarm.Items.UI
         [SerializeField] private float eveningStartHour = 18f;
         [Tooltip("Giờ bắt đầu ban đêm (0-24)")]
         [SerializeField] private float nightStartHour = 20f;
-
-        [Header("Layout Settings")]
-        [SerializeField] private float iconSize = 80f;
-        [SerializeField] private float spacing = 10f;
-        [SerializeField] private Vector2 panelPadding = new Vector2(15f, 10f);
 
         [Header("Animation")]
         [SerializeField] private float bounceAmount = 5f;
@@ -98,7 +87,6 @@ namespace TinyFarm.Items.UI
 
         private void Start()
         {
-            SetupInitialStyle();
             ValidateSpriteSheet();
         }
 
@@ -131,71 +119,17 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Khởi tạo UI components
-        /// </summary>
         private void InitializeUI()
         {
             // Setup background panel
-            if (backgroundPanel != null && woodPanelSprite != null)
+            if (backgroundPanel != null)
             {
-                backgroundPanel.sprite = woodPanelSprite;
                 backgroundPanel.type = Image.Type.Sliced;
             }
-
-            // Setup day text style
-            if (dayNumberText != null)
-            {
-                dayNumberText.color = dayTextColor;
-                dayNumberText.fontSize = 48;
-                dayNumberText.fontStyle = FontStyles.Bold;
-                dayNumberText.alignment = TextAlignmentOptions.Center;
-            }
-
-            // Setup money text style
-            if (moneyText != null)
-            {
-                moneyText.color = moneyTextColor;
-                moneyText.fontSize = 28;
-                moneyText.fontStyle = FontStyles.Bold;
-                moneyText.alignment = TextAlignmentOptions.Left;
-            }
-
-            // Setup time text style
-            if (timeText != null)
-            {
-                timeText.color = new Color(0.9f, 0.9f, 0.9f);
-                timeText.fontSize = 24;
-                timeText.alignment = TextAlignmentOptions.Center;
-            }
-
-            // Setup icons
-            if (moneyIcon != null && coinSprite != null)
-            {
-                moneyIcon.sprite = coinSprite;
-            }
-
-            if (clockIcon != null && clockSprite != null)
-            {
-                clockIcon.sprite = clockSprite;
-            }
         }
 
-        /// <summary>
-        /// Setup style ban đầu
-        /// </summary>
-        private void SetupInitialStyle()
-        {
-            // Set icon sizes
-            if (seasonIconRect != null)
-            {
-                seasonIconRect.sizeDelta = new Vector2(iconSize, iconSize);
-            }
-        }
-
-        /// <summary>
         /// Subscribe to manager events
-        /// </summary>
         private void SubscribeToEvents()
         {
             if (TimeManager.Instance != null)
@@ -210,9 +144,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Unsubscribe from events
-        /// </summary>
         private void UnsubscribeFromEvents()
         {
             if (TimeManager.Instance != null)
@@ -227,9 +159,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Update time display và icon dựa trên giờ
-        /// </summary>
         private void UpdateTime(float dayTime)
         {
             if (TimeManager.Instance == null) return;
@@ -254,9 +184,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Xác định thời gian trong ngày dựa trên giờ
-        /// </summary>
         private TimeOfDay GetTimeOfDay(float hour)
         {
             if (hour >= nightStartHour || hour < dayStartHour)
@@ -269,9 +197,7 @@ namespace TinyFarm.Items.UI
                 return TimeOfDay.Morning;
         }
 
-        /// <summary>
         /// Update season icon và day number
-        /// </summary>
         private void UpdateSeasonAndDay()
         {
             if (SessionManager.Instance == null) return;
@@ -306,14 +232,12 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Update sprite icon dựa trên Season và TimeOfDay
         /// Layout sprite sheet: 
         /// Row 0: Spring (Morning, Afternoon, Evening, Night, Midnight)
         /// Row 1: Summer (Morning, Afternoon, Evening, Night, Midnight)
         /// Row 2: Fall (Morning, Afternoon, Evening, Night, Midnight)
         /// Row 3: Winter (Morning, Afternoon, Evening, Night, Midnight)
-        /// </summary>
         private void UpdateSeasonDayNightIcon(bool animated = false)
         {
             if (seasonDayNightIcon == null || seasonDayNightSprites == null || seasonDayNightSprites.Length == 0)
@@ -345,9 +269,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Animation khi đổi icon (fade hoặc scale)
-        /// </summary>
         private System.Collections.IEnumerator AnimateIconChange(Sprite newSprite)
         {
             if (seasonIconRect == null) yield break;
@@ -382,9 +304,7 @@ namespace TinyFarm.Items.UI
             seasonIconRect.localScale = originalScale;
         }
 
-        /// <summary>
         /// Animation khi đổi ngày (bounce effect)
-        /// </summary>
         private System.Collections.IEnumerator AnimateDayChange()
         {
             if (dayBackgroundRect == null) yield break;
@@ -414,17 +334,13 @@ namespace TinyFarm.Items.UI
             dayBackgroundRect.localScale = Vector3.one;
         }
 
-        /// <summary>
         /// Handle new day event
-        /// </summary>
         private void OnNewDay()
         {
             UpdateSeasonAndDay();
         }
 
-        /// <summary>
         /// Update money display
-        /// </summary>
         public void UpdateMoney(int amount)
         {
             currentMoney = amount;
@@ -435,26 +351,20 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Format số tiền với dấu phẩy
-        /// </summary>
         private string FormatMoney(int amount)
         {
             return amount.ToString("N0").Replace(",", " "); // 3500 -> "3 500"
         }
 
-        /// <summary>
         /// Force update all displays
-        /// </summary>
         public void ForceUpdate()
         {
             UpdateTime(TimeManager.Instance?.CurrentDayTime ?? 0f);
             UpdateSeasonAndDay();
         }
 
-        /// <summary>
         /// Set money amount với animation
-        /// </summary>
         public void SetMoney(int amount)
         {
             int oldMoney = currentMoney;
@@ -471,9 +381,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// <summary>
         /// Animate money change với counter effect
-        /// </summary>
         private System.Collections.IEnumerator AnimateMoneyChange(int from, int to)
         {
             float duration = 0.5f;
