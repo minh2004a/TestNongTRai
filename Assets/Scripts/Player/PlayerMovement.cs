@@ -1,102 +1,93 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TinyFarm.Animation;
+using TinyFarm.Items;
 using UnityEngine;
 
-public class PlayerMovement : GameMonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float speed = 100f;
-    protected Vector2 input;
+    private PlayerAnimationController animController;
+    private Vector2 moveInput = Vector2.zero;
 
-    [SerializeField] protected Rigidbody2D rb;
-    public Rigidbody2D Rigidbody2D => rb;
+    [Header("Test Settings")]
+    [Tooltip("Tốc độ di chuyển giả lập (chỉ để đổi hướng animation).")]
+    [SerializeField] private float moveSpeed = 2f;
 
-    [SerializeField] private Animator animator;
-    public Animator Animator => animator;
+    [Tooltip("Tool hiện tại đang được chọn.")]
+    [SerializeField] private ToolType currentTool = ToolType.Hoe;
 
-    [SerializeField] private SpriteRenderer spriteRenderer;
-    public SpriteRenderer SpriteRenderer => spriteRenderer;
+    [Tooltip("Bật hiển thị log trạng thái.")]
+    [SerializeField] private bool showDebugLogs = true;
 
-    private Vector2 lastMoveDir = Vector2.down; // hướng mặc định khi bắt đầu game
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
-        this.LoadComponents();
+        animController = GetComponent<PlayerAnimationController>();
     }
 
-    protected override void LoadComponents()
+    private void Update()
     {
-        base.LoadComponents();
-        this.LoadRigidbody();
-        this.LoadAnimator();
-        this.LoadSpriteRenderer();
+        HandleMovementInput();
+        HandleToolInput();
     }
 
-    protected virtual void LoadRigidbody()
+    private void HandleMovementInput()
     {
-        if (rb != null) return;
-        this.rb = GetComponentInParent<Rigidbody2D>();
-        Debug.Log(transform.name + ": LoadRigidbody", gameObject);
-    }
+        // Lấy input WASD
+        moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
-    protected virtual void LoadAnimator()
-    {
-        if (animator != null) return;
-        this.animator = transform.parent.GetComponentInChildren<Animator>();
-        Debug.Log(transform.name + ": LoadAnimator", gameObject);
-    }
-
-    protected virtual void LoadSpriteRenderer()
-    {
-        if (spriteRenderer != null) return;
-        this.spriteRenderer = transform.parent.GetComponentInChildren<SpriteRenderer>();
-        Debug.Log(transform.name + ": LoadSpriteRenderer", gameObject);
-    }
-
-    void Update()
-    {
-        this.InputMove();
-        this.HandleInput();
-    }
-
-    private void FixedUpdate()
-    {
-        this.Move();
-    }
-
-    protected virtual void InputMove()
-    {
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
-        input = new Vector2(x, y).normalized;
-    }
-
-    protected virtual void Move()
-    {
-        rb.velocity = input * speed * Time.fixedDeltaTime;
-    }
-
-    private void HandleInput()
-{
-    bool isMoving = input.sqrMagnitude > 0.01f;
-    animator.SetBool("isMoving", isMoving);
-
-    if (isMoving)
-    {
-        // ƯU TIÊN NGANG khi |x| == |y|
-        if (Mathf.Abs(input.x) >= Mathf.Abs(input.y))
-            lastMoveDir = new Vector2(Mathf.Sign(input.x), 0f);
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            animController.PlayWalkingAnimation(moveInput.normalized);
+        }
         else
-            lastMoveDir = new Vector2(0f, Mathf.Sign(input.y));
+        {
+            animController.PlayIdleAnimation();
+        }
     }
 
-    // Gửi hướng sang Animator
-    animator.SetFloat("Horizontal", lastMoveDir.x);
-    animator.SetFloat("Vertical",   lastMoveDir.y);
+    private void HandleToolInput()
+    {
+        // Đổi tool bằng phím số
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SetTool(ToolType.Hoe);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SetTool(ToolType.Watering);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SetTool(ToolType.Sickle);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SetTool(ToolType.PickUp);
 
-    // Lật sprite theo hướng ngang
-    if (lastMoveDir.x < -0.1f) spriteRenderer.flipX = true;
-    else if (lastMoveDir.x > 0.1f) spriteRenderer.flipX = false;
-}
+        // Thực hiện hành động bằng SPACE
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TryUseTool();
+        }
+    }
 
+    private void TryUseTool()
+    {
+        if (animController.CanPerformAction())
+        {
+            animController.PlayToolAnimation(currentTool);
+            if (showDebugLogs)
+                Debug.Log($"▶️ Dùng tool: {currentTool}");
+        }
+        else if (showDebugLogs)
+        {
+            Debug.Log($"⏳ Đang thực hiện hành động khác...");
+        }
+    }
 
+    private void SetTool(ToolType tool)
+    {
+        currentTool = tool;
+        animController.SetCurrentTool(tool);
+        if (showDebugLogs)
+            Debug.Log($"🛠 Đổi tool sang: {tool}");
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (moveInput.sqrMagnitude > 0.01f)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(transform.position, transform.position + (Vector3)moveInput.normalized * 0.5f);
+        }
+    }
 }
