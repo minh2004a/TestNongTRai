@@ -4,6 +4,7 @@ public enum AnimationState
     Running = 1,
     Watering = 2,
     Hoeing = 3,
-    Harvesting = 4,
-    Carrying = 5
+    Sickle = 4,
+    PickUp = 5,
+    UsingTool = 6
 }
