@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e979ca9558755458cadbf3a3441ac0, type: 3}
+  m_Name: WaterCanConfig
+  m_EditorClassIdentifier: 
+  configName: Watering Use Animation
+  toolType: 2
+  animationState: 0
+  directionalAnimations:
+  - direction: 0
+    clip: {fileID: 7400000, guid: 034b20f863addbb4ab00748c029b3de2, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.68333334
+    impactFrameTime: 0
+  - direction: 1
+    clip: {fileID: 7400000, guid: 7fe19370dcf80b440988ddd0696325fa, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.68333334
+    impactFrameTime: 0
+  - direction: 2
+    clip: {fileID: 7400000, guid: 1529a0bda6f2fe84db5489be953c04d0, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.68333334
+    impactFrameTime: 0
+  animatorTrigger: Use
+  canMove: 0
+  canCancel: 0
+  lockDuration: 0.5
+  cooldownTime: 0.2
+  soundEffects: []
+  effectOffset: {x: 0, y: 0, z: 0}
+  effectScale: 1
+  toolPrefab: {fileID: 0}
+  toolIcon: {fileID: -1885223759, guid: 98ad83d8c13fd1a4d9c7c6b60008f692, type: 3}

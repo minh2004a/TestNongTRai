@@ -2,9 +2,11 @@
 {
     public enum ToolType
     {
-        NoType,
-        Hoe,          // cuốc đất
-        WaterCan    // bình nước
+        None = 0,
+        Hoe = 1,          // cuốc đất
+        WateringCan = 2,    // bình nước
+        Seeds = 3,
+        Sickle = 4
     }
 }
 

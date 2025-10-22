@@ -13,7 +13,7 @@ namespace TinyFarm.Items
         private ToolItemData toolData;
 
         // Properties
-        public ToolType ToolType => toolData?.toolType ?? ToolType.NoType;
+        public ToolType ToolType => toolData?.toolType ?? ToolType.None;
         
         // Events
         public event Action<ToolItem, Vector3> OnToolUsed;

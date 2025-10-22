@@ -11,7 +11,7 @@ namespace TinyFarm.Items
             base.Awake();
 
             // Rock yêu cầu Pickaxe
-            if (requiredTool == ToolType.NoType)
+            if (requiredTool == ToolType.None)
             {
                 requiredTool = ToolType.Hoe;
             }

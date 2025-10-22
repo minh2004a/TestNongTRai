@@ -11,7 +11,7 @@ namespace TinyFarm.Items
             base.Awake();
 
             // Ore yêu cầu Hoe
-            if (requiredTool == ToolType.NoType)
+            if (requiredTool == ToolType.None)
             {
                 requiredTool = ToolType.Hoe;
             }

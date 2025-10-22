@@ -16,7 +16,7 @@ namespace TinyFarm.Items
         [SerializeField] protected int maxHealth = 3;
 
         [Tooltip("Tool type cần để harvest")]
-        [SerializeField] protected ToolType requiredTool = ToolType.NoType;
+        [SerializeField] protected ToolType requiredTool = ToolType.None;
 
 
         [Header("Visual Feedback")]
@@ -92,7 +92,7 @@ namespace TinyFarm.Items
         // Check xem có thể harvest với tool này không
         public virtual bool CanHarvestWith(ToolItem tool)
         {
-            if (requiredTool == ToolType.NoType) return true;
+            if (requiredTool == ToolType.None) return true;
             if (tool == null) return false;
             if (tool.ToolType != requiredTool) return false;
 

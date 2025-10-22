@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e979ca9558755458cadbf3a3441ac0, type: 3}
+  m_Name: HoeConfig
+  m_EditorClassIdentifier: 
+  configName: Hoe Use Animation
+  toolType: 1
+  animationState: 3
+  directionalAnimations:
+  - direction: 0
+    clip: {fileID: 7400000, guid: 3b7d27027118a2e4c9e1e961e75a5774, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+  - direction: 1
+    clip: {fileID: 7400000, guid: cf592b0b68743bc4ca1d9cdc22645cd9, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+  - direction: 2
+    clip: {fileID: 7400000, guid: 91c89a452d1fe8b4780fda4c8e6859fc, type: 2}
+    animatorTrigger: 
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+  animatorTrigger: Use
+  canMove: 0
+  canCancel: 0
+  lockDuration: 0.5
+  cooldownTime: 0.2
+  soundEffects: []
+  effectOffset: {x: 0, y: 0, z: 0}
+  effectScale: 1
+  toolPrefab: {fileID: 0}
+  toolIcon: {fileID: 344734576, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
