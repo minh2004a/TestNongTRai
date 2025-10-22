@@ -5,7 +5,7 @@
         None = 0,
         Hoe = 1,          // cuốc đất
         Watering = 2,    // bình nước
-        Seeds = 3,
+        PickUp = 3,
         Sickle = 4
     }
 }
