@@ -5,6 +5,8 @@ public enum AnimationState
     Watering = 2,
     Hoeing = 3,
     Sickle = 4,
-    PickUp = 5,
-    UsingTool = 6
+    PickUpIdle = 5,
+    PickUpRun = 6,
+    Sleep = 7,
+    UsingTool = 8
 }

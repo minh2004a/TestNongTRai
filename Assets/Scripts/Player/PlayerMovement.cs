@@ -7,37 +7,57 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private PlayerAnimationController animController;
-    private Vector2 moveInput = Vector2.zero;
+    private Rigidbody2D rb;
 
-    [Header("Test Settings")]
-    [Tooltip("Tốc độ di chuyển giả lập (chỉ để đổi hướng animation).")]
-    [SerializeField] private float moveSpeed = 2f;
+    private Vector2 moveInput;
+    private ToolType currentTool = ToolType.Hoe;
+    private Direction currentDir = Direction.Down;
 
-    [Tooltip("Tool hiện tại đang được chọn.")]
-    [SerializeField] private ToolType currentTool = ToolType.Hoe;
+    [Header("Movement Settings")]
+    [SerializeField] private float moveSpeed = 2.5f;
+    [SerializeField] private bool faceMovementDirection = true;
 
-    [Tooltip("Bật hiển thị log trạng thái.")]
-    [SerializeField] private bool showDebugLogs = true;
+    [Header("Debug")]
+    [SerializeField] private bool showLogs = true;
 
     private void Awake()
     {
         animController = GetComponent<PlayerAnimationController>();
+        rb = GetComponent<Rigidbody2D>();
+
+        // Cấu hình Rigidbody2D (nếu chưa)
+        rb.gravityScale = 0f;
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     private void Update()
     {
-        HandleMovementInput();
-        HandleToolInput();
+        HandleInput();
+        HandleToolSwitch();
+        HandleDirectionSwitch();
+        HandleToolAction();
     }
 
-    private void HandleMovementInput()
+    private void FixedUpdate()
     {
-        // Lấy input WASD
+        MoveCharacter();
+    }
+
+    // ============================================
+    // INPUT HANDLING
+    // ============================================
+
+    private void HandleInput()
+    {
         moveInput = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        moveInput = moveInput.normalized;
 
         if (moveInput.sqrMagnitude > 0.01f)
         {
-            animController.PlayWalkingAnimation(moveInput.normalized);
+            animController.PlayWalkingAnimation(moveInput);
+
+            if (faceMovementDirection)
+                UpdateFacingDirection(moveInput);
         }
         else
         {
@@ -45,32 +65,65 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void HandleToolInput()
+    private void HandleToolSwitch()
     {
-        // Đổi tool bằng phím số
         if (Input.GetKeyDown(KeyCode.Alpha1)) SetTool(ToolType.Hoe);
         if (Input.GetKeyDown(KeyCode.Alpha2)) SetTool(ToolType.Watering);
         if (Input.GetKeyDown(KeyCode.Alpha3)) SetTool(ToolType.Sickle);
         if (Input.GetKeyDown(KeyCode.Alpha4)) SetTool(ToolType.PickUp);
+    }
 
-        // Thực hiện hành động bằng SPACE
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void HandleDirectionSwitch()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            TryUseTool();
+            currentDir = (Direction)(((int)currentDir + 1) % 3);
+            if (showLogs) Debug.Log($"↩️ Đổi hướng: {currentDir}");
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            currentDir = (Direction)(((int)currentDir + 2) % 3);
+            if (showLogs) Debug.Log($"↪️ Đổi hướng: {currentDir}");
         }
     }
 
-    private void TryUseTool()
+    private void HandleToolAction()
     {
-        if (animController.CanPerformAction())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            animController.PlayToolAnimation(currentTool);
-            if (showDebugLogs)
-                Debug.Log($"▶️ Dùng tool: {currentTool}");
+            if (animController.CanPerformAction())
+            {
+                animController.PlayToolAnimation(currentTool, currentDir);
+                if (showLogs)
+                    Debug.Log($"🎬 Play Tool Animation: {currentTool} | {currentDir}");
+            }
+            else if (showLogs)
+            {
+                Debug.Log($"⏳ Đang thực hiện hành động khác...");
+            }
         }
-        else if (showDebugLogs)
+    }
+
+    // ============================================
+    // MOVEMENT
+    // ============================================
+
+    private void MoveCharacter()
+    {
+        rb.velocity = moveInput * moveSpeed;
+    }
+
+    private void UpdateFacingDirection(Vector2 dir)
+    {
+        // Cập nhật hướng nhìn và flip sprite
+        if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
         {
-            Debug.Log($"⏳ Đang thực hiện hành động khác...");
+            currentDir = Direction.Side;
+        }
+        else
+        {
+            currentDir = dir.y > 0 ? Direction.Up : Direction.Down;
         }
     }
 
@@ -78,9 +131,13 @@ public class PlayerMovement : MonoBehaviour
     {
         currentTool = tool;
         animController.SetCurrentTool(tool);
-        if (showDebugLogs)
+        if (showLogs)
             Debug.Log($"🛠 Đổi tool sang: {tool}");
     }
+
+    // ============================================
+    // DEBUG GIZMOS
+    // ============================================
 
     private void OnDrawGizmos()
     {

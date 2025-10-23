@@ -40,7 +40,7 @@ namespace TinyFarm.Animation
         private Coroutine currentActionCoroutine;
 
         // Animator parameter names (constants)
-        private const string PARAM_IS_MOVING = "isMoving";
+        private const string PARAM_STATE = "State";
         private const string PARAM_HORIZONTAL = "Horizontal";
         private const string PARAM_VERTICAL = "Vertical";
 
@@ -178,7 +178,7 @@ namespace TinyFarm.Animation
             if (isActionLocked)
                 return;
 
-            SetAnimatorBool(PARAM_IS_MOVING, false);
+            SetAnimatorBool(PARAM_STATE, false);
             TransitionToState(AnimationState.Idle);
         }
 
@@ -191,7 +191,7 @@ namespace TinyFarm.Animation
             UpdateDirection(direction);
 
             // Set animator parameters
-            SetAnimatorBool(PARAM_IS_MOVING, true);
+            SetAnimatorBool(PARAM_STATE, true);
             SetAnimatorFloat(PARAM_HORIZONTAL, direction.x);
             SetAnimatorFloat(PARAM_VERTICAL, direction.y);
 

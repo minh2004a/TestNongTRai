@@ -30,7 +30,8 @@ namespace TinyFarm.Animation
             priorities[AnimationState.Hoeing] = 11;
             priorities[AnimationState.Watering] = 12;
             priorities[AnimationState.Sickle] = 13;
-            priorities[AnimationState.PickUp] = 14;
+            priorities[AnimationState.PickUpIdle] = 14;
+            priorities[AnimationState.PickUpRun] = 15;
 
             canInterrupt[AnimationState.Idle] = true;
             canInterrupt[AnimationState.Running] = true;
@@ -39,7 +40,8 @@ namespace TinyFarm.Animation
             canInterrupt[AnimationState.Hoeing] = false;
             canInterrupt[AnimationState.Watering] = false;
             canInterrupt[AnimationState.Sickle] = false;
-            canInterrupt[AnimationState.PickUp] = false;
+            canInterrupt[AnimationState.PickUpIdle] = false;
+            canInterrupt[AnimationState.PickUpRun] = false;
         }
 
         // Kiểm tra xem có thể chuyển từ state A sang state B không.
@@ -76,7 +78,8 @@ namespace TinyFarm.Animation
                    state == AnimationState.Hoeing ||
                    state == AnimationState.Watering ||
                    state == AnimationState.Sickle ||
-                   state == AnimationState.PickUp;
+                   state == AnimationState.PickUpIdle ||
+                   state == AnimationState.PickUpRun;
         }
 
         // Xác định xem state có phải loại “movement” (idle, walk, run).
