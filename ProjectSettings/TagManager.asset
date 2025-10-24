@@ -44,8 +44,20 @@ TagManager:
   - name: BackGround
     uniqueID: 3149386923
     locked: 0
+  - name: Dirt
+    uniqueID: 1536477895
+    locked: 0
   - name: Water
     uniqueID: 618115813
+    locked: 0
+  - name: Paths
+    uniqueID: 4229367295
+    locked: 0
+  - name: Decoration
+    uniqueID: 1371396897
+    locked: 0
+  - name: Buildings
+    uniqueID: 1085750127
     locked: 0
   - name: Object
     uniqueID: 3216995721
