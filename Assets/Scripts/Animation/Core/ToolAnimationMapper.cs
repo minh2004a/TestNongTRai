@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using TinyFarm.Items;
 using UnityEngine;
 
@@ -9,7 +7,7 @@ namespace TinyFarm.Animation
     // Ánh xạ (mapping) giữa ToolType và các thông tin animation liên quan.
     // Class này giúp PlayerAnimationController biết mỗi tool dùng animation nào,
     // trigger nào, thời lượng bao lâu, và có thể phát hay không.
-    public class ToolAnimationMapper : MonoBehaviour
+    public class ToolAnimationMapper
     {
         private readonly Dictionary<ToolType, AnimationState> toolToAnimState = new();
         private readonly Dictionary<ToolType, string> toolToTrigger = new();
@@ -19,52 +17,59 @@ namespace TinyFarm.Animation
         public ToolAnimationMapper() { }
 
         // Gọi khi PlayerAnimationController khởi tạo.
-        public void Initialize()
+        public void Initialize(ToolAnimationConfig[] configs = null)
         {
             toolConfigs.Clear();
             toolToAnimState.Clear();
             toolToTrigger.Clear();
+
+            if (configs != null && configs.Length > 0)
+            {
+                LoadConfigs(configs);
+            }
         }
 
         // Nạp danh sách cấu hình animation cho từng tool (thường từ ScriptableObject).
         public void LoadConfigs(ToolAnimationConfig[] configs)
         {
-            Initialize();
-
             if (configs == null || configs.Length == 0)
             {
-                Debug.LogWarning("[ToolAnimationMapper] Không có ToolAnimationConfig nào được cung cấp!");
+                Debug.LogWarning("[ToolAnimationMapper] No ToolAnimationConfig provided!");
                 return;
             }
 
+            int loadedCount = 0;
 
             foreach (var config in configs)
             {
                 if (config == null)
                 {
+                    Debug.LogWarning("[ToolAnimationMapper] Null config in array, skipping...");
                     continue;
                 }
 
-                // validate config shape quickly (IsValid checks directional animations & trigger)
+                // Validate config
                 if (!config.IsValid())
                 {
-#if UNITY_EDITOR
-                    Debug.LogWarning($"[ToolAnimationMapper] Skipping invalid ToolAnimationConfig '{config.name}' (ToolType={config.toolType}).");
-#endif
+                    Debug.LogWarning($"[ToolAnimationMapper] Invalid config '{config.name}' (ToolType={config.toolType}), skipping...");
                     continue;
                 }
 
-                var t = config.toolType;
+                ToolType toolType = config.toolType;
 
-                // store
-                configs[(int)t] = config;
-                toolToAnimState[t] = config.animationState;
-                toolToTrigger[t] = string.IsNullOrEmpty(config.animatorTrigger) ? "UseTool" : config.animatorTrigger;
+                // ✅ FIXED: Lưu vào Dictionary, không phải array
+                toolConfigs[toolType] = config;
+                toolToAnimState[toolType] = config.animationState;
+
+                string trigger = string.IsNullOrEmpty(config.animatorTrigger)
+                    ? "UseTool"
+                    : config.animatorTrigger;
+                toolToTrigger[toolType] = trigger;
+
+                loadedCount++;
             }
 
-#if UNITY_EDITOR
-            Debug.Log($"[ToolAnimationMapper] Loaded tool configs.");
-#endif
+            Debug.Log($"[ToolAnimationMapper] Loaded {loadedCount}/{configs.Length} tool configs");
         }
 
         // Lấy AnimationState tương ứng với tool (VD: ToolType.Hoe → AnimationState.Hoeing).
@@ -79,6 +84,18 @@ namespace TinyFarm.Animation
             return toolToTrigger.TryGetValue(tool, out var trigger)
                 ? trigger
                 : "UseTool";
+        }
+
+        public string GetAnimationTrigger(ToolType tool, Direction dir)
+        {
+            if (!toolConfigs.TryGetValue(tool, out var config) || config == null)
+                return GetAnimationTrigger(tool);
+
+            string trigger = config.GetAnimatorTrigger(dir);
+            if (string.IsNullOrEmpty(trigger))
+                trigger = GetAnimationTrigger(tool);
+
+            return trigger;
         }
 
         // Lấy toàn bộ ToolAnimationConfig tương ứng.
@@ -97,58 +114,28 @@ namespace TinyFarm.Animation
         // Dựa vào config hợp lệ và có clip tương ứng.
         public bool CanPlayAnimation(ToolType tool)
         {
-            if (!toolConfigs.TryGetValue(tool, out var config) || config == null) return false;
-            if (config.IsValid()) return false;
+            if (!toolConfigs.TryGetValue(tool, out var config) || config == null)
+                return false;
 
-            return true;
+            // Nếu config valid thì có thể play
+            return config.IsValid();
         }
 
         // Lấy thời lượng animation (auto fallback nếu không có config).
-        public float GetAnimationDuration(ToolType tool)
+        public float GetAnimationDuration(ToolType tool, Direction dir = Direction.Down)
         {
             if (toolConfigs.TryGetValue(tool, out var config) && config != null)
             {
-                if (config.directionalAnimations != null && config.directionalAnimations.Count > 0)
-                {
-                    var order = new[] {Direction.Down, Direction.Up, Direction.Side};
-                    foreach (var d in order)
-                    {
-                        var dirAnim = config.GetDirectionalAnimation(d);
-                        if (dirAnim != null)
-                        {
-                            var dur = dirAnim.overrideDuration > 0f ? dirAnim.overrideDuration : (dirAnim.clip != null ? dirAnim.clip.length : 0f);
-                            if (dur > 0f) return dur;
-                        }
-                    }
-                }
-
-                try
-                {
-                    return config.GetAnimationDuration(Direction.Down);
-                }
-                catch
-                {
-
-                }
+                return config.GetAnimationDuration(dir);
             }
-            return 1f;
-        }
-
-        public string GetAnimationTrigger(ToolType tool, Direction dir)
-        {
-            if (!toolConfigs.TryGetValue(tool, out var config) || config == null)
-                return GetAnimationTrigger(tool);
-
-            var trigger = config.GetAnimatorTrigger(dir);
-            if (string.IsNullOrEmpty(trigger))
-                trigger = GetAnimationTrigger(tool);
-
-            return trigger;
+            return 1f; // fallback
         }
 
         public bool HasClipForDirection(ToolType tool, Direction dir)
         {
-            if (!toolConfigs.TryGetValue(tool, out var config) || config == null) return false;
+            if (!toolConfigs.TryGetValue(tool, out var config) || config == null)
+                return false;
+
             return config.HasClipForDirection(dir);
         }
 

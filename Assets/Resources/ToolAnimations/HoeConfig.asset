@@ -18,20 +18,24 @@ MonoBehaviour:
   directionalAnimations:
   - direction: 0
     clip: {fileID: 7400000, guid: 3b7d27027118a2e4c9e1e961e75a5774, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 1
     clip: {fileID: 7400000, guid: cf592b0b68743bc4ca1d9cdc22645cd9, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 2
     clip: {fileID: 7400000, guid: 91c89a452d1fe8b4780fda4c8e6859fc, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
-  animatorTrigger: Use
+    animatorTrigger: 
+  durationDown: 1
+  durationUp: 1
+  durationSide: 1
+  impactTimeNormalized: 0.5
+  animatorTrigger: State
   canMove: 0
   canCancel: 0
   lockDuration: 0.5

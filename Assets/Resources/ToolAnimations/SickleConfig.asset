@@ -13,26 +13,30 @@ MonoBehaviour:
   m_Name: SickleConfig
   m_EditorClassIdentifier: 
   configName: Sickle Use Animation
-  toolType: 4
-  animationState: 0
+  toolType: 5
+  animationState: 4
   directionalAnimations:
   - direction: 0
     clip: {fileID: 7400000, guid: 5972008e22149fb4c91f79c02d15e450, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 1
     clip: {fileID: 7400000, guid: 3306d2ad2d816e9479f87a4440499505, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 2
     clip: {fileID: 7400000, guid: a3e00c3c7dd66ba47a9d4fb5f2b70e64, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.51666665
     impactFrameTime: 0
-  animatorTrigger: Use
-  canMove: 0
+    animatorTrigger: 
+  durationDown: 1
+  durationUp: 1
+  durationSide: 1
+  impactTimeNormalized: 0.5
+  animatorTrigger: State
+  canMove: 1
   canCancel: 0
   lockDuration: 0.5
   cooldownTime: 0.2

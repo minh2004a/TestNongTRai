@@ -18,7 +18,6 @@ namespace TinyFarm.Farming
 
         // Session configuration
         [SerializeField] private int daysInSeason = 28;
-        [SerializeField] private float sessionLength = 600f; // 10 phút mặc định
 
         // Events
         public event Action<Session> OnSessionLoaded;

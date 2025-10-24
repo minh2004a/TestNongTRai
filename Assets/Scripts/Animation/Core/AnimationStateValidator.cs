@@ -16,6 +16,28 @@ namespace TinyFarm.Animation
             SetupPriorities();
         }
 
+        public void Initialize()
+        {
+            // Setup validation rules nếu cần
+        }
+
+        public bool CanTransition(AnimationState from, AnimationState to)
+        {
+            // Luôn cho phép về Idle
+            if (to == AnimationState.Idle)
+                return true;
+
+            // Không cho transition giữa các tool actions
+            if (IsToolAction(from) && IsToolAction(to))
+                return false;
+
+            // Sleep không thể bị interrupt bởi tool actions
+            if (from == AnimationState.Sleep && IsToolAction(to))
+                return false;
+
+            return true;
+        }
+
         // Thiết lập độ ưu tiên mặc định cho từng AnimationState.
         // Bạn có thể mở rộng nếu thêm hành động mới (như Fishing, Riding, v.v.).
         public void SetupPriorities()
@@ -35,6 +57,7 @@ namespace TinyFarm.Animation
 
             canInterrupt[AnimationState.Idle] = true;
             canInterrupt[AnimationState.Running] = true;
+            canInterrupt[AnimationState.Sleep] = true;
 
             canInterrupt[AnimationState.UsingTool] = false;
             canInterrupt[AnimationState.Hoeing] = false;
@@ -47,14 +70,20 @@ namespace TinyFarm.Animation
         // Kiểm tra xem có thể chuyển từ state A sang state B không.
         public bool ValidateTransition(AnimationState from, AnimationState to)
         {
-            // Không cần transition khi giống nhau
-            if (from == to) return false;
+            // Same state - no transition needed
+            if (from == to)
+                return false;
+
+            // Always allow transition to Idle
+            if (to == AnimationState.Idle)
+                return true;
 
             int fromPriority = GetStatePriority(from);
             int toPriority = GetStatePriority(to);
 
-            // Nếu state hiện tại không thể bị ngắt và state mới không có ưu tiên cao hơn → từ chối
-            if (!CanInterruptState(from) && toPriority <= fromPriority) return false;
+            // If current state cannot be interrupted and new state doesn't have higher priority
+            if (!CanInterruptState(from) && toPriority <= fromPriority)
+                return false;
 
             return true;
         }
@@ -80,6 +109,12 @@ namespace TinyFarm.Animation
                    state == AnimationState.Sickle ||
                    state == AnimationState.PickUpIdle ||
                    state == AnimationState.PickUpRun;
+        }
+
+        // ADDED: Helper method cho tool actions
+        public bool IsToolAction(AnimationState state)
+        {
+            return IsActionState(state);
         }
 
         // Xác định xem state có phải loại “movement” (idle, walk, run).

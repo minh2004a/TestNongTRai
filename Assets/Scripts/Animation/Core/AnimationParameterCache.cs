@@ -24,6 +24,7 @@ namespace TinyFarm.Animation
             hashCache.Clear();
             if (animator == null)
             {
+                Debug.LogWarning("[AnimationParameterCache] Animator is null!");
                 return;
             }
 
@@ -53,12 +54,15 @@ namespace TinyFarm.Animation
         // Nếu chưa tồn tại, tự động cache lại để tránh null reference.
         public int GetHash(string paramName)
         {
-            if (hashCache.TryGetValue(paramName, out var hash)) 
+            // Nếu đã có trong cache, return luôn
+            if (hashCache.TryGetValue(paramName, out var hash))
             {
-                hash = Animator.StringToHash(paramName);
-                hashCache[paramName] = hash;
+                return hash;
             }
 
+            // Chưa có trong cache, tính mới và lưu lại
+            hash = Animator.StringToHash(paramName);
+            hashCache[paramName] = hash;
             return hash;
         }
 
@@ -66,13 +70,22 @@ namespace TinyFarm.Animation
         // Hữu ích để tránh lỗi khi set sai tên.
         public bool HasParameter(string paramName)
         {
-            if (hashCache.ContainsKey(paramName)) return true;
+            // Check trong cache trước
+            if (hashCache.ContainsKey(paramName))
+                return true;
 
-            if (animator == null) return false;
+            // Nếu không có, check trong animator
+            if (animator == null)
+                return false;
 
             foreach (var param in animator.parameters)
             {
-                if ((param.name == paramName)) return true;
+                if (param.name == paramName)
+                {
+                    // Cache lại để lần sau nhanh hơn
+                    CacheParameter(paramName);
+                    return true;
+                }
             }
 
             return false;

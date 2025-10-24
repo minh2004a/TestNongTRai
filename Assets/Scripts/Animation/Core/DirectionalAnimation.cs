@@ -5,18 +5,46 @@ using UnityEngine;
 [System.Serializable]
 public class DirectionalAnimation
 {
-    [Tooltip("Hướng của animation (Up/Down/Left/Right)")]
-    public Direction direction;
+    [Header("Direction")]
+    public Direction direction = Direction.Down;
 
-    [Tooltip("Clip animation tương ứng với hướng này")]
+    [Header("Animation Clip")]
     public AnimationClip clip;
 
-    [Tooltip("Tên trigger trong Animator (nếu có)")]
-    public string animatorTrigger = "Use";
+    [Header("Timing")]
+    [Tooltip("Override duration (0 = dùng clip length)")]
+    [Min(0f)]
+    public float overrideDuration = 0f;
 
-    [Tooltip("Thời lượng animation (nếu muốn override clip length)")]
-    [Min(0f)] public float overrideDuration = 0f;
+    [Tooltip("Thời điểm impact (0-1, normalized)")]
+    [Range(0f, 1f)]
+    public float impactFrameTime = 0.5f;
 
-    [Tooltip("Thời điểm va chạm hoặc tạo hiệu ứng (0–1)")]
-    [Range(0f, 1f)] public float impactFrameTime = 0.5f;
+    [Header("Optional Trigger Override")]
+    [Tooltip("Trigger riêng cho direction này (để trống = dùng default)")]
+    public string animatorTrigger = "";
+
+    // Get duration thực tế
+    public float GetDuration()
+    {
+        if (overrideDuration > 0f)
+            return overrideDuration;
+
+        if (clip != null)
+            return clip.length;
+
+        return 1f; // fallback
+    }
+
+    // Get impact time tính bằng giây
+    public float GetImpactTime()
+    {
+        return GetDuration() * impactFrameTime;
+    }
+
+    // Validate data
+    public bool IsValid()
+    {
+        return clip != null;
+    }
 }

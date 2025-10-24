@@ -43,7 +43,6 @@ namespace TinyFarm.Items.UI
 
         [Header("Animation")]
         [SerializeField] private float bounceAmount = 5f;
-        [SerializeField] private float bounceSpeed = 2f;
         [SerializeField] private bool enableDayChangeAnimation = true;
 
         // Cache

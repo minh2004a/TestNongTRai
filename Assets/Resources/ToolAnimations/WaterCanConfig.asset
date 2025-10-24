@@ -14,24 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   configName: Watering Use Animation
   toolType: 2
-  animationState: 0
+  animationState: 2
   directionalAnimations:
   - direction: 0
     clip: {fileID: 7400000, guid: 034b20f863addbb4ab00748c029b3de2, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.68333334
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 1
     clip: {fileID: 7400000, guid: 7fe19370dcf80b440988ddd0696325fa, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.68333334
     impactFrameTime: 0
+    animatorTrigger: 
   - direction: 2
     clip: {fileID: 7400000, guid: 1529a0bda6f2fe84db5489be953c04d0, type: 2}
-    animatorTrigger: 
     overrideDuration: 0.68333334
     impactFrameTime: 0
-  animatorTrigger: Use
+    animatorTrigger: 
+  durationDown: 1
+  durationUp: 1
+  durationSide: 1
+  impactTimeNormalized: 0.5
+  animatorTrigger: State
   canMove: 0
   canCancel: 0
   lockDuration: 0.5

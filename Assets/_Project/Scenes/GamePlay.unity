@@ -1534,8 +1534,7 @@ Transform:
   m_LocalPosition: {x: 2.54, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1573111074}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &647645675
@@ -1552,17 +1551,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 647645677}
   spriteRenderer: {fileID: 647645676}
+  settings: {fileID: 11400000, guid: d1b03cf019e19e04e89cb4e0c773e366, type: 2}
   toolConfigs:
   - {fileID: 11400000, guid: 797a6dae2f0a7844cac653ac1d5ec453, type: 2}
   - {fileID: 11400000, guid: 0046f8e744ec5d8478037e7b45e47e38, type: 2}
   - {fileID: 11400000, guid: 91791a43fa1732e4cac688a09283afbd, type: 2}
-  settings: {fileID: 11400000, guid: d1b03cf019e19e04e89cb4e0c773e366, type: 2}
   debugMode: 0
+  minMoveThreshold: 0.01
   currentState: 0
   previousState: 0
   currentDirection: 0
   isActionLocked: 0
-  actionLockTimer: 0
 --- !u!212 &647645676
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1648,9 +1647,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3686d827dd25d724d806dfa0f1a209d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2.5
-  faceMovementDirection: 1
-  showLogs: 1
+  animController: {fileID: 647645675}
+  rb: {fileID: 647645673}
+  moveSpeed: 5
+  runSpeedMultiplier: 1.5
+  useRawInput: 1
+  runKey: 304
+  hoeKey: 106
+  wateringKey: 107
+  sickleKey: 108
+  pickUpKey: 101
+  sleepKey: 114
+  showDebugInfo: 1
+  debugTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &648649662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2749,7 +2758,6 @@ MonoBehaviour:
     currentDay: 0
     currentSeason: 0
   daysInSeason: 28
-  sessionLength: 600
 --- !u!1 &950625532
 GameObject:
   m_ObjectHideFlags: 0
@@ -4421,7 +4429,6 @@ MonoBehaviour:
   eveningStartHour: 18
   nightStartHour: 20
   bounceAmount: 5
-  bounceSpeed: 2
   enableDayChangeAnimation: 1
 --- !u!114 &1468672923
 MonoBehaviour:
@@ -4461,37 +4468,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468672920}
   m_CullTransparentMesh: 1
---- !u!1 &1573111073
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1573111074}
-  m_Layer: 0
-  m_Name: Movement
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1573111074
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1573111073}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 647645674}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1574726626
 GameObject:
   m_ObjectHideFlags: 0

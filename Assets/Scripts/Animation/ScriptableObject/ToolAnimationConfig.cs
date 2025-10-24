@@ -25,6 +25,14 @@ namespace TinyFarm.Animation
         [Tooltip("Danh sách các animation clip theo hướng (Down/Up/Right, Left sẽ dùng Right + flip)")]
         public List<DirectionalAnimation> directionalAnimations = new List<DirectionalAnimation>();
 
+        [Header("Durations per Direction")]
+        public float durationDown = 1.0f;
+        public float durationUp = 1.0f;
+        public float durationSide = 1.0f;
+
+        [Header("Impact Timing (normalized 0-1)")]
+        [Range(0f, 1f)] public float impactTimeNormalized = 0.5f;
+
         [Header("Animation Settings")]
         [Tooltip("Tên trigger trong Animator")]
         public string animatorTrigger = "Use";
@@ -65,6 +73,21 @@ namespace TinyFarm.Animation
         // Cached values để tối ưu performance
         private Dictionary<Direction, int> cachedImpactFrames = new Dictionary<Direction, int>();
         private Dictionary<Direction, int> cachedTotalFrames = new Dictionary<Direction, int>();
+
+        public float GetDuration(Direction direction)
+        {
+            return direction switch
+            {
+                Direction.Down => durationDown,
+                Direction.Up => durationUp,
+                Direction.Side => durationSide,
+                _ => 1.0f
+            };
+        }
+        //public float GetImpactTime(Direction direction)
+        //{
+        //    return GetDuration(direction) * impactTimeNormalized;
+        //}
 
         // Lấy animation clip phù hợp với hướng nhân vật, tự động xử lý Left/Right flip
         public AnimationClip GetClipByDirection(Direction dir, out bool shouldFlip)
