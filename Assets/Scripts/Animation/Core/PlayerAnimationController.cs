@@ -62,6 +62,7 @@ namespace TinyFarm.Animation
         public AnimationState PreviousState => previousState;
         public Direction CurrentDirection => currentDirection;
         public bool IsActionLocked => isActionLocked;
+        public bool IsFacingLeft => spriteRenderer.flipX;
         public bool IsMoving => currentState == AnimationState.Running;
         public Animator Animator => animator;
 
@@ -407,20 +408,25 @@ namespace TinyFarm.Animation
             if (moveInput.sqrMagnitude < minMoveThreshold)
                 return;
 
-            // Save direction vector
+            // Save direction vector (normalized)
             lastDirectionVector = moveInput.normalized;
 
-            // Determine Direction enum
-            if (Mathf.Abs(moveInput.y) > Mathf.Abs(moveInput.x))
+            // Determine Direction enum based on dominant axis
+            float absX = Mathf.Abs(moveInput.x);
+            float absY = Mathf.Abs(moveInput.y);
+
+            if (absY > absX)
             {
-                // Vertical
+                // Vertical dominant
                 currentDirection = moveInput.y > 0 ? Direction.Up : Direction.Down;
             }
             else
             {
-                // Horizontal
+                // Horizontal dominant
                 currentDirection = Direction.Side;
             }
+
+            LogDebug($"UpdateDirection: input={moveInput:F2}, dir={currentDirection}, absX={absX:F2}, absY={absY:F2}");
         }
 
         private void UpdateDirectionParameters(Vector2 direction)
@@ -439,8 +445,16 @@ namespace TinyFarm.Animation
             // Only flip for horizontal movement
             if (currentDirection == Direction.Side)
             {
-                spriteRenderer.flipX = direction.x < 0;
+                bool shouldFlipLeft = direction.x < 0;
+                spriteRenderer.flipX = shouldFlipLeft;
+                LogDebug($"Sprite flip: {shouldFlipLeft}");
             }
+        }
+
+        // Manually set sprite flip (for external use)
+        public void SetSpriteFlip(bool flipX)
+        {
+            spriteRenderer.flipX = flipX;
         }
 
         // ANIMATOR CONTROL (sử dụng ParameterCache)
