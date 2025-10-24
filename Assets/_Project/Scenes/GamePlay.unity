@@ -1653,9 +1653,9 @@ MonoBehaviour:
   runSpeedMultiplier: 1.5
   useRawInput: 1
   runKey: 304
-  hoeKey: 49
-  wateringKey: 50
-  sickleKey: 51
+  hoeKey: 106
+  wateringKey: 107
+  sickleKey: 108
   pickUpKey: 101
   sleepKey: 114
   showDebugInfo: 1
