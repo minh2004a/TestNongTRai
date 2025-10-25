@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TinyFarm.Animation;
 using TinyFarm.Items;
 using UnityEngine;
+using static Unity.Collections.Unicode;
 
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -14,32 +15,17 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float runSpeedMultiplier = 1.5f;
-
-    [Header("Input Settings")]
-    [SerializeField] private bool useRawInput = true;
-    [SerializeField] private KeyCode runKey = KeyCode.LeftShift;
-
-    [Header("Tool Keys")]
-    [SerializeField] private KeyCode hoeKey = KeyCode.J;
-    [SerializeField] private KeyCode wateringKey = KeyCode.K;
-    [SerializeField] private KeyCode sickleKey = KeyCode.L;
-    [SerializeField] private KeyCode pickUpKey = KeyCode.E;
-    [SerializeField] private KeyCode sleepKey = KeyCode.R;
 
     [Header("Debug")]
     [SerializeField] private bool showDebugInfo = true;
+    [SerializeField] private bool showDebugGizmos = true;
+    [SerializeField] private Color debugTextColor = Color.white;
 
     // Runtime
     private Vector2 moveInput;
     private Vector2 normalizedInput;
     private Vector2 lastNonZeroInput;
-    private bool isRunning;
     private float currentSpeed;
-
-    // Debug tracking
-    private string lastInputString = "";
-    private string lastDirectionString = "";
 
     // ==========================================
     // UNITY LIFECYCLE
@@ -58,8 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        HandleInput();
-        HandleToolInput();
+        // Input handled by PlayerInputHandler now
         UpdateAnimations();
     }
 
@@ -110,29 +95,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // ==========================================
-    // INPUT HANDLING
+    // PUBLIC API - Called by PlayerInputHandler
     // ==========================================
 
-    private void HandleInput()
+    /// <summary>
+    /// Set move input từ PlayerInputHandler
+    /// </summary>
+    public void SetMoveInput(Vector2 input)
     {
-        // Get movement input
-        if (useRawInput)
-        {
-            moveInput = new Vector2(
-                Input.GetAxisRaw("Horizontal"),
-                Input.GetAxisRaw("Vertical")
-            );
-        }
-        else
-        {
-            moveInput = new Vector2(
-                Input.GetAxis("Horizontal"),
-                Input.GetAxis("Vertical")
-            );
-        }
-
-        // Store original input for debug
-        lastInputString = $"({moveInput.x:F2}, {moveInput.y:F2})";
+        moveInput = input;
 
         // Normalize diagonal movement
         if (moveInput.sqrMagnitude > 1f)
@@ -144,73 +115,15 @@ public class PlayerMovement : MonoBehaviour
             normalizedInput = moveInput;
         }
 
-        // Save last non-zero input for idle direction
+        // Save last non-zero input
         if (normalizedInput.sqrMagnitude > 0.01f)
         {
             lastNonZeroInput = normalizedInput;
-            lastDirectionString = GetDirectionName(lastNonZeroInput);
-        }
-
-        // Check if running
-        isRunning = Input.GetKey(runKey);
-
-        // Debug toggle
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            showDebugInfo = !showDebugInfo;
-        }
-    }
-
-    private void HandleToolInput()
-    {
-        // Don't allow tool input if action is locked
-        if (animController.IsActionLocked)
-        {
-            return;
-        }
-
-        // Hoe (cuốc đất)
-        if (Input.GetKeyDown(hoeKey))
-        {
-            animController.PlayHoeing();
-            LogDebug("Used Hoe");
-        }
-        // Watering (tưới nước)
-        else if (Input.GetKeyDown(wateringKey))
-        {
-            animController.PlayWatering();
-            LogDebug("Used Watering Can");
-        }
-        // Sickle (liềm)
-        else if (Input.GetKeyDown(sickleKey))
-        {
-            animController.PlaySickle();
-            LogDebug("Used Sickle");
-        }
-        // PickUp (nhặt đồ)
-        else if (Input.GetKeyDown(pickUpKey))
-        {
-            animController.PlayPickUp();
-            LogDebug("Pick Up");
-        }
-        // Sleep
-        else if (Input.GetKeyDown(sleepKey))
-        {
-            if (animController.CurrentState == AnimationState.Sleep)
-            {
-                animController.WakeUp();
-                LogDebug("Wake Up");
-            }
-            else
-            {
-                animController.PlaySleep();
-                LogDebug("Sleep");
-            }
         }
     }
 
     // ==========================================
-    // MOVEMENT
+    // MOVEMENT (Now controlled by PlayerInputHandler)
     // ==========================================
 
     private void HandleMovement()
@@ -223,12 +136,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        // Calculate speed
+        // Calculate speed (no sprint key, constant speed)
         currentSpeed = moveSpeed;
-        if (isRunning && normalizedInput.sqrMagnitude > 0.01f)
-        {
-            currentSpeed *= runSpeedMultiplier;
-        }
 
         // Apply movement
         Vector2 velocity = normalizedInput * currentSpeed;
@@ -248,8 +157,6 @@ public class PlayerMovement : MonoBehaviour
         {
             // Moving - pass normalized input to animation controller
             animController.PlayMovement(normalizedInput);
-
-            LogDebug($"Moving: input={lastInputString}, normalized={normalizedInput:F2}, dir={lastDirectionString}");
         }
         else
         {
@@ -324,7 +231,6 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 GetNormalizedInput() => normalizedInput;
     public Vector2 GetLastDirection() => lastNonZeroInput;
     public bool IsMoving() => normalizedInput.sqrMagnitude > 0.01f;
-    public bool IsRunning() => isRunning && IsMoving();
     public float GetCurrentSpeed() => currentSpeed;
 
     // ==========================================
@@ -338,4 +244,127 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log($"[PlayerMovement] {message}");
         }
     }
+
+    private void OnGUI()
+    {
+        if (!showDebugInfo)
+            return;
+
+        // Debug info panel
+        GUIStyle boxStyle = new GUIStyle(GUI.skin.box);
+        boxStyle.alignment = TextAnchor.UpperLeft;
+        boxStyle.fontSize = 12;
+        boxStyle.normal.textColor = debugTextColor;
+        boxStyle.padding = new RectOffset(10, 10, 10, 10);
+
+        // Get animator values for debug
+        var animator = animController.Animator;
+        float animHorizontal = animator.GetFloat("Horizontal");
+        float animVertical = animator.GetFloat("Vertical");
+        int animState = animator.GetInteger("State");
+
+        string debugText = $@"=== PLAYER MOVEMENT DEBUG ===
+Move Input: ({moveInput.x:F2}, {moveInput.y:F2})
+Normalized: ({normalizedInput.x:F2}, {normalizedInput.y:F2})
+Last Direction: {GetDirectionName(lastNonZeroInput)}
+Is Moving: {IsMoving()}
+
+=== MOVEMENT ===
+Speed: {currentSpeed:F1} m/s
+Velocity: ({rb.velocity.x:F1}, {rb.velocity.y:F1})
+Position: ({transform.position.x:F1}, {transform.position.y:F1})
+
+=== ANIMATION CONTROLLER ===
+State: {animController.CurrentState} (Int: {animState})
+Direction: {animController.CurrentDirection}
+Action Locked: {animController.IsActionLocked}
+Sprite FlipX: {animController.IsFacingLeft}
+
+=== ANIMATOR PARAMETERS ===
+Horizontal: {animHorizontal:F2}
+Vertical: {animVertical:F2}
+State: {animState}
+
+=== NOTE ===
+Input handled by PlayerInputHandler
+Use PlayerInputHandler debug for input info
+";
+
+        GUI.Box(new Rect(10, 10, 380, 450), debugText, boxStyle);
+    }
+
+#if UNITY_EDITOR
+    // Context menu for testing
+    [ContextMenu("Test - Force Stop")]
+    private void TestForceStop()
+    {
+        ForceStop();
+    }
+
+    [ContextMenu("Test - Teleport to Origin")]
+    private void TestTeleportToOrigin()
+    {
+        TeleportTo(Vector2.zero);
+    }
+
+    [ContextMenu("Test - Toggle Debug")]
+    private void TestToggleDebug()
+    {
+        showDebugInfo = !showDebugInfo;
+    }
+
+    [ContextMenu("Debug - Print Current State")]
+    private void DebugPrintState()
+    {
+        Debug.Log("=== MOVEMENT STATE ===");
+        Debug.Log($"Move Input: {moveInput}");
+        Debug.Log($"Normalized Input: {normalizedInput}");
+        Debug.Log($"Last Direction: {lastNonZeroInput}");
+        Debug.Log($"Current Speed: {currentSpeed}");
+        Debug.Log($"Anim State: {animController.CurrentState}");
+        Debug.Log($"Anim Direction: {animController.CurrentDirection}");
+
+        var animator = animController.Animator;
+        Debug.Log($"Animator Horizontal: {animator.GetFloat("Horizontal")}");
+        Debug.Log($"Animator Vertical: {animator.GetFloat("Vertical")}");
+        Debug.Log($"Animator State: {animator.GetInteger("State")}");
+    }
+
+    // Draw movement direction in Scene view
+    private void OnDrawGizmos()
+    {
+        if (!Application.isPlaying || !showDebugGizmos)
+            return;
+
+        Vector3 pos = transform.position;
+
+        // Draw current movement input (cyan line)
+        if (normalizedInput.sqrMagnitude > 0.01f)
+        {
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(pos, pos + (Vector3)normalizedInput * 1.5f);
+            Gizmos.DrawSphere(pos + (Vector3)normalizedInput * 1.5f, 0.1f);
+        }
+
+        // Draw last direction (yellow line)
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(pos, pos + (Vector3)lastNonZeroInput * 1f);
+
+        // Draw direction text
+        if (animController != null)
+        {
+            UnityEditor.Handles.color = Color.white;
+            UnityEditor.Handles.Label(
+                pos + Vector3.up * 2f,
+                $"{GetDirectionName(lastNonZeroInput)}\nInput: ({moveInput.x:F1}, {moveInput.y:F1})\nAnim: {animController.CurrentDirection}"
+            );
+        }
+
+        // Draw coordinate system
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(pos, pos + Vector3.up * 0.5f); // Y axis (Up)
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(pos, pos + Vector3.right * 0.5f); // X axis (Right)
+    }
+#endif
 }

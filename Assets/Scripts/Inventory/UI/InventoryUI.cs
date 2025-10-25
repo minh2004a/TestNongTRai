@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using TinyFarm.PlayerInput;
 using System;
 using System.Collections.Generic;
 
@@ -118,7 +119,7 @@ namespace TinyFarm.Items.UI
         private void Update()
         {
             // Toggle inventory
-            if (Input.GetKeyDown(toggleKey))
+            if (PlayerInput.GetKeyDown(toggleKey))
             {
                 ToggleInventory();
             }

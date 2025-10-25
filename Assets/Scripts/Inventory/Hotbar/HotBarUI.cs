@@ -110,39 +110,39 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        private void Update()
-        {
-            // Handle hotkey inputs
-            for (int i = 0; i < hotKeys.Length && i < slotUIs.Count; i++)
-            {
-                if (Input.GetKeyDown(hotKeys[i]))
-                {
-                    SelectSlot(i);
-                }
-            }
+        //private void Update()
+        //{
+        //    // Handle hotkey inputs
+        //    for (int i = 0; i < hotKeys.Length && i < slotUIs.Count; i++)
+        //    {
+        //        if (Input.GetKeyDown(hotKeys[i]))
+        //        {
+        //            SelectSlot(i);
+        //        }
+        //    }
 
-            // Handle mouse scroll wheel for slot selection
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0)
-            {
-                int direction = scroll > 0 ? -1 : 1;
-                int newIndex = selectedSlotIndex + direction;
+        //    // Handle mouse scroll wheel for slot selection
+        //    float scroll = Input.GetAxis("Mouse ScrollWheel");
+        //    if (scroll != 0)
+        //    {
+        //        int direction = scroll > 0 ? -1 : 1;
+        //        int newIndex = selectedSlotIndex + direction;
 
-                // Wrap around
-                if (newIndex < 0)
-                    newIndex = slotUIs.Count - 1;
-                else if (newIndex >= slotUIs.Count)
-                    newIndex = 0;
+        //        // Wrap around
+        //        if (newIndex < 0)
+        //            newIndex = slotUIs.Count - 1;
+        //        else if (newIndex >= slotUIs.Count)
+        //            newIndex = 0;
 
-                SelectSlot(newIndex);
-            }
+        //        SelectSlot(newIndex);
+        //    }
 
-            // Use selected slot item with key
-            if (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0))
-            {
-                UseSelectedSlot();
-            }
-        }
+        //    // Use selected slot item with key
+        //    if (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0))
+        //    {
+        //        UseSelectedSlot();
+        //    }
+        //}
 
         public void SelectSlot(int index)
         {

@@ -41,7 +41,7 @@ namespace TinyFarm.Items.UI
         private void Update()
         {
             // Hotkey selection (1-9, 0 for slot 10)
-            HandleHotkeyInput();
+            //HandleHotkeyInput();
         }
 
         // Khởi tạo hotbar system
@@ -263,38 +263,37 @@ namespace TinyFarm.Items.UI
 
         #region Input Handling
         // Xử lý hotkey input (1-9, 0)
-        private void HandleHotkeyInput()
-        {
-            // Number keys 1-9
-            for (int i = 1; i <= 9; i++)
-            {
-                if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-                {
-                    int slotIndex = i - 1; // 0-based index
-                    if (slotIndex < hotbarSize)
-                    {
-                        SelectSlot(slotIndex);
-                    }
-                    return;
-                }
-            }
+        //private void HandleHotkeyInput()
+        //{
+        //    // Number keys 1-9
+        //    for (int i = 1; i <= 9; i++)
+        //    {
+        //        if (Input.GetKeyDown(KeyCode.Alpha0 + i))
+        //        {
+        //            int slotIndex = i - 1; // 0-based index
+        //            if (slotIndex < hotbarSize)
+        //            {
+        //                SelectSlot(slotIndex);
+        //            }
+        //            return;
+        //        }
+        //    }
 
-            // Key 0 for slot 10 (if exists)
-            if (Input.GetKeyDown(KeyCode.Alpha0))
-            {
-                if (hotbarSize >= 10)
-                {
-                    SelectSlot(9);
-                }
-            }
-        }
+        //    // Key 0 for slot 10 (if exists)
+        //    if (Input.GetKeyDown(KeyCode.Alpha0))
+        //    {
+        //        if (hotbarSize >= 10)
+        //        {
+        //            SelectSlot(9);
+        //        }
+        //    }
+        //}
 
         #endregion
 
         #region Utility Methods
 
         // Tìm slot trong hotbar có item ID này
-        /// </summary>
         public int FindHotbarSlotWithItem(string itemID)
         {
             for (int i = 0; i < hotbarSlots.Count; i++)
@@ -307,9 +306,7 @@ namespace TinyFarm.Items.UI
             return -1;
         }
 
-        /// <summary>
         /// Kiểm tra hotbar có item này không
-        /// </summary>
         public bool HasItemInHotbar(string itemID)
         {
             return FindHotbarSlotWithItem(itemID) >= 0;

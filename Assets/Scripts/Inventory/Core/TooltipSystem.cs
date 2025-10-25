@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System;
+using TinyFarm.PlayerInput;
 using System.Collections.Generic;
 
 namespace TinyFarm.Items.UI
@@ -196,7 +197,7 @@ namespace TinyFarm.Items.UI
             if (tooltipRectTransform == null || canvas == null)
                 return;
 
-            Vector2 mousePosition = Input.mousePosition;
+            Vector2 mousePosition = PlayerInput.mousePosition;
 
             // Convert mouse position to canvas space
             Vector2 localPoint;
