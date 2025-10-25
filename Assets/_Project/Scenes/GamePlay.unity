@@ -14839,6 +14839,7 @@ Transform:
   m_Children:
   - {fileID: 1575769792}
   - {fileID: 392590294}
+  - {fileID: 883206088}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &647645675
@@ -14860,6 +14861,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 797a6dae2f0a7844cac653ac1d5ec453, type: 2}
   - {fileID: 11400000, guid: 0046f8e744ec5d8478037e7b45e47e38, type: 2}
   - {fileID: 11400000, guid: 91791a43fa1732e4cac688a09283afbd, type: 2}
+  - {fileID: 11400000, guid: 0046f8e744ec5d8478037e7b45e47e38, type: 2}
   debugMode: 0
   minMoveThreshold: 0.01
   currentState: 0
@@ -14963,8 +14965,6 @@ MonoBehaviour:
   pickUpKey: 101
   sleepKey: 114
   showDebugInfo: 1
-  showDebugGizmos: 1
-  debugTextColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &648649662
 GameObject:
   m_ObjectHideFlags: 0
@@ -16184,6 +16184,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880371644}
   m_CullTransparentMesh: 1
+--- !u!1 &883206087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 883206088}
+  - component: {fileID: 883206089}
+  m_Layer: 0
+  m_Name: ToolEquipmentController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &883206088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883206087}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 647645674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &883206089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883206087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcd2660e51eaf234595d28328f67d260, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animController: {fileID: 1575769794}
+  eventHandler: {fileID: 1575769793}
+  debugMode: 0
+  currentToolData: {fileID: 11400000, guid: f3fe456a295174d499d3752da568fee8, type: 2}
+  currentToolType: 1
+  hasToolEquipped: 0
 --- !u!1 &910381132
 GameObject:
   m_ObjectHideFlags: 0
@@ -60041,6 +60091,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5c6f575353e15f042b46d1b196b1834f, type: 2}
   - {fileID: 11400000, guid: 661a10ac8e835754fb36069cc9bed8da, type: 2}
   - {fileID: 11400000, guid: f3fe456a295174d499d3752da568fee8, type: 2}
+  - {fileID: 11400000, guid: 5c5a9c867f4d21343aacd001e42bcce1, type: 2}
   autoAddTestItems: 1
   addItemKey: 116
   removeItemKey: 114

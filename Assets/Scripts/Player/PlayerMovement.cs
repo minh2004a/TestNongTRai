@@ -29,8 +29,6 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Debug")]
     [SerializeField] private bool showDebugInfo = true;
-    [SerializeField] private bool showDebugGizmos = true;
-    [SerializeField] private Color debugTextColor = Color.white;
 
     // Runtime
     private Vector2 moveInput;

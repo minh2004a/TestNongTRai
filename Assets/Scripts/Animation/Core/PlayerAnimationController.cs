@@ -38,6 +38,7 @@ namespace TinyFarm.Animation
         private AnimationParameterCache paramCache;
         private AnimationStateValidator stateValidator;
         private ToolAnimationMapper toolMapper;
+        private ToolType currentToolType = ToolType.None;
 
 
         // Runtime tracking
@@ -399,6 +400,24 @@ namespace TinyFarm.Animation
         {
             int stateValue = (int)state;
             SetAnimatorInt(PARAM_STATE, stateValue);
+        }
+
+        public void SetCurrentTool(ToolType toolType)
+        {
+            currentToolType = toolType;
+
+            // Nếu bạn có parameter "ToolType" trong Animator thì set ở đây:
+            if (animator != null)
+            {
+                animator.SetInteger("State", (int)toolType);
+            }
+
+            LogDebug($"SetCurrentTool: {toolType}");
+        }
+
+        public ToolType GetCurrentTool()
+        {
+            return currentToolType;
         }
 
         // DIRECTION HANDLING
