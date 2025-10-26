@@ -53,7 +53,6 @@ namespace TinyFarm.Items
             isInitialized = true;
             OnRegistryInitialized?.Invoke();
 
-            Debug.Log($"[SeedRegistry] Initialized with {RegisteredSeedCount} seeds");
         }
 
         // Load tất cả seeds từ database và build mappings
@@ -83,7 +82,6 @@ namespace TinyFarm.Items
 
             if (string.IsNullOrEmpty(cropID))
             {
-                Debug.LogWarning($"[SeedRegistry] Seed '{seedID}' has no result crop!");
                 return;
             }
 

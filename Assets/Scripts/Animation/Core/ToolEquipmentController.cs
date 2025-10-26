@@ -12,10 +12,10 @@ namespace TinyFarm.Tools
         [SerializeField] private AnimationEventHandler eventHandler;
 
         [Header("Settings")]
-        [SerializeField] private bool debugMode = false;
+        [SerializeField] private bool debugMode = true;
 
         [Header("Runtime Info (Read Only)")]
-        [SerializeField] private ToolItemData currentToolData;
+        [SerializeField] private ToolItemData currentTool;
         [SerializeField] private ToolType currentToolType = ToolType.None;
         [SerializeField] private bool hasToolEquipped = false;
 
@@ -25,11 +25,11 @@ namespace TinyFarm.Tools
         public event Action<ToolItemData, ToolItemData> OnToolChanged; // (old, new)
 
         // Properties
-        public ToolItemData CurrentTool => currentToolData;
+        public ToolItemData CurrentTool => currentTool;
         public ToolType CurrentToolType => currentToolType;
         public bool HasToolEquipped => hasToolEquipped;
         public bool CanEquipTool => !animController.IsActionLocked;
-        public int CurrentToolEfficiency => currentToolData?.efficiency ?? 1;
+        public int CurrentToolEfficiency => currentTool?.efficiency ?? 1;
 
         // ==========================================
         // INITIALIZATION
@@ -137,17 +137,17 @@ namespace TinyFarm.Tools
             }
 
             // Check if already equipped
-            if (currentToolData == toolData)
+            if (currentTool == toolData)
             {
                 LogDebug($"Tool already equipped: {toolData.itemName}");
                 return true;
             }
 
             // Store old tool for event
-            ToolItemData oldTool = currentToolData;
+            ToolItemData oldTool = currentTool;
 
             // Equip new tool
-            currentToolData = toolData;
+            currentTool = toolData;
             currentToolType = toolData.toolType;
             hasToolEquipped = true;
 
@@ -176,10 +176,10 @@ namespace TinyFarm.Tools
                 return;
             }
 
-            ToolItemData oldTool = currentToolData;
+            ToolItemData oldTool = currentTool;
 
             // Clear tool
-            currentToolData = null;
+            currentTool = null;
             currentToolType = ToolType.None;
             hasToolEquipped = false;
 
@@ -205,7 +205,7 @@ namespace TinyFarm.Tools
 
             currentToolType = toolType;
             hasToolEquipped = toolType != ToolType.None;
-            currentToolData = null; // No data, just type
+            currentTool = null; // No data, just type
 
             // Update animation controller
             animController.SetCurrentTool(toolType);
@@ -221,33 +221,50 @@ namespace TinyFarm.Tools
         /// <returns>True nếu sử dụng thành công</returns>
         public bool UseTool()
         {
-            if (!hasToolEquipped)
+            if (currentTool == null)
             {
-                LogDebug("No tool equipped to use");
+                Debug.LogWarning("[ToolEquipment] No tool equipped!");
                 return false;
             }
 
-            if (currentToolData != null && !currentToolData.isUsable)
+            if (!CanUseTool())
             {
-                LogDebug($"Tool {currentToolData.itemName} is not usable");
+                Debug.LogWarning("[ToolEquipment] Cannot use tool right now!");
                 return false;
             }
 
-            if (animController.IsActionLocked)
+            Debug.Log($"[ToolEquipment] 🔧 Using tool: {currentTool.toolType}");
+
+            // Trigger animation
+            bool animationStarted = false;
+
+            switch (currentTool.toolType)
             {
-                LogDebug("Cannot use tool - action locked");
+                case ToolType.Hoe:
+                    animationStarted = animController.PlayHoeing();
+                    break;
+                case ToolType.Watering:
+                    animationStarted = animController.PlayWatering();
+                    break;
+                case ToolType.Sickle:
+                    animationStarted = animController.PlaySickle();
+                    break;
+                default:
+                    Debug.LogWarning($"Tool type {currentTool.toolType} not implemented!");
+                    break;
+            }
+
+            if (animationStarted)
+            {
+                Debug.Log($"[ToolEquipment] ✅ Tool animation started");
+                return true;
+            }
+            else
+            {
+                Debug.LogWarning($"[ToolEquipment] ❌ Failed to start tool animation");
                 return false;
             }
-
-            // Trigger animation based on tool type
-            bool success = TriggerToolAnimation();
-
-            if (success)
-            {
-                LogDebug($"Used tool: {currentToolType} [Efficiency: {CurrentToolEfficiency}]");
-            }
-
-            return success;
+            
         }
 
         // Trigger animation dựa vào tool type
@@ -301,11 +318,11 @@ namespace TinyFarm.Tools
                 return;
 
             // Play tool sound from ToolItemData
-            if (currentToolData != null && currentToolData.useSound != null)
+            if (currentTool != null && currentTool.useSound != null)
             {
                 // TODO: Integrate với Sound Manager
                 // SoundManager.Instance.PlaySound(currentToolData.useSound);
-                LogDebug($"Playing tool sound: {currentToolData.useSound.name}");
+                LogDebug($"Playing tool sound: {currentTool.useSound.name}");
             }
         }
 
@@ -316,7 +333,7 @@ namespace TinyFarm.Tools
         // Get ToolItemData hiện tại
         public ToolItemData GetCurrentTool()
         {
-            return currentToolData;
+            return currentTool;
         }
 
         // Get ToolType hiện tại
@@ -328,7 +345,7 @@ namespace TinyFarm.Tools
         // Get tool ID hiện tại
         public string GetCurrentToolID()
         {
-            return currentToolData?.toolID;
+            return currentTool?.toolID;
         }
 
         // Get efficiency của tool hiện tại
@@ -352,9 +369,19 @@ namespace TinyFarm.Tools
         // Check xem có thể dùng tool không
         public bool CanUseTool()
         {
-            return hasToolEquipped
-                && !animController.IsActionLocked
-                && (currentToolData == null || currentToolData.isUsable);
+            bool canUse = hasToolEquipped
+        && !animController.IsActionLocked
+        && (currentTool == null || currentTool.isUsable);
+
+            if (!hasToolEquipped)
+                Debug.LogWarning("[CanUseTool] ❌ No tool equipped!");
+            if (animController.IsActionLocked)
+                Debug.LogWarning("[CanUseTool] 🔒 Animation is locked!");
+            if (currentTool != null && !currentTool.isUsable)
+                Debug.LogWarning("[CanUseTool] ⚠️ Tool is not usable!");
+
+            Debug.Log($"[CanUseTool] Result = {canUse}");
+            return canUse;
         }
 
         // ==========================================
@@ -377,13 +404,13 @@ namespace TinyFarm.Tools
             Debug.Log($"Has Tool Equipped: {hasToolEquipped}");
             Debug.Log($"Current Tool Type: {currentToolType}");
 
-            if (currentToolData != null)
+            if (currentTool != null)
             {
-                Debug.Log($"Tool Name: {currentToolData.itemName}");
-                Debug.Log($"Tool ID: {currentToolData.toolID}");
-                Debug.Log($"Efficiency: {currentToolData.efficiency}");
-                Debug.Log($"Use Sound: {(currentToolData.useSound != null ? currentToolData.useSound.name : "None")}");
-                Debug.Log($"Use Animation: {(currentToolData.useAnimation != null ? currentToolData.useAnimation.name : "None")}");
+                Debug.Log($"Tool Name: {currentTool.itemName}");
+                Debug.Log($"Tool ID: {currentTool.toolID}");
+                Debug.Log($"Efficiency: {currentTool.efficiency}");
+                Debug.Log($"Use Sound: {(currentTool.useSound != null ? currentTool.useSound.name : "None")}");
+                Debug.Log($"Use Animation: {(currentTool.useAnimation != null ? currentTool.useAnimation.name : "None")}");
             }
             else
             {

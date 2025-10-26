@@ -36,7 +36,7 @@ namespace TinyFarm.Items
             maxStackSize = 1;
 
             // Tool không thể ăn
-            isUsable = false;
+            isUsable = true;
         }
     }
 }

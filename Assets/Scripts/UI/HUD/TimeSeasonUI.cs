@@ -113,7 +113,6 @@ namespace TinyFarm.Items.UI
             int expectedCount = 4 * spritesPerRow; // 4 seasons * 5 times = 20 sprites
             if (seasonDayNightSprites.Length < expectedCount)
             {
-                Debug.LogWarning($"TimeSeasonUI: Expected {expectedCount} sprites but got {seasonDayNightSprites.Length}");
             }
         }
 

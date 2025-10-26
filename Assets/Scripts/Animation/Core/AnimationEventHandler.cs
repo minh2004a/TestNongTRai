@@ -8,8 +8,6 @@ namespace TinyFarm.Animation
 {
     // Component xử lý tất cả Animation Events
     // Nhận events từ Animation Clips và forward đến các systems
-    [RequireComponent(typeof(PlayerAnimationController))]
-    [RequireComponent(typeof(Animator))]
     public class AnimationEventHandler : MonoBehaviour
     {
         [Header("References")]

@@ -197,7 +197,7 @@ namespace TinyFarm.Items.UI
             if (tooltipRectTransform == null || canvas == null)
                 return;
 
-            Vector2 mousePosition = PlayerInput.mousePosition;
+            Vector2 mousePosition = UnityEngine.Input.mousePosition;
 
             // Convert mouse position to canvas space
             Vector2 localPoint;

@@ -64,7 +64,6 @@ namespace TinyFarm.Items
             isInitialized = true;
             OnRegistryInitialized?.Invoke();
 
-            Debug.Log($"[CropRegistry] Initialized with {RegisteredCropCount} crops");
         }
 
         private void LoadAllCrops()

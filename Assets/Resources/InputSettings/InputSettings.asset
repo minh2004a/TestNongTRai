@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c028051df1610146bd67531cd1819ee, type: 3}
+  m_Name: InputSettings
+  m_EditorClassIdentifier: 
+  horizontalAxis: Horizontal
+  verticalAxis: Vertical
+  deadZone: 0.1
+  interactKey: 101
+  sleepKey: 114
+  inventoryKey: 9
+  useToolKey: 323
+  hotbarKeys: 31000000320000003300000034000000350000003600000037000000380000003900000030000000
+  enableBuffering: 1
+  bufferDuration: 0.2
+  blockMovementWhenLocked: 1
+  blockToolUseWhenLocked: 1

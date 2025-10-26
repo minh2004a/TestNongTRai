@@ -76,7 +76,6 @@ namespace TinyFarm.Items.UI
 
             if (buttonTool != null)
                 buttonTool.onClick.AddListener(() => SwitchTab(buttonTool));
-            Debug.Log($"[InventoryTabController] Initialized with {buttonTabMap.Count} tabs");
         }
 
         public void SwitchTab(Button targetButton)
@@ -115,7 +114,6 @@ namespace TinyFarm.Items.UI
                     StartCoroutine(RefreshAfterDelay(targetTab.inventoryUI));
                 }
 
-                Debug.Log($"[InventoryTabController] Switched to {targetTab.panel.name}");
             }
         }
 

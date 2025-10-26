@@ -14,13 +14,13 @@ namespace TinyFarm.Items.UI
         [SerializeField] private InventoryManager inventoryManager;
         [SerializeField] private Transform slotsContainer;
         [SerializeField] private GameObject slotUIPrefab;
+        private PlayerInputHandler inputHandler;
 
         [Header("UI Elements")]
         [SerializeField] private Button closeButton;
 
         [Header("Settings")]
         [SerializeField] private bool autoCreateSlots = true;
-        [SerializeField] private KeyCode toggleKey = KeyCode.E;
 
         // State
         private List<SlotUI> slotUIs = new List<SlotUI>();
@@ -37,8 +37,32 @@ namespace TinyFarm.Items.UI
         private void Start()
         {
             Initialize();
+            inputHandler = FindObjectOfType<PlayerInputHandler>();
+            if (inputHandler != null)
+            {
+                inputHandler.OnInventoryToggled += ToggleInventory;
+            }
         }
 
+        private void OnDestroy()
+        {
+            if (inputHandler != null)
+            {
+                inputHandler.OnInventoryToggled -= ToggleInventory;
+            }
+
+            foreach (var slotUI in slotUIs)
+            {
+                if (slotUI != null)
+                {
+                    slotUI.OnSlotClicked -= OnSlotUIClicked;
+                    slotUI.OnSlotRightClicked -= OnSlotUIRightClicked;
+                    slotUI.OnSlotHoverEnter -= OnSlotUIHoverEnter;
+                    slotUI.OnSlotHoverExit -= OnSlotUIHoverExit;
+                }
+            }
+        }
+        
         private void Initialize()
         {
             // Find InventoryManager if not assigned
@@ -96,7 +120,6 @@ namespace TinyFarm.Items.UI
                 CreateSlotUI(slots[i]);
             }
 
-            Debug.Log($"[InventoryUI] Created {slotUIs.Count} slot UIs");
         }
 
         private void CreateSlotUI(InventorySlot slot)
@@ -118,11 +141,7 @@ namespace TinyFarm.Items.UI
 
         private void Update()
         {
-            // Toggle inventory
-            if (PlayerInput.GetKeyDown(toggleKey))
-            {
-                ToggleInventory();
-            }
+            
         }
 
         public void ToggleInventory()
@@ -235,19 +254,6 @@ namespace TinyFarm.Items.UI
             inventoryManager.SortInventory();
             UpdateUI();
         }
-        private void OnDestroy()
-        {
-
-            foreach (var slotUI in slotUIs)
-            {
-                if (slotUI != null)
-                {
-                    slotUI.OnSlotClicked -= OnSlotUIClicked;
-                    slotUI.OnSlotRightClicked -= OnSlotUIRightClicked;
-                    slotUI.OnSlotHoverEnter -= OnSlotUIHoverEnter;
-                    slotUI.OnSlotHoverExit -= OnSlotUIHoverExit;
-                }
-            }
-        }
+        
     }
 }

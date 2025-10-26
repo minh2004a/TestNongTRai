@@ -113,7 +113,6 @@ namespace TinyFarm.Save
                 Debug.Log($"[SaveSystem] Created save directory: {SaveDirectory}");
             }
 
-            Debug.Log("[SaveSystem] Initialized");
         }
 
         #region Save Operations

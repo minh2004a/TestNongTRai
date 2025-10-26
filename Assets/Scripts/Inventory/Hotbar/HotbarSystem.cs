@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TinyFarm.PlayerInput;      // ✅ THÊM
+using TinyFarm.Tools;      // ✅ THÊM
 using UnityEngine;
 
 namespace TinyFarm.Items.UI 
@@ -8,12 +10,14 @@ namespace TinyFarm.Items.UI
     public class HotbarSystem : MonoBehaviour
     {
         [Header("Hotbar Settings")]
-        [SerializeField] private int hotbarSize = 12;
+        [SerializeField] private int hotbarSize = 10;
         [SerializeField] private int startSlotIndex = 0; // Slot bắt đầu trong inventory
         [SerializeField] private bool allowHotbarSwap = true;
 
         [Header("References")]
         [SerializeField] private InventoryManager inventoryManager;
+        [SerializeField] private PlayerInputHandler inputHandler;           
+        [SerializeField] private ToolEquipmentController toolEquipment;
 
         [Header("Runtime Data")]
         [SerializeField] private int selectedSlotIndex = 0;
@@ -35,21 +39,71 @@ namespace TinyFarm.Items.UI
 
         private void Awake()
         {
-            Initialize();
+            ValidateReferences();
         }
 
-        private void Update()
+        private void Start()
         {
-            // Hotkey selection (1-9, 0 for slot 10)
-            //HandleHotkeyInput();
+            // Initialize in correct order
+            StartCoroutine(InitializeSequence());
         }
 
-        // Khởi tạo hotbar system
-        public void Initialize()
+        private void OnDestroy()
         {
-            if (isInitialized) return;
+            if (inputHandler != null)
+            {
+                inputHandler.OnHotbarSlotSelected -= OnHotbarKeyPressed;
+            }
+        }
 
-            // Validate references
+        private void OnValidate()
+        {
+            if (hotbarSize < 1) hotbarSize = 1;
+            if (hotbarSize > 10) hotbarSize = 10;
+            if (startSlotIndex < 0) startSlotIndex = 0;
+        }
+
+        // ==========================================
+        // INITIALIZATION SEQUENCE (FIXED)
+        // ==========================================
+
+        private IEnumerator InitializeSequence()
+        {
+            // Step 1: Wait for InventoryManager
+            yield return StartCoroutine(WaitForInventoryInit());
+
+            // Step 2: Setup hotbar slots
+            SetupHotbar();
+
+            // Step 3: Setup input connections
+            SetupInputConnection();
+
+            // Step 4: Mark as initialized
+            isInitialized = true;
+            OnHotbarInitialized?.Invoke();
+
+            DebugHotbar(); // Auto log initial state
+        }
+
+        private IEnumerator WaitForInventoryInit()
+        {
+            int waitFrames = 0;
+            const int MAX_WAIT = 300; // 5 seconds at 60fps
+
+            while (!inventoryManager.IsInitialized && waitFrames < MAX_WAIT)
+            {
+                waitFrames++;
+                yield return null;
+            }
+
+            if (!inventoryManager.IsInitialized)
+            {
+                yield break;
+            }
+        }
+
+        private void ValidateReferences()
+        {
             if (inventoryManager == null)
             {
                 inventoryManager = GetComponent<InventoryManager>();
@@ -57,39 +111,19 @@ namespace TinyFarm.Items.UI
                 {
                     inventoryManager = FindObjectOfType<InventoryManager>();
                 }
-
-                if (inventoryManager == null)
-                {
-                    Debug.LogError("[HotbarSystem] InventoryManager not found!");
-                    return;
-                }
             }
 
-            // Wait for inventory to initialize
-            if (!inventoryManager.IsInitialized)
+            if (inventoryManager == null)
             {
-                Debug.LogWarning("[HotbarSystem] Waiting for InventoryManager to initialize...");
-                StartCoroutine(WaitForInventoryInit());
+                enabled = false;
                 return;
             }
-
-            SetupHotbar();
-        }
-
-        private System.Collections.IEnumerator WaitForInventoryInit()
-        {
-            while (!inventoryManager.IsInitialized)
-            {
-                yield return null;
-            }
-            SetupHotbar();
         }
 
         private void SetupHotbar()
         {
             hotbarSlots = new List<InventorySlot>();
 
-            // Lấy reference đến các slots từ inventory
             for (int i = 0; i < hotbarSize; i++)
             {
                 int slotIndex = startSlotIndex + i;
@@ -99,18 +133,46 @@ namespace TinyFarm.Items.UI
                 {
                     hotbarSlots.Add(slot);
                     SubscribeToSlotEvents(slot, i);
+
+                    // Debug each slot
+                    string itemInfo = slot.IsEmpty ? "Empty" : $"{slot.ItemName} x{slot.Quantity}";
                 }
                 else
                 {
-                    Debug.LogWarning($"[HotbarSystem] Cannot get slot {slotIndex} from inventory!");
+                    Debug.LogError($"[HotbarSystem] ❌ Cannot get slot {slotIndex} from inventory!");
                 }
             }
 
-            // Set slot đầu tiên là selected
             selectedSlotIndex = 0;
+        }
 
-            isInitialized = true;
-            OnHotbarInitialized?.Invoke();
+        private void SetupInputConnection()
+        {
+            // Find references if not assigned
+            if (inputHandler == null)
+            {
+                inputHandler = FindObjectOfType<PlayerInputHandler>();
+            }
+
+            if (toolEquipment == null)
+            {
+                toolEquipment = FindObjectOfType<ToolEquipmentController>();
+            }
+
+            // Subscribe to input events
+            if (inputHandler != null)
+            {
+                inputHandler.OnHotbarSlotSelected += OnHotbarKeyPressed;
+            }
+            else
+            {
+                Debug.LogError("[HotbarSystem] ❌ PlayerInputHandler not found!");
+            }
+
+            if (toolEquipment == null)
+            {
+                Debug.LogWarning("[HotbarSystem] ⚠️ ToolEquipmentController not found!");
+            }
         }
 
         private void SubscribeToSlotEvents(InventorySlot slot, int hotbarIndex)
@@ -118,14 +180,107 @@ namespace TinyFarm.Items.UI
             slot.OnSlotChanged += (s) => OnHotbarSlotChanged?.Invoke(hotbarIndex, s);
         }
 
-        #region Selection Management
+        // ==========================================
+        // INPUT HANDLING (IMPROVED DEBUG)
+        // ==========================================
 
-        // Chọn slot theo index (0-based)
+        private void OnHotbarKeyPressed(int slotIndex)
+        {
+
+            if (!isInitialized)
+            {
+                return;
+            }
+
+            if (slotIndex < 0 || slotIndex >= hotbarSlots.Count)
+            {
+                return;
+            }
+
+            // Select slot
+            SelectSlot(slotIndex);
+
+            // Get slot info
+            InventorySlot slot = GetHotbarSlot(slotIndex);
+            if (slot != null)
+            {
+                if (slot.IsEmpty)
+                {
+                    Debug.Log($"[HotbarSystem] 📭 Slot {slotIndex} is empty");
+                }
+                else
+                {
+                    Debug.Log($"[HotbarSystem] 📦 Slot {slotIndex}: {slot.ItemName} x{slot.Quantity}");
+                }
+            }
+
+            // Try equip tool
+            EquipToolFromSlot(slotIndex);
+        }
+
+        private void EquipToolFromSlot(int slotIndex)
+        {
+            if (toolEquipment == null)
+            {
+                return;
+            }
+
+            InventorySlot slot = GetHotbarSlot(slotIndex);
+
+            if (slot == null)
+            {
+                return;
+            }
+
+            if (slot.IsEmpty)
+            {
+                toolEquipment.UnequipTool();
+                return;
+            }
+
+            Item item = slot.Item;
+
+            // Check if item is a tool
+            if (item?.ItemData == null)
+            {
+                return;
+            }
+
+            ItemType itemType = item.ItemData.GetItemType();
+
+            if (itemType == ItemType.Tool)
+            {
+                ToolItemData toolData = item.ItemData as ToolItemData;
+
+                if (toolData != null)
+                {
+                    bool success = toolEquipment.EquipTool(toolData);
+
+                    if (success)
+                    {
+                    }
+                    else
+                    {
+                    }
+                }
+                else
+                {
+                }
+            }
+            else
+            {
+                toolEquipment.UnequipTool();
+            }
+        }
+
+        // ==========================================
+        // SELECTION MANAGEMENT
+        // ==========================================
+
         public void SelectSlot(int index)
         {
             if (index < 0 || index >= hotbarSize)
             {
-                Debug.LogWarning($"[HotbarSystem] Invalid slot index: {index}");
                 return;
             }
 
@@ -135,24 +290,26 @@ namespace TinyFarm.Items.UI
             OnSlotSelectionChanged?.Invoke(oldIndex, selectedSlotIndex);
             OnSelectedSlotChanged?.Invoke(GetSelectedSlot());
 
-            Debug.Log($"[HotbarSystem] Selected slot {selectedSlotIndex}: {GetSelectedSlot()?.ItemName ?? "Empty"}");
+            InventorySlot slot = GetSelectedSlot();
+            string itemInfo = slot?.IsEmpty == false ? slot.ItemName : "Empty";
         }
 
-        /// Chọn slot kế tiếp
         public void SelectNextSlot()
         {
             int nextIndex = (selectedSlotIndex + 1) % hotbarSize;
             SelectSlot(nextIndex);
         }
 
-        /// Chọn slot trước đó
         public void SelectPreviousSlot()
         {
             int prevIndex = (selectedSlotIndex - 1 + hotbarSize) % hotbarSize;
             SelectSlot(prevIndex);
         }
 
-        /// Lấy slot đang được chọn
+        // ==========================================
+        // SLOT ACCESS
+        // ==========================================
+
         public InventorySlot GetSelectedSlot()
         {
             if (selectedSlotIndex < 0 || selectedSlotIndex >= hotbarSlots.Count)
@@ -161,18 +318,12 @@ namespace TinyFarm.Items.UI
             return hotbarSlots[selectedSlotIndex];
         }
 
-        /// Lấy item đang được chọn
         public Item GetSelectedItem()
         {
             InventorySlot slot = GetSelectedSlot();
             return slot?.Item;
         }
 
-#endregion
-
-        #region Slot Access
-
-        /// Lấy hotbar slot theo index
         public InventorySlot GetHotbarSlot(int index)
         {
             if (index < 0 || index >= hotbarSlots.Count)
@@ -181,30 +332,26 @@ namespace TinyFarm.Items.UI
             return hotbarSlots[index];
         }
 
-        /// Lấy tất cả hotbar slots
         public List<InventorySlot> GetAllHotbarSlots()
         {
             return new List<InventorySlot>(hotbarSlots);
         }
 
-        /// Kiểm tra slot có item không
         public bool HasItemInSlot(int index)
         {
             InventorySlot slot = GetHotbarSlot(index);
             return slot != null && !slot.IsEmpty;
         }
 
-        /// Kiểm tra selected slot có item không
         public bool HasSelectedItem()
         {
             return GetSelectedSlot()?.HasItem ?? false;
         }
 
-        #endregion
+        // ==========================================
+        // ITEM OPERATIONS
+        // ==========================================
 
-        #region Item Operations
-
-        // Sử dụng item trong selected slot
         public bool UseSelectedItem()
         {
             InventorySlot selectedSlot = GetSelectedSlot();
@@ -224,7 +371,6 @@ namespace TinyFarm.Items.UI
             return used;
         }
 
-        /// Xóa item khỏi selected slot
         public Item RemoveSelectedItem(int quantity = 1)
         {
             InventorySlot selectedSlot = GetSelectedSlot();
@@ -237,7 +383,6 @@ namespace TinyFarm.Items.UI
             return selectedSlot.RemoveItem(quantity);
         }
 
-        /// Swap 2 hotbar slots
         public bool SwapHotbarSlots(int index1, int index2)
         {
             if (!allowHotbarSwap)
@@ -252,48 +397,16 @@ namespace TinyFarm.Items.UI
                 return false;
             }
 
-            // Get actual inventory slot indices
             int invIndex1 = startSlotIndex + index1;
             int invIndex2 = startSlotIndex + index2;
 
             return inventoryManager.SwapSlots(invIndex1, invIndex2);
         }
 
-        #endregion
+        // ==========================================
+        // UTILITY METHODS
+        // ==========================================
 
-        #region Input Handling
-        // Xử lý hotkey input (1-9, 0)
-        //private void HandleHotkeyInput()
-        //{
-        //    // Number keys 1-9
-        //    for (int i = 1; i <= 9; i++)
-        //    {
-        //        if (Input.GetKeyDown(KeyCode.Alpha0 + i))
-        //        {
-        //            int slotIndex = i - 1; // 0-based index
-        //            if (slotIndex < hotbarSize)
-        //            {
-        //                SelectSlot(slotIndex);
-        //            }
-        //            return;
-        //        }
-        //    }
-
-        //    // Key 0 for slot 10 (if exists)
-        //    if (Input.GetKeyDown(KeyCode.Alpha0))
-        //    {
-        //        if (hotbarSize >= 10)
-        //        {
-        //            SelectSlot(9);
-        //        }
-        //    }
-        //}
-
-        #endregion
-
-        #region Utility Methods
-
-        // Tìm slot trong hotbar có item ID này
         public int FindHotbarSlotWithItem(string itemID)
         {
             for (int i = 0; i < hotbarSlots.Count; i++)
@@ -306,15 +419,11 @@ namespace TinyFarm.Items.UI
             return -1;
         }
 
-        /// Kiểm tra hotbar có item này không
         public bool HasItemInHotbar(string itemID)
         {
             return FindHotbarSlotWithItem(itemID) >= 0;
         }
 
-        /// <summary>
-        /// Đếm số lượng item trong hotbar
-        /// </summary>
         public int GetItemCountInHotbar(string itemID)
         {
             int count = 0;
@@ -328,9 +437,6 @@ namespace TinyFarm.Items.UI
             return count;
         }
 
-        /// <summary>
-        /// Clear selected slot
-        /// </summary>
         public void ClearSelectedSlot()
         {
             InventorySlot selectedSlot = GetSelectedSlot();
@@ -340,23 +446,24 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        #endregion
-
-        #region Debug Methods
+        // ==========================================
+        // DEBUG METHODS
+        // ==========================================
 
         [ContextMenu("Debug Hotbar")]
         private void DebugHotbar()
         {
-            Debug.Log("=== HOTBAR STATUS ===");
-            Debug.Log($"Size: {hotbarSize}");
-            Debug.Log($"Selected: Slot {selectedSlotIndex}");
-            Debug.Log($"Selected Item: {GetSelectedItem()?.Name ?? "None"}");
+            InventorySlot selectedSlot = GetSelectedSlot();
+            if (selectedSlot != null)
+            {
+                string itemInfo = selectedSlot.IsEmpty ? "None" : $"{selectedSlot.ItemName} x{selectedSlot.Quantity}";
+            }
 
-            Debug.Log("\n=== HOTBAR SLOTS ===");
             for (int i = 0; i < hotbarSlots.Count; i++)
             {
+                InventorySlot slot = hotbarSlots[i];
                 string selected = i == selectedSlotIndex ? " [SELECTED]" : "";
-                Debug.Log($"  Hotbar[{i}]: {hotbarSlots[i]}{selected}");
+                string itemInfo = slot.IsEmpty ? "Empty" : $"{slot.ItemName} x{slot.Quantity}";
             }
         }
 
@@ -378,17 +485,11 @@ namespace TinyFarm.Items.UI
             UseSelectedItem();
         }
 
-        #endregion
-        private void OnDestroy()
+        [ContextMenu("Test - Equip Tool From Selected Slot")]
+        private void TestEquipToolFromSelectedSlot()
         {
-            // Cleanup - không cần unsubscribe vì slots thuộc về inventory manager
+            EquipToolFromSlot(selectedSlotIndex);
         }
 
-        private void OnValidate()
-        {
-            if (hotbarSize < 1) hotbarSize = 1;
-            if (hotbarSize > 10) hotbarSize = 10;
-            if (startSlotIndex < 0) startSlotIndex = 0;
-        }
     }
 }

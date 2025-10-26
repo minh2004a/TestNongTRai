@@ -59,13 +59,10 @@ namespace TinyFarm.Items
                 return;
             }
 
-            Debug.Log($"[InventoryManager] Using ItemDatabase: {itemDatabase.name}");
-            Debug.Log($"[InventoryManager] Items in database: {itemDatabase.items.Count}");
 
             // CRITICAL: Force initialize ItemDatabase TRƯỚC KHI init inventory
             itemDatabase.Initialize();
 
-            Debug.Log($"[InventoryManager] ItemDatabase initialized");
 
             // Initialize inventory
             Initialize();
@@ -96,7 +93,6 @@ namespace TinyFarm.Items
             }
 
             isInitialized = true;
-            Debug.Log($"[InventoryManager] Initialized with {inventorySize} slots");
         }
 
 

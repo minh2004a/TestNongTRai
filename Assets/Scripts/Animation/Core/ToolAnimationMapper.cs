@@ -69,7 +69,6 @@ namespace TinyFarm.Animation
                 loadedCount++;
             }
 
-            Debug.Log($"[ToolAnimationMapper] Loaded {loadedCount}/{configs.Length} tool configs");
         }
 
         // Lấy AnimationState tương ứng với tool (VD: ToolType.Hoe → AnimationState.Hoeing).

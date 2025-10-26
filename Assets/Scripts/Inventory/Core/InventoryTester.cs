@@ -14,13 +14,9 @@ public class InventoryTester : MonoBehaviour
     [Header("Test Settings")]
     public bool autoAddTestItems = false;
     public KeyCode addItemKey = KeyCode.T;
-    public KeyCode removeItemKey = KeyCode.R;
-    public KeyCode clearInventoryKey = KeyCode.C;
-    public KeyCode debugItemsKey = KeyCode.D; // NEW: Debug key
 
     [Header("Inventory Toggle")]
     public InventoryUI inventoryUI;
-    public KeyCode toggleInventoryKey = KeyCode.Tab;
 
     private InventoryManager inventoryManager;
 
@@ -44,35 +40,6 @@ public class InventoryTester : MonoBehaviour
         {
             AddRandomTestItem();
         }
-
-        if (Input.GetKeyDown(removeItemKey))
-        {
-            RemoveRandomItem();
-        }
-
-        if (Input.GetKeyDown(clearInventoryKey))
-        {
-            inventoryManager.ClearAllSlots();
-            Debug.Log("[TEST] Inventory cleared!");
-        }
-
-        if (Input.GetKeyDown(toggleInventoryKey))
-            ToggleInventory();
-
-        if (Input.GetKeyDown(debugItemsKey))
-            DebugTestItems();
-    }
-
-    private void ToggleInventory()
-    {
-        if (inventoryUI == null)
-        {
-            Debug.LogWarning("[TEST] InventoryUI not assigned!");
-            return;
-        }
-
-        bool newState = !inventoryUI.gameObject.activeSelf;
-        inventoryUI.gameObject.SetActive(newState);
     }
 
     [ContextMenu("Debug Test Items")]
@@ -99,7 +66,6 @@ public class InventoryTester : MonoBehaviour
     [ContextMenu("Add Test Items")]
     public void AddTestItems()
     {
-        Debug.Log("[TEST] Adding test items...");
 
         foreach (var itemData in testItems)
         {
@@ -108,7 +74,6 @@ public class InventoryTester : MonoBehaviour
                 // Check if itemID is valid
                 if (string.IsNullOrEmpty(itemData.itemID))
                 {
-                    Debug.LogError($"[TEST] ❌ Cannot add {itemData.itemName} - EMPTY ITEM ID!");
                     continue;
                 }
 
@@ -117,11 +82,9 @@ public class InventoryTester : MonoBehaviour
 
                 if (success)
                 {
-                    Debug.Log($"[TEST] ✅ Added {quantity}x {itemData.itemName} (ID: {itemData.itemID})");
                 }
                 else
                 {
-                    Debug.LogError($"[TEST] ❌ Failed to add {itemData.itemName} (ID: {itemData.itemID})");
                 }
             }
         }

@@ -200,9 +200,7 @@ public class PlayerMovement : MonoBehaviour
         LogDebug("Force stopped");
     }
 
-    /// <summary>
     /// Set movement enabled/disabled
-    /// </summary>
     public void SetMovementEnabled(bool enabled)
     {
         this.enabled = enabled;
@@ -212,9 +210,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Teleport player to position
-    /// </summary>
     public void TeleportTo(Vector2 position)
     {
         transform.position = position;
@@ -241,7 +237,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (showDebugInfo)
         {
-            Debug.Log($"[PlayerMovement] {message}");
         }
     }
 

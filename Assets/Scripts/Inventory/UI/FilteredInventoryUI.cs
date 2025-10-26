@@ -63,7 +63,6 @@ namespace TinyFarm.Items.UI
 
             isInitialized = true;
 
-            Debug.Log($"[FilteredInventoryUI] {gameObject.name} - Initialized (ShowAll: {showAllTypes}, Types: {string.Join(", ", allowedTypes)})");
         }
 
         private void OnInventoryChangedHandler()
@@ -112,7 +111,6 @@ namespace TinyFarm.Items.UI
                 }
             }
 
-            Debug.Log($"[FilteredInventoryUI] {gameObject.name} - Created {slotUIs.Count} slot UIs");
         }
 
         public void RefreshDisplay()

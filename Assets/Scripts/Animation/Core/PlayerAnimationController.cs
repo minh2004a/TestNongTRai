@@ -276,10 +276,12 @@ namespace TinyFarm.Animation
 
         private bool PlayToolAnimation(ToolType toolType)
         {
+            LogDebug($"🔧 PlayToolAnimation: {toolType}");
+
             // Validate
             if (isActionLocked)
             {
-                LogDebug($"Cannot play {toolType} - action locked");
+                LogDebug($"⏳ Cannot play {toolType} - action locked");
                 return false;
             }
 
@@ -313,6 +315,8 @@ namespace TinyFarm.Animation
                 duration = 1f; // Fallback
             }
 
+            LogDebug($"✅ Playing tool animation: {toolState}, duration: {duration:F2}s");
+
             // Start animation
             StartToolAction(toolState, duration);
 
@@ -321,11 +325,21 @@ namespace TinyFarm.Animation
 
         private void StartToolAction(AnimationState toolState, float duration)
         {
+            LogDebug($"StartToolAction: {toolState}, duration: {duration:F2}s");
+
             // Stop previous action if any
             if (actionCoroutine != null)
             {
                 StopCoroutine(actionCoroutine);
                 actionCoroutine = null;
+            }
+
+            // Store previous state for return
+            AnimationState previousMovementState = currentState;
+            if (IsToolAction(previousMovementState))
+            {
+                // If already in tool state, use Idle as fallback
+                previousMovementState = AnimationState.Idle;
             }
 
             // Transition to tool state
@@ -335,20 +349,20 @@ namespace TinyFarm.Animation
             UpdateDirectionParameters(lastDirectionVector);
 
             // Start action lock coroutine
-            actionCoroutine = StartCoroutine(ActionLockCoroutine(duration));
+            actionCoroutine = StartCoroutine(ActionLockCoroutine(duration, previousMovementState));
 
             // Fire event
             OnToolActionStarted?.Invoke(toolState);
         }
 
-        private IEnumerator ActionLockCoroutine(float duration)
+        private IEnumerator ActionLockCoroutine(float duration, AnimationState returnState)
         {
             // Lock
             isActionLocked = true;
             actionStartTime = Time.time;
             actionDuration = duration;
 
-            LogDebug($"Action locked for {duration:F2}s");
+            LogDebug($"Action locked for {duration:F2}s, will return to: {returnState}");
 
             // Wait for duration
             yield return new WaitForSeconds(duration);
@@ -357,13 +371,14 @@ namespace TinyFarm.Animation
             isActionLocked = false;
             actionDuration = 0f;
 
-            LogDebug("Action unlocked");
+            LogDebug($"Action unlocked, returning to: {returnState}");
 
             // Fire complete event
             OnActionComplete?.Invoke();
 
-            // Return to idle
-            PlayIdle();
+            // Return to previous state (Idle or Running)
+            TransitionToState(returnState);
+            UpdateDirectionParameters(lastDirectionVector);
 
             actionCoroutine = null;
         }
@@ -405,13 +420,6 @@ namespace TinyFarm.Animation
         public void SetCurrentTool(ToolType toolType)
         {
             currentToolType = toolType;
-
-            // Nếu bạn có parameter "ToolType" trong Animator thì set ở đây:
-            if (animator != null)
-            {
-                animator.SetInteger("State", (int)toolType);
-            }
-
             LogDebug($"SetCurrentTool: {toolType}");
         }
 
@@ -567,9 +575,9 @@ namespace TinyFarm.Animation
         }
 
         /// Check if hiện tại đang trong tool action state
-        public bool IsToolAction()
+        public bool IsToolAction(AnimationState state)
         {
-            return stateValidator.IsToolAction(currentState);
+            return stateValidator.IsToolAction(state);
         }
 
         /// Get current state name

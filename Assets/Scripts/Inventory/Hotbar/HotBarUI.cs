@@ -16,11 +16,6 @@ namespace TinyFarm.Items.UI
         [SerializeField] private int hotBarSize = 10; // 0-9
         [SerializeField] private bool autoCreateSlots = true;
         [SerializeField]
-        private KeyCode[] hotKeys = new KeyCode[]
-        {
-            KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4, KeyCode.Alpha5,
-            KeyCode.Alpha6, KeyCode.Alpha7, KeyCode.Alpha8, KeyCode.Alpha9, KeyCode.Alpha0
-        };
 
         // State
         private List<HotbarSlotUI> slotUIs = new List<HotbarSlotUI>();
@@ -91,7 +86,6 @@ namespace TinyFarm.Items.UI
                 CreateSlotUI(slots[i], i);
             }
 
-            Debug.Log($"[HotBarUI] Created {slotUIs.Count} hotbar slot UIs");
         }
 
         private void CreateSlotUI(InventorySlot slot, int index)
@@ -109,40 +103,6 @@ namespace TinyFarm.Items.UI
                 slotUIs.Add(slotUI);
             }
         }
-
-        //private void Update()
-        //{
-        //    // Handle hotkey inputs
-        //    for (int i = 0; i < hotKeys.Length && i < slotUIs.Count; i++)
-        //    {
-        //        if (Input.GetKeyDown(hotKeys[i]))
-        //        {
-        //            SelectSlot(i);
-        //        }
-        //    }
-
-        //    // Handle mouse scroll wheel for slot selection
-        //    float scroll = Input.GetAxis("Mouse ScrollWheel");
-        //    if (scroll != 0)
-        //    {
-        //        int direction = scroll > 0 ? -1 : 1;
-        //        int newIndex = selectedSlotIndex + direction;
-
-        //        // Wrap around
-        //        if (newIndex < 0)
-        //            newIndex = slotUIs.Count - 1;
-        //        else if (newIndex >= slotUIs.Count)
-        //            newIndex = 0;
-
-        //        SelectSlot(newIndex);
-        //    }
-
-        //    // Use selected slot item with key
-        //    if (Input.GetKeyDown(KeyCode.F) || Input.GetMouseButtonDown(0))
-        //    {
-        //        UseSelectedSlot();
-        //    }
-        //}
 
         public void SelectSlot(int index)
         {
@@ -163,7 +123,6 @@ namespace TinyFarm.Items.UI
             slotUIs[selectedSlotIndex].Select();
 
             OnSlotSelected?.Invoke(selectedSlotIndex);
-            Debug.Log($"[HotBarUI] Selected slot {index}");
         }
 
         public void UseSelectedSlot()
