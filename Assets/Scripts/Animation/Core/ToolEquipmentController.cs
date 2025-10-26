@@ -221,6 +221,7 @@ namespace TinyFarm.Tools
         /// <returns>True nếu sử dụng thành công</returns>
         public bool UseTool()
         {
+            Debug.Log($"[ToolEquipment] 🧭 UseTool() called at frame {Time.frameCount}");
             if (currentTool == null)
             {
                 Debug.LogWarning("[ToolEquipment] No tool equipped!");
@@ -268,33 +269,33 @@ namespace TinyFarm.Tools
         }
 
         // Trigger animation dựa vào tool type
-        private bool TriggerToolAnimation()
-        {
-            switch (currentToolType)
-            {
-                case ToolType.Hoe:
-                    return animController.PlayHoeing();
+        //private bool TriggerToolAnimation()
+        //{
+        //    switch (currentToolType)
+        //    {
+        //        case ToolType.Hoe:
+        //            return animController.PlayHoeing();
 
-                case ToolType.Watering:
-                    return animController.PlayWatering();
+        //        case ToolType.Watering:
+        //            return animController.PlayWatering();
 
-                case ToolType.Sickle:
-                    return animController.PlaySickle();
+        //        case ToolType.Sickle:
+        //            return animController.PlaySickle();
 
-                case ToolType.PickUpIdle:
-                case ToolType.PickUpRun:
-                    return animController.PlayPickUp();
+        //        case ToolType.PickUpIdle:
+        //        case ToolType.PickUpRun:
+        //            return animController.PlayPickUp();
 
-                case ToolType.Seeds:
-                    // TODO: Implement planting animation
-                    LogDebug("Planting not implemented yet");
-                    return false;
+        //        case ToolType.Seeds:
+        //            // TODO: Implement planting animation
+        //            LogDebug("Planting not implemented yet");
+        //            return false;
 
-                default:
-                    Debug.LogWarning($"[ToolEquipment] No animation for tool type: {currentToolType}");
-                    return false;
-            }
-        }
+        //        default:
+        //            Debug.LogWarning($"[ToolEquipment] No animation for tool type: {currentToolType}");
+        //            return false;
+        //    }
+        //}
 
         // ==========================================
         // EVENT HANDLERS

@@ -14362,6 +14362,7 @@ MonoBehaviour:
   hotbarSize: 10
   startSlotIndex: 0
   allowHotbarSwap: 1
+  hotbarUI: {fileID: 1747188840}
   inventoryManager: {fileID: 1909291318}
   inputHandler: {fileID: 836636490}
   toolEquipment: {fileID: 883206089}

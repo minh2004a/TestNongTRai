@@ -13,6 +13,7 @@ namespace TinyFarm.Items.UI
         [SerializeField] private int hotbarSize = 10;
         [SerializeField] private int startSlotIndex = 0; // Slot bắt đầu trong inventory
         [SerializeField] private bool allowHotbarSwap = true;
+        [SerializeField] private HotBarUI hotbarUI;
 
         [Header("References")]
         [SerializeField] private InventoryManager inventoryManager;
@@ -173,6 +174,9 @@ namespace TinyFarm.Items.UI
             {
                 Debug.LogWarning("[HotbarSystem] ⚠️ ToolEquipmentController not found!");
             }
+
+            if (hotbarUI == null)
+                hotbarUI = FindObjectOfType<HotBarUI>();
         }
 
         private void SubscribeToSlotEvents(InventorySlot slot, int hotbarIndex)
@@ -280,18 +284,21 @@ namespace TinyFarm.Items.UI
         public void SelectSlot(int index)
         {
             if (index < 0 || index >= hotbarSize)
-            {
                 return;
-            }
 
             int oldIndex = selectedSlotIndex;
             selectedSlotIndex = index;
+
+            // ✅ Gọi UI update sau khi đã đổi selectedSlotIndex
+            if (hotbarUI != null)
+                hotbarUI.SelectSlot(selectedSlotIndex);
 
             OnSlotSelectionChanged?.Invoke(oldIndex, selectedSlotIndex);
             OnSelectedSlotChanged?.Invoke(GetSelectedSlot());
 
             InventorySlot slot = GetSelectedSlot();
             string itemInfo = slot?.IsEmpty == false ? slot.ItemName : "Empty";
+            Debug.Log($"[HotbarSystem] Selected slot {selectedSlotIndex}: {itemInfo}");
         }
 
         public void SelectNextSlot()
