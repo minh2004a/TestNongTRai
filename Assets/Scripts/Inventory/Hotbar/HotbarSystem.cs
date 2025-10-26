@@ -11,21 +11,20 @@ namespace TinyFarm.Items.UI
     {
         [Header("Hotbar Settings")]
         [SerializeField] private int hotbarSize = 10;
-        [SerializeField] private int startSlotIndex = 0; // Slot bắt đầu trong inventory
+        [SerializeField] private int startSlotIndex = 0;
         [SerializeField] private bool allowHotbarSwap = true;
         [SerializeField] private HotBarUI hotbarUI;
 
         [Header("References")]
         [SerializeField] private InventoryManager inventoryManager;
-        [SerializeField] private PlayerInputHandler inputHandler;           
+        [SerializeField] private PlayerInputHandler inputHandler;
         [SerializeField] private ToolEquipmentController toolEquipment;
-        [SerializeField] private ItemHoldingController itemHolding;
+        [SerializeField] private ItemHoldingController itemHolding; // ✅ THÊM
 
         [Header("Runtime Data")]
         [SerializeField] private int selectedSlotIndex = 0;
         [SerializeField] private List<InventorySlot> hotbarSlots;
         [SerializeField] private bool isInitialized = false;
-        [SerializeField] private Item currentSelectedItem;
 
         // Properties
         public int HotbarSize => hotbarSize;
@@ -35,9 +34,9 @@ namespace TinyFarm.Items.UI
         public Item SelectedItem => SelectedSlot?.Item;
 
         // Events
-        public event Action<int, int> OnSlotSelectionChanged; // oldIndex, newIndex
+        public event Action<int, int> OnSlotSelectionChanged;
         public event Action<InventorySlot> OnSelectedSlotChanged;
-        public event Action<int, InventorySlot> OnHotbarSlotChanged; // slotIndex, slot
+        public event Action<int, InventorySlot> OnHotbarSlotChanged;
         public event Action OnHotbarInitialized;
 
         private void Awake()
@@ -47,10 +46,8 @@ namespace TinyFarm.Items.UI
 
         private void Start()
         {
-            // Initialize in correct order
             StartCoroutine(InitializeSequence());
         }
-
 
         private void OnDestroy()
         {
@@ -68,31 +65,25 @@ namespace TinyFarm.Items.UI
         }
 
         // ==========================================
-        // INITIALIZATION SEQUENCE (FIXED)
+        // INITIALIZATION
         // ==========================================
 
         private IEnumerator InitializeSequence()
         {
-            // Step 1: Wait for InventoryManager
             yield return StartCoroutine(WaitForInventoryInit());
-
-            // Step 2: Setup hotbar slots
             SetupHotbar();
-
-            // Step 3: Setup input connections
             SetupInputConnection();
 
-            // Step 4: Mark as initialized
             isInitialized = true;
             OnHotbarInitialized?.Invoke();
 
-            DebugHotbar(); // Auto log initial state
+            Debug.Log("[HotbarSystem] ✅ Initialization complete");
         }
 
         private IEnumerator WaitForInventoryInit()
         {
             int waitFrames = 0;
-            const int MAX_WAIT = 300; // 5 seconds at 60fps
+            const int MAX_WAIT = 300;
 
             while (!inventoryManager.IsInitialized && waitFrames < MAX_WAIT)
             {
@@ -102,6 +93,7 @@ namespace TinyFarm.Items.UI
 
             if (!inventoryManager.IsInitialized)
             {
+                Debug.LogError("[HotbarSystem] ❌ InventoryManager failed to initialize!");
                 yield break;
             }
         }
@@ -119,6 +111,7 @@ namespace TinyFarm.Items.UI
 
             if (inventoryManager == null)
             {
+                Debug.LogError("[HotbarSystem] ❌ InventoryManager not found!");
                 enabled = false;
                 return;
             }
@@ -137,9 +130,6 @@ namespace TinyFarm.Items.UI
                 {
                     hotbarSlots.Add(slot);
                     SubscribeToSlotEvents(slot, i);
-
-                    // Debug each slot
-                    string itemInfo = slot.IsEmpty ? "Empty" : $"{slot.ItemName} x{slot.Quantity}";
                 }
                 else
                 {
@@ -152,7 +142,7 @@ namespace TinyFarm.Items.UI
 
         private void SetupInputConnection()
         {
-            // Find references if not assigned
+            // Find references
             if (inputHandler == null)
             {
                 inputHandler = FindObjectOfType<PlayerInputHandler>();
@@ -163,10 +153,13 @@ namespace TinyFarm.Items.UI
                 toolEquipment = FindObjectOfType<ToolEquipmentController>();
             }
 
+            // ✅ THÊM: Find ItemHoldingController
             if (itemHolding == null)
+            {
                 itemHolding = FindObjectOfType<ItemHoldingController>();
+            }
 
-            // Subscribe to input events
+            // Subscribe to input
             if (inputHandler != null)
             {
                 inputHandler.OnHotbarSlotSelected += OnHotbarKeyPressed;
@@ -174,6 +167,16 @@ namespace TinyFarm.Items.UI
             else
             {
                 Debug.LogError("[HotbarSystem] ❌ PlayerInputHandler not found!");
+            }
+
+            // ✅ THÊM: Validate ItemHoldingController
+            if (itemHolding == null)
+            {
+                Debug.LogWarning("[HotbarSystem] ⚠️ ItemHoldingController not found!");
+            }
+            else
+            {
+                Debug.Log("[HotbarSystem] ✅ ItemHoldingController found");
             }
 
             if (toolEquipment == null)
@@ -191,19 +194,22 @@ namespace TinyFarm.Items.UI
         }
 
         // ==========================================
-        // INPUT HANDLING (IMPROVED DEBUG)
+        // INPUT HANDLING
         // ==========================================
 
         private void OnHotbarKeyPressed(int slotIndex)
         {
+            Debug.Log($"[HotbarSystem] 🎮 Key pressed for slot {slotIndex}");
 
             if (!isInitialized)
             {
+                Debug.LogWarning("[HotbarSystem] ⚠️ Not initialized yet!");
                 return;
             }
 
             if (slotIndex < 0 || slotIndex >= hotbarSlots.Count)
             {
+                Debug.LogWarning($"[HotbarSystem] ⚠️ Invalid slot index: {slotIndex}");
                 return;
             }
 
@@ -224,137 +230,110 @@ namespace TinyFarm.Items.UI
                 }
             }
 
-            // Try equip tool
-            EquipToolFromSlot(slotIndex);
+            // ✅ Equip item hoặc tool
+            EquipItemFromSlot(slotIndex);
         }
 
-        private void EquipToolFromSlot(int slotIndex)
+        // ✅ FIXED: Equip logic với ItemHoldingController
+        private void EquipItemFromSlot(int slotIndex)
         {
-            if (toolEquipment == null)
-            {
-                return;
-            }
+            Debug.Log($"[HotbarSystem] 🔧 EquipItemFromSlot({slotIndex}) called");
 
             InventorySlot slot = GetHotbarSlot(slotIndex);
 
             if (slot == null)
             {
-                ReleaseCurrentItem();
+                Debug.LogWarning("[HotbarSystem] ❌ Slot is null!");
                 return;
             }
 
+            // ✅ Empty slot → Unequip all
             if (slot.IsEmpty)
             {
-                toolEquipment.UnequipTool();
-                ReleaseCurrentItem();
+                Debug.Log("[HotbarSystem] 📭 Empty slot - unequipping all");
+
+                if (toolEquipment != null)
+                    toolEquipment.UnequipTool();
+
+                if (itemHolding != null)
+                    itemHolding.UnequipItem();
+
                 return;
             }
 
             Item item = slot.Item;
 
-            // Check if item is a tool
             if (item?.ItemData == null)
             {
+                Debug.LogWarning("[HotbarSystem] ⚠️ Item or ItemData is null!");
                 return;
             }
 
             ItemType itemType = item.ItemData.GetItemType();
+            Debug.Log($"[HotbarSystem] 📦 Item type: {itemType}");
 
+            // ✅ Check item type và equip tương ứng
             if (itemType == ItemType.Tool)
             {
+                Debug.Log("[HotbarSystem] 🔧 Equipping TOOL");
+
                 ToolItemData toolData = item.ItemData as ToolItemData;
 
                 if (toolData != null)
                 {
-                    bool success = toolEquipment.EquipTool(toolData);
-
-                    if (success)
+                    // Unequip item holding
+                    if (itemHolding != null)
                     {
+                        itemHolding.UnequipItem();
+                        Debug.Log("[HotbarSystem] ✅ Unequipped item holding");
                     }
-                    else
+
+                    // Equip tool
+                    if (toolEquipment != null)
                     {
+                        bool success = toolEquipment.EquipTool(toolData);
+                        Debug.Log($"[HotbarSystem] Tool equip result: {success}");
                     }
                 }
                 else
                 {
+                    Debug.LogWarning("[HotbarSystem] ⚠️ ToolItemData cast failed!");
                 }
             }
-            else
+            else if (itemType == ItemType.Seed || itemType == ItemType.Consumable)
             {
-                toolEquipment.UnequipTool();
-            }
-        }
+                Debug.Log($"[HotbarSystem] 🌱 Equipping ITEM ({itemType})");
 
-        private void EquipTool(Item item)
-        {
-            ToolItemData toolData = item.ItemData as ToolItemData;
-
-            if (toolData == null)
-            {
-                HoldRegularItem(item);
-                return;
-            }
-
-            // Check if tool has specific animation
-            bool hasToolAnimation = toolData.toolType == ToolType.Hoe ||
-                                   toolData.toolType == ToolType.Watering ||
-                                   toolData.toolType == ToolType.Sickle;
-
-            if (hasToolAnimation)
-            {
-                // Tool with animation (Hoe, Watering, Sickle)
+                // Unequip tool
                 if (toolEquipment != null)
                 {
-                    toolEquipment.EquipTool(toolData);
+                    toolEquipment.UnequipTool();
+                    Debug.Log("[HotbarSystem] ✅ Unequipped tool");
                 }
 
-                // Hide held item visual (tool animation handles visual)
+                // ✅ Equip item holding
                 if (itemHolding != null)
                 {
-                    itemHolding.ReleaseItem();
+                    Debug.Log($"[HotbarSystem] 🎯 Calling itemHolding.EquipItem() for: {item.ItemData.itemName}");
+                    bool success = itemHolding.EquipItem(item);
+                    Debug.Log($"[HotbarSystem] ✅ Item holding equip result: {success}");
                 }
-
-                Debug.Log($"[HotbarSystem] Equipped tool: {toolData.itemName}");
+                else
+                {
+                    Debug.LogError("[HotbarSystem] ❌ ItemHoldingController is NULL!");
+                }
             }
             else
             {
-                // Generic tool (no special animation, just hold)
-                HoldRegularItem(item);
+                Debug.Log($"[HotbarSystem] ℹ️ Other item type: {itemType} - unequipping all");
+
+                // Other items → Unequip all
+                if (toolEquipment != null)
+                    toolEquipment.UnequipTool();
+
+                if (itemHolding != null)
+                    itemHolding.UnequipItem();
             }
-        }
-
-        private void HoldRegularItem(Item item)
-        {
-            // Unequip any tool
-            if (toolEquipment != null)
-            {
-                toolEquipment.UnequipTool();
-            }
-
-            // Show item on hand
-            if (itemHolding != null)
-            {
-                itemHolding.HoldItem(item);
-            }
-
-            Debug.Log($"[HotbarSystem] Holding item: {item.Name}");
-        }
-
-        private void ReleaseCurrentItem()
-        {
-            currentSelectedItem = null;
-
-            if (toolEquipment != null)
-            {
-                toolEquipment.UnequipTool();
-            }
-
-            if (itemHolding != null)
-            {
-                itemHolding.ReleaseItem();
-            }
-
-            Debug.Log("[HotbarSystem] Released all items");
         }
 
         // ==========================================
@@ -369,7 +348,6 @@ namespace TinyFarm.Items.UI
             int oldIndex = selectedSlotIndex;
             selectedSlotIndex = index;
 
-            // ✅ Gọi UI update sau khi đã đổi selectedSlotIndex
             if (hotbarUI != null)
                 hotbarUI.SelectSlot(selectedSlotIndex);
 
@@ -540,17 +518,24 @@ namespace TinyFarm.Items.UI
         [ContextMenu("Debug Hotbar")]
         private void DebugHotbar()
         {
+            Debug.Log("=== HOTBAR STATE ===");
+            Debug.Log($"Initialized: {isInitialized}");
+            Debug.Log($"Selected Slot: {selectedSlotIndex}");
+
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot != null)
             {
                 string itemInfo = selectedSlot.IsEmpty ? "None" : $"{selectedSlot.ItemName} x{selectedSlot.Quantity}";
+                Debug.Log($"Selected Item: {itemInfo}");
             }
 
+            Debug.Log("--- All Slots ---");
             for (int i = 0; i < hotbarSlots.Count; i++)
             {
                 InventorySlot slot = hotbarSlots[i];
                 string selected = i == selectedSlotIndex ? " [SELECTED]" : "";
                 string itemInfo = slot.IsEmpty ? "Empty" : $"{slot.ItemName} x{slot.Quantity}";
+                Debug.Log($"Slot {i}: {itemInfo}{selected}");
             }
         }
 
@@ -572,11 +557,10 @@ namespace TinyFarm.Items.UI
             UseSelectedItem();
         }
 
-        [ContextMenu("Test - Equip Tool From Selected Slot")]
-        private void TestEquipToolFromSelectedSlot()
+        [ContextMenu("Test - Equip From Selected Slot")]
+        private void TestEquipFromSelectedSlot()
         {
-            EquipToolFromSlot(selectedSlotIndex);
+            EquipItemFromSlot(selectedSlotIndex);
         }
-
     }
 }

@@ -317,7 +317,5 @@ namespace TinyFarm.Items
         {
             return $"{itemName} ({itemID})";
         }
-
-
     }
 }

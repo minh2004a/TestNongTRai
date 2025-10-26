@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace TinyFarm.Items
 {
@@ -65,6 +66,15 @@ namespace TinyFarm.Items
 
             // Initialize properties from ItemData
             InitializeProperties();
+        }
+
+        // Tạo item có số lượng stack nhất định(dành cho item có thể stack được).
+        public Item(ItemData data, int initialStack) : this(data)
+        {
+            if (stackable != null && stackable.IsStackable)
+            {
+                stackable.SetStack(initialStack);
+            }
         }
 
         public Item(ItemData data, int initialStack, float initialDurability) : this(data)

@@ -15956,33 +15956,10 @@ MonoBehaviour:
   inventoryManager: {fileID: 1909291318}
   inputHandler: {fileID: 836636490}
   toolEquipment: {fileID: 883206089}
-  itemHolding: {fileID: 0}
+  itemHolding: {fileID: 647645679}
   selectedSlotIndex: 0
   hotbarSlots: []
   isInitialized: 0
-  currentSelectedItem:
-    instanceID: 
-    itemData: {fileID: 0}
-    stackable:
-      isStackable: 0
-      maxStackSize: 0
-      currentStack: 0
-    durability:
-      hasDurability: 0
-      maxDurability: 0
-      currentDurability: 0
-      destroyOnBreak: 0
-      repairCostMultiplier: 0
-    category:
-      primaryCategory:
-        categoryID: 
-        categoryName: New Category
-        categoryColor: {r: 1, g: 1, b: 1, a: 1}
-        categoryIcon: {fileID: 0}
-        sortOrder: 0
-      secondaryCategories: []
-    tags:
-      tags: []
 --- !u!1 &557952941
 GameObject:
   m_ObjectHideFlags: 0
@@ -16495,6 +16472,7 @@ GameObject:
   - component: {fileID: 647645676}
   - component: {fileID: 647645675}
   - component: {fileID: 647645678}
+  - component: {fileID: 647645679}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -16546,6 +16524,7 @@ Transform:
   - {fileID: 392590294}
   - {fileID: 883206088}
   - {fileID: 836636489}
+  - {fileID: 2073581787}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &647645675
@@ -16662,6 +16641,62 @@ MonoBehaviour:
   animController: {fileID: 647645675}
   rb: {fileID: 647645673}
   moveSpeed: 10
+--- !u!114 &647645679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647645672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8516b2d5bf0ed4fa7c4c60ac937903, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animController: {fileID: 647645675}
+  playerSpriteRenderer: {fileID: 647645676}
+  itemSpriteRenderer: {fileID: 0}
+  itemHoldPoint: {fileID: 1540743906}
+  debugMode: 1
+  autoCreateItemSprite: 1
+  offsetDown:
+    position: {x: 0, y: 1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    sortingOffset: 1
+  offsetUp:
+    position: {x: 0, y: 1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    sortingOffset: -1
+  offsetSide:
+    position: {x: 0, y: 1, z: 0}
+    rotation: {x: 0, y: 0, z: 0}
+    sortingOffset: 1
+  currentItem:
+    instanceID: 
+    itemData: {fileID: 0}
+    stackable:
+      isStackable: 0
+      maxStackSize: 0
+      currentStack: 0
+    durability:
+      hasDurability: 0
+      maxDurability: 0
+      currentDurability: 0
+      destroyOnBreak: 0
+      repairCostMultiplier: 0
+    category:
+      primaryCategory:
+        categoryID: 
+        categoryName: New Category
+        categoryColor: {r: 1, g: 1, b: 1, a: 1}
+        categoryIcon: {fileID: 0}
+        sortOrder: 0
+      secondaryCategories: []
+    tags:
+      tags: []
+  currentItemData: {fileID: 0}
+  isHoldingItem: 0
+  currentDirection: 0
 --- !u!1 &648649662
 GameObject:
   m_ObjectHideFlags: 0
@@ -27426,6 +27461,37 @@ Transform:
   - {fileID: 444521999}
   - {fileID: 322916531}
   m_Father: {fileID: 608813558}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1540743905
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1540743906}
+  m_Layer: 0
+  m_Name: ItemHoldPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1540743906
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540743905}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.84, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2073581787}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1574726626
 GameObject:
@@ -67241,6 +67307,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 661a10ac8e835754fb36069cc9bed8da, type: 2}
   - {fileID: 11400000, guid: f3fe456a295174d499d3752da568fee8, type: 2}
   - {fileID: 11400000, guid: 5c5a9c867f4d21343aacd001e42bcce1, type: 2}
+  - {fileID: 11400000, guid: 45d5dc0a5e008d1469a61d756248e5c8, type: 2}
+  - {fileID: 11400000, guid: f79134061ede84e4f984e2095770ee33, type: 2}
   autoAddTestItems: 1
   addItemKey: 116
   inventoryUI: {fileID: 1204090594}
@@ -67631,6 +67699,38 @@ MonoBehaviour:
   animationSpeed: 10
   hoverSound: {fileID: 0}
   clickSound: {fileID: 0}
+--- !u!1 &2073581786
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073581787}
+  m_Layer: 0
+  m_Name: ItemHoldingController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073581787
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073581786}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1540743906}
+  m_Father: {fileID: 647645674}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2109943396
 GameObject:
   m_ObjectHideFlags: 0

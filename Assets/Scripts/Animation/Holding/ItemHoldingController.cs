@@ -11,25 +11,51 @@ namespace TinyFarm.PlayerInput
     {
         [Header("References")]
         [SerializeField] private PlayerAnimationController animController;
-        [SerializeField] private SpriteRenderer heldItemRenderer;
+        [SerializeField] private SpriteRenderer playerSpriteRenderer;
+
+        [Header("Item Sprite")]
+        [SerializeField] private SpriteRenderer itemSpriteRenderer;
         [SerializeField] private Transform itemHoldPoint;
 
         [Header("Settings")]
-        [SerializeField] private Vector2 idleOffset = new Vector2(0.3f, -0.2f);
-        [SerializeField] private Vector2 runOffset = new Vector2(0.3f, -0.1f);
-        [SerializeField] private float itemScale = 1f;
+        [SerializeField] private bool debugMode = true;
+        [SerializeField] private bool autoCreateItemSprite = true;
 
-        [Header("Runtime State")]
-        [SerializeField] private Item currentHeldItem;
+        [Header("Position Offsets (per Direction)")]
+        [SerializeField]
+        private ItemHoldOffset offsetDown = new ItemHoldOffset(
+            new Vector3(0, 1f, 0),
+            new Vector3(0, 0, 0f),
+            1
+        );
+        [SerializeField]
+        private ItemHoldOffset offsetUp = new ItemHoldOffset(
+            new Vector3(0, 1f, 0),
+            new Vector3(0, 0, 0f),
+            -1
+        );
+        [SerializeField]
+        private ItemHoldOffset offsetSide = new ItemHoldOffset(
+            new Vector3(0f, 1f, 0),
+            new Vector3(0, 0, 0f),
+            1
+        );
+
+        [Header("Runtime Info")]
+        [SerializeField] private Item currentItem;
+        [SerializeField] private ItemData currentItemData;
         [SerializeField] private bool isHoldingItem = false;
-
-        // Events
-        public event Action<Item> OnItemHeld;
-        public event Action OnItemReleased;
+        [SerializeField] private Direction currentDirection = Direction.Down;
 
         // Properties
-        public Item CurrentHeldItem => currentHeldItem;
         public bool IsHoldingItem => isHoldingItem;
+        public Item CurrentItem => currentItem;
+        public ItemData CurrentItemData => currentItemData;
+
+        // Events
+        public event Action<Item> OnItemEquipped;
+        public event Action<Item> OnItemUnequipped;
+        public event Action<Item, Item> OnItemChanged;
 
         // ==========================================
         // INITIALIZATION
@@ -42,13 +68,32 @@ namespace TinyFarm.PlayerInput
 
         private void Start()
         {
-            SetupItemRenderer();
+            ValidateSetup();
+            SetupItemSprite();
+            SubscribeToEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromEvents();
+        }
+
+        private void LateUpdate()
+        {
+            // Update item position/rotation theo animation
+            if (isHoldingItem)
+            {
+                UpdateItemTransform();
+            }
         }
 
         private void OnValidate()
         {
             if (animController == null)
                 animController = GetComponent<PlayerAnimationController>();
+
+            if (playerSpriteRenderer == null)
+                playerSpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void InitializeComponents()
@@ -56,172 +101,395 @@ namespace TinyFarm.PlayerInput
             if (animController == null)
                 animController = GetComponent<PlayerAnimationController>();
 
-            // Create item renderer if not assigned
-            if (heldItemRenderer == null)
-            {
-                CreateItemRenderer();
-            }
+            if (playerSpriteRenderer == null)
+                playerSpriteRenderer = GetComponent<SpriteRenderer>();
 
-            // Create hold point if not assigned
-            if (itemHoldPoint == null)
+            if (animController == null)
             {
-                CreateItemHoldPoint();
+                Debug.LogError("[ItemHolding] PlayerAnimationController not found!");
+                enabled = false;
             }
         }
 
-        private void CreateItemRenderer()
+        private void ValidateSetup()
         {
-            GameObject rendererObj = new GameObject("HeldItemRenderer");
-            rendererObj.transform.SetParent(transform);
-            rendererObj.transform.localPosition = Vector3.zero;
-
-            heldItemRenderer = rendererObj.AddComponent<SpriteRenderer>();
-            heldItemRenderer.sortingLayerName = "Player"; // Adjust as needed
-            heldItemRenderer.sortingOrder = 10; // Above player
-            heldItemRenderer.enabled = false;
-        }
-
-        private void CreateItemHoldPoint()
-        {
-            GameObject holdPointObj = new GameObject("ItemHoldPoint");
-            holdPointObj.transform.SetParent(transform);
-            holdPointObj.transform.localPosition = Vector3.zero;
-            itemHoldPoint = holdPointObj.transform;
-        }
-
-        private void SetupItemRenderer()
-        {
-            if (heldItemRenderer != null)
+            if (animController == null)
             {
-                heldItemRenderer.enabled = false;
+                Debug.LogError("[ItemHolding] Missing PlayerAnimationController!");
+                enabled = false;
+            }
+
+            if (playerSpriteRenderer == null)
+            {
+                Debug.LogWarning("[ItemHolding] Missing player SpriteRenderer!");
+            }
+        }
+
+        private void SetupItemSprite()
+        {
+            // Tạo GameObject cho item sprite nếu chưa có
+            if (itemSpriteRenderer == null && autoCreateItemSprite)
+            {
+                GameObject itemObj = new GameObject("ItemSprite");
+                itemObj.transform.SetParent(transform);
+                itemObj.transform.localPosition = Vector3.zero;
+
+                itemSpriteRenderer = itemObj.AddComponent<SpriteRenderer>();
+                itemSpriteRenderer.sortingLayerName = "Player"; // Same as player
+                itemSpriteRenderer.sortingOrder = playerSpriteRenderer.sortingOrder + 1; // Above player
+
+                itemHoldPoint = itemObj.transform;
+
+                LogDebug("Created item sprite renderer automatically");
+            }
+
+            // Ẩn item sprite ban đầu
+            if (itemSpriteRenderer != null)
+            {
+                itemSpriteRenderer.enabled = false;
+            }
+        }
+
+        private void SubscribeToEvents()
+        {
+            if (animController != null)
+            {
+                animController.OnStateChanged += OnAnimationStateChanged;
+            }
+        }
+
+        private void UnsubscribeFromEvents()
+        {
+            if (animController != null)
+            {
+                animController.OnStateChanged -= OnAnimationStateChanged;
             }
         }
 
         // ==========================================
-        // PUBLIC API - HOLD/RELEASE
+        // PUBLIC API - EQUIP/UNEQUIP
         // ==========================================
 
         /// <summary>
-        /// Hold item (show sprite on hand)
+        /// Equip item để hiển thị trên tay (Seeds, consumables, etc.)
         /// </summary>
-        public void HoldItem(Item item)
+        public bool EquipItem(Item item)
         {
-            if (item == null)
+            if (item == null || item.ItemData == null)
             {
-                ReleaseItem();
-                return;
+                Debug.LogWarning("[ItemHolding] Cannot equip null item");
+                return false;
             }
 
-            currentHeldItem = item;
+            // Check if item has sprite
+            if (item.ItemData.icon == null)
+            {
+                Debug.LogWarning($"[ItemHolding] Item has no sprite: {item.ItemData.itemName}");
+                return false;
+            }
+
+            // Check if already equipped
+            if (currentItem == item)
+            {
+                LogDebug($"Item already equipped: {item.ItemData.itemName}");
+                return true;
+            }
+
+            // Store old item
+            Item oldItem = currentItem;
+
+            // Equip new item
+            currentItem = item;
+            currentItemData = item.ItemData;
             isHoldingItem = true;
 
-            // Set sprite
-            if (heldItemRenderer != null && item.ItemData != null)
-            {
-                heldItemRenderer.sprite = item.ItemData.icon;
-                heldItemRenderer.enabled = true;
+            // Update sprite
+            UpdateItemSprite();
 
-                // Apply scale
-                heldItemRenderer.transform.localScale = Vector3.one * itemScale;
+            // Show sprite
+            if (itemSpriteRenderer != null)
+            {
+                itemSpriteRenderer.enabled = true;
             }
 
-            // Fire event
-            OnItemHeld?.Invoke(item);
+            // Fire events
+            OnItemEquipped?.Invoke(item);
 
-            Debug.Log($"[ItemHolding] Holding: {item.Name}");
+            if (oldItem != null)
+            {
+                OnItemChanged?.Invoke(oldItem, item);
+            }
+
+            LogDebug($"Equipped item: {item.ItemData.itemName}");
+
+            return true;
         }
 
         /// <summary>
-        /// Release item (hide sprite)
+        /// Unequip item hiện tại
         /// </summary>
-        public void ReleaseItem()
+        public void UnequipItem()
         {
-            currentHeldItem = null;
+            if (!isHoldingItem)
+            {
+                LogDebug("No item to unequip");
+                return;
+            }
+
+            Item oldItem = currentItem;
+
+            // Clear item
+            currentItem = null;
+            currentItemData = null;
             isHoldingItem = false;
 
-            if (heldItemRenderer != null)
+            // Hide sprite
+            if (itemSpriteRenderer != null)
             {
-                heldItemRenderer.enabled = false;
-                heldItemRenderer.sprite = null;
+                itemSpriteRenderer.enabled = false;
+                itemSpriteRenderer.sprite = null;
             }
 
             // Fire event
-            OnItemReleased?.Invoke();
+            OnItemUnequipped?.Invoke(oldItem);
 
-            Debug.Log("[ItemHolding] Released item");
+            LogDebug($"Unequipped item: {oldItem?.ItemData?.itemName}");
+        }
+
+        // Quick equip từ ItemData (testing)
+        public bool EquipItemData(ItemData itemData)
+        {
+            if (itemData == null)
+                return false;
+
+            // Create temporary item instance
+            Item tempItem = new Item(itemData, 1);
+            return EquipItem(tempItem);
         }
 
         // ==========================================
-        // UPDATE - POSITION ITEM
+        // SPRITE UPDATE
         // ==========================================
 
-        private void LateUpdate()
+        private void UpdateItemSprite()
         {
-            if (!isHoldingItem || heldItemRenderer == null)
+            if (itemSpriteRenderer == null || currentItemData == null)
                 return;
 
-            UpdateItemPosition();
-            UpdateItemFlip();
+            itemSpriteRenderer.sprite = currentItemData.icon;
+            itemSpriteRenderer.sortingLayerName = "Object";
+            itemSpriteRenderer.sortingOrder = 10;
         }
 
-        private void UpdateItemPosition()
+        private void UpdateItemTransform()
         {
-            // Position based on animation state
-            Vector2 offset = animController.IsMoving ? runOffset : idleOffset;
+            if (itemHoldPoint == null || !isHoldingItem)
+                return;
 
-            // Adjust based on direction
-            if (animController.CurrentDirection == Direction.Side)
-            {
-                // Horizontal
-                offset.x = animController.IsFacingLeft ? -Mathf.Abs(offset.x) : Mathf.Abs(offset.x);
-            }
+            // Get current direction
+            currentDirection = animController.CurrentDirection;
+
+            // Get offset based on direction
+            ItemHoldOffset offset = GetOffsetForDirection(currentDirection);
 
             // Apply position
-            if (itemHoldPoint != null)
+            Vector3 position = offset.position;
+
+            // Flip X position nếu facing left
+            if (playerSpriteRenderer.flipX && currentDirection == Direction.Side)
             {
-                itemHoldPoint.localPosition = offset;
-                heldItemRenderer.transform.position = itemHoldPoint.position;
+                position.x = -position.x;
             }
-            else
+
+            itemHoldPoint.localPosition = position;
+
+            // Apply rotation
+            itemHoldPoint.localEulerAngles = offset.rotation;
+
+            // Update sorting order (in front or behind player)
+            if (itemSpriteRenderer != null)
             {
-                heldItemRenderer.transform.localPosition = offset;
+                int sortOrder = playerSpriteRenderer.sortingOrder + offset.sortingOffset;
+                itemSpriteRenderer.sortingOrder = sortOrder;
+            }
+
+            // Update sprite flip
+            if (itemSpriteRenderer != null)
+            {
+                itemSpriteRenderer.flipX = playerSpriteRenderer.flipX;
             }
         }
 
-        private void UpdateItemFlip()
+        private ItemHoldOffset GetOffsetForDirection(Direction direction)
         {
-            // Flip item sprite based on facing direction
-            if (animController.CurrentDirection == Direction.Side)
+            switch (direction)
             {
-                heldItemRenderer.flipX = animController.IsFacingLeft;
-            }
-            else
-            {
-                heldItemRenderer.flipX = false;
+                case Direction.Up:
+                    return offsetUp;
+                case Direction.Down:
+                    return offsetDown;
+                case Direction.Side:
+                    return offsetSide;
+                default:
+                    return offsetDown;
             }
         }
 
         // ==========================================
-        // UTILITY
+        // EVENT HANDLERS
         // ==========================================
 
-        /// Check if holding specific item
-        //public bool IsHoldingItem(string itemID)
-        //{
-        //    return isHoldingItem && currentHeldItem?.ItemData?.itemID == itemID;
-        //}
+        private void OnAnimationStateChanged(AnimationState newState)
+        {
+            // Update item transform khi animation state thay đổi
+            if (isHoldingItem)
+            {
+                UpdateItemTransform();
+            }
+        }
+
+        // ==========================================
+        // PUBLIC API - GETTERS
+        // ==========================================
+
+        public Item GetCurrentItem()
+        {
+            return currentItem;
+        }
+
+        public ItemData GetCurrentItemData()
+        {
+            return currentItemData;
+        }
+
+        public bool IsItemEquipped()
+        {
+            return isHoldingItem;
+        }
+
+        public bool IsItemEquipped(string itemID)
+        {
+            return isHoldingItem && currentItemData != null && currentItemData.itemID == itemID;
+        }
+
+        // ==========================================
+        // PUBLIC API - CONFIGURATION
+        // ==========================================
 
         /// <summary>
-        /// Set item scale
+        /// Set offset cho direction cụ thể
         /// </summary>
-        public void SetItemScale(float scale)
+        public void SetOffset(Direction direction, Vector3 position, Vector3 rotation, int sortingOffset)
         {
-            itemScale = scale;
+            ItemHoldOffset offset = new ItemHoldOffset(position, rotation, sortingOffset);
 
-            if (heldItemRenderer != null)
+            switch (direction)
             {
-                heldItemRenderer.transform.localScale = Vector3.one * scale;
+                case Direction.Up:
+                    offsetUp = offset;
+                    break;
+                case Direction.Down:
+                    offsetDown = offset;
+                    break;
+                case Direction.Side:
+                    offsetSide = offset;
+                    break;
             }
+
+            LogDebug($"Updated offset for {direction}");
+        }
+
+        /// <summary>
+        /// Update item sprite color (ví dụ: dim khi out of uses)
+        /// </summary>
+        public void SetItemColor(Color color)
+        {
+            if (itemSpriteRenderer != null)
+            {
+                itemSpriteRenderer.color = color;
+            }
+        }
+
+        /// <summary>
+        /// Reset item color về white
+        /// </summary>
+        public void ResetItemColor()
+        {
+            SetItemColor(Color.white);
+        }
+
+        // ==========================================
+        // DEBUG
+        // ==========================================
+
+        private void LogDebug(string message)
+        {
+            if (debugMode)
+            {
+                Debug.Log($"[ItemHolding] {message}");
+            }
+        }
+
+#if UNITY_EDITOR
+        [ContextMenu("Debug - Log Current State")]
+        private void DebugLogState()
+        {
+            Debug.Log("=== ITEM HOLDING STATE ===");
+            Debug.Log($"Is Holding Item: {isHoldingItem}");
+            Debug.Log($"Current Direction: {currentDirection}");
+
+            if (currentItem != null)
+            {
+                Debug.Log($"Item: {currentItemData.itemName}");
+                Debug.Log($"Item ID: {currentItemData.itemID}");
+            }
+            else
+            {
+                Debug.Log("Item: None");
+            }
+
+            if (itemHoldPoint != null)
+            {
+                Debug.Log($"Hold Point Position: {itemHoldPoint.localPosition}");
+                Debug.Log($"Hold Point Rotation: {itemHoldPoint.localEulerAngles}");
+            }
+
+            if (itemSpriteRenderer != null)
+            {
+                Debug.Log($"Sprite Enabled: {itemSpriteRenderer.enabled}");
+                Debug.Log($"Sorting Order: {itemSpriteRenderer.sortingOrder}");
+                Debug.Log($"Flip X: {itemSpriteRenderer.flipX}");
+            }
+        }
+
+        [ContextMenu("Test - Unequip Item")]
+        private void TestUnequipItem()
+        {
+            UnequipItem();
+        }
+        
+#endif
+    }
+
+    // ==========================================
+    // HELPER CLASSES
+    // ==========================================
+
+    /// <summary>
+    /// Offset configuration cho mỗi direction
+    /// </summary>
+    [System.Serializable]
+    public struct ItemHoldOffset
+    {
+        public Vector3 position;
+        public Vector3 rotation;
+        public int sortingOffset; // +1 = in front, -1 = behind
+
+        public ItemHoldOffset(Vector3 pos, Vector3 rot, int sort)
+        {
+            position = pos;
+            rotation = rot;
+            sortingOffset = sort;
         }
     }
 }
