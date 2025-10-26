@@ -16,11 +16,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
 
-    [Header("Debug")]
-    [SerializeField] private bool showDebugInfo = true;
-    [SerializeField] private bool showDebugGizmos = true;
-    [SerializeField] private Color debugTextColor = Color.white;
-
     // Runtime
     private Vector2 moveInput;
     private Vector2 normalizedInput;
@@ -235,8 +230,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void LogDebug(string message)
     {
-        if (showDebugInfo)
-        {
-        }
+        
     }
 }

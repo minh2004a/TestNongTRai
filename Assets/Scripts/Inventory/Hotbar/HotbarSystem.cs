@@ -19,11 +19,13 @@ namespace TinyFarm.Items.UI
         [SerializeField] private InventoryManager inventoryManager;
         [SerializeField] private PlayerInputHandler inputHandler;           
         [SerializeField] private ToolEquipmentController toolEquipment;
+        [SerializeField] private ItemHoldingController itemHolding;
 
         [Header("Runtime Data")]
         [SerializeField] private int selectedSlotIndex = 0;
         [SerializeField] private List<InventorySlot> hotbarSlots;
         [SerializeField] private bool isInitialized = false;
+        [SerializeField] private Item currentSelectedItem;
 
         // Properties
         public int HotbarSize => hotbarSize;
@@ -48,6 +50,7 @@ namespace TinyFarm.Items.UI
             // Initialize in correct order
             StartCoroutine(InitializeSequence());
         }
+
 
         private void OnDestroy()
         {
@@ -160,6 +163,9 @@ namespace TinyFarm.Items.UI
                 toolEquipment = FindObjectOfType<ToolEquipmentController>();
             }
 
+            if (itemHolding == null)
+                itemHolding = FindObjectOfType<ItemHoldingController>();
+
             // Subscribe to input events
             if (inputHandler != null)
             {
@@ -233,12 +239,14 @@ namespace TinyFarm.Items.UI
 
             if (slot == null)
             {
+                ReleaseCurrentItem();
                 return;
             }
 
             if (slot.IsEmpty)
             {
                 toolEquipment.UnequipTool();
+                ReleaseCurrentItem();
                 return;
             }
 
@@ -275,6 +283,78 @@ namespace TinyFarm.Items.UI
             {
                 toolEquipment.UnequipTool();
             }
+        }
+
+        private void EquipTool(Item item)
+        {
+            ToolItemData toolData = item.ItemData as ToolItemData;
+
+            if (toolData == null)
+            {
+                HoldRegularItem(item);
+                return;
+            }
+
+            // Check if tool has specific animation
+            bool hasToolAnimation = toolData.toolType == ToolType.Hoe ||
+                                   toolData.toolType == ToolType.Watering ||
+                                   toolData.toolType == ToolType.Sickle;
+
+            if (hasToolAnimation)
+            {
+                // Tool with animation (Hoe, Watering, Sickle)
+                if (toolEquipment != null)
+                {
+                    toolEquipment.EquipTool(toolData);
+                }
+
+                // Hide held item visual (tool animation handles visual)
+                if (itemHolding != null)
+                {
+                    itemHolding.ReleaseItem();
+                }
+
+                Debug.Log($"[HotbarSystem] Equipped tool: {toolData.itemName}");
+            }
+            else
+            {
+                // Generic tool (no special animation, just hold)
+                HoldRegularItem(item);
+            }
+        }
+
+        private void HoldRegularItem(Item item)
+        {
+            // Unequip any tool
+            if (toolEquipment != null)
+            {
+                toolEquipment.UnequipTool();
+            }
+
+            // Show item on hand
+            if (itemHolding != null)
+            {
+                itemHolding.HoldItem(item);
+            }
+
+            Debug.Log($"[HotbarSystem] Holding item: {item.Name}");
+        }
+
+        private void ReleaseCurrentItem()
+        {
+            currentSelectedItem = null;
+
+            if (toolEquipment != null)
+            {
+                toolEquipment.UnequipTool();
+            }
+
+            if (itemHolding != null)
+            {
+                itemHolding.ReleaseItem();
+            }
+
+            Debug.Log("[HotbarSystem] Released all items");
         }
 
         // ==========================================
