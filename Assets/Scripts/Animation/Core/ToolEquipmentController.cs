@@ -250,6 +250,12 @@ namespace TinyFarm.Tools
                 case ToolType.Sickle:
                     animationStarted = animController.PlaySickle();
                     break;
+                case ToolType.PickUpIdle:
+                    animationStarted = animController.PlayPickUpIdle();
+                    break;
+                case ToolType.PickUpRun:
+                    animationStarted = animController.PlayPickUpRun();
+                    break;
                 default:
                     Debug.LogWarning($"Tool type {currentTool.toolType} not implemented!");
                     break;
