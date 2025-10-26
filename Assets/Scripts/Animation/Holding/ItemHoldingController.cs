@@ -279,6 +279,7 @@ namespace TinyFarm.PlayerInput
             itemSpriteRenderer.sprite = currentItemData.icon;
             itemSpriteRenderer.sortingLayerName = "Object";
             itemSpriteRenderer.sortingOrder = 10;
+            itemSpriteRenderer.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
         }
 
         private void UpdateItemTransform()
