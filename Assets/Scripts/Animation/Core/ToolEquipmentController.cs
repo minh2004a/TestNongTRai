@@ -278,8 +278,8 @@ namespace TinyFarm.Tools
             return false;
         }
 
-        /// Sử dụng tool hiện tại (trigger animation)
-        /// <returns>True nếu sử dụng thành công</returns>
+        // Sử dụng tool hiện tại (trigger animation)
+        // <returns>True nếu sử dụng thành công</returns>
         public bool UseTool()
         {
             Debug.Log($"[ToolEquipment] 🧭 UseTool() called at frame {Time.frameCount}");
