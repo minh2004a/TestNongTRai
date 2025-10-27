@@ -64,6 +64,8 @@ namespace TinyFarm.Animation
         public bool IsFacingLeft => spriteRenderer.flipX;
         public bool IsMoving => currentState == AnimationState.Running;
         public Animator Animator => animator;
+        public Vector2 CurrentDirectionVector => lastDirectionVector;
+
 
         private void Awake()
         {
@@ -140,6 +142,46 @@ namespace TinyFarm.Animation
             LogDebug("PlayerAnimationController initialized");
         }
 
+        // Exit pickup state and return to normal movement state
+        // Call this when item is deselected/dropped
+        public bool ExitPickUpState()
+        {
+            if (isActionLocked)
+            {
+                LogDebug("Cannot exit PickUp - action locked");
+                return false;
+            }
+
+            // Only exit if currently in pickup state
+            if (currentState != AnimationState.PickUpIdle &&
+                currentState != AnimationState.PickUpRun)
+            {
+                LogDebug("Not in PickUp state, no need to exit");
+                return false;
+            }
+
+            // Return to appropriate state based on current pickup state
+            if (currentState == AnimationState.PickUpRun)
+            {
+                TransitionToState(AnimationState.Running);
+            }
+            else
+            {
+                TransitionToState(AnimationState.Idle);
+            }
+
+            UpdateDirectionParameters(lastDirectionVector);
+            LogDebug("✅ Exited PickUp state");
+            return true;
+        }
+
+        // Check if currently in any pickup state
+        public bool IsInPickUpState()
+        {
+            return currentState == AnimationState.PickUpIdle ||
+                   currentState == AnimationState.PickUpRun;
+        }
+
         // ==========================================
         // MOVEMENT ANIMATIONS
         // ==========================================
@@ -213,9 +255,7 @@ namespace TinyFarm.Animation
         // PICKUP ANIMATIONS (Visual States - NO LOCK)
         // ==========================================
 
-        /// <summary>
-        /// Play PickUpIdle animation - Visual state only, no action lock
-        /// </summary>
+        // Play PickUpIdle animation - Visual state only, no action lock
         public bool PlayPickUpIdle()
         {
             if (isActionLocked)
@@ -231,9 +271,7 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        /// <summary>
         /// Play PickUpRun animation - Visual state only, no action lock
-        /// </summary>
         public bool PlayPickUpRun()
         {
             if (isActionLocked)
@@ -249,9 +287,7 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        /// <summary>
         /// Play PickUp animation - Auto select Idle or Run based on current state
-        /// </summary>
         public bool PlayPickUp()
         {
             // Determine which pickup to use based on current state
@@ -434,7 +470,7 @@ namespace TinyFarm.Animation
         // DIRECTION HANDLING
         // ==========================================
 
-        private void UpdateDirection(Vector2 moveInput)
+        public void UpdateDirection(Vector2 moveInput)
         {
             if (moveInput.sqrMagnitude < minMoveThreshold)
                 return;
@@ -456,7 +492,7 @@ namespace TinyFarm.Animation
             LogDebug($"UpdateDirection: input={moveInput:F2}, dir={currentDirection}");
         }
 
-        private void UpdateDirectionParameters(Vector2 direction)
+        public void UpdateDirectionParameters(Vector2 direction)
         {
             if (direction.sqrMagnitude > 1f)
                 direction.Normalize();
@@ -465,7 +501,7 @@ namespace TinyFarm.Animation
             SetAnimatorFloat(PARAM_VERTICAL, direction.y);
         }
 
-        private void UpdateSpriteFlip(Vector2 direction)
+        public void UpdateSpriteFlip(Vector2 direction)
         {
             if (currentDirection == Direction.Side)
             {

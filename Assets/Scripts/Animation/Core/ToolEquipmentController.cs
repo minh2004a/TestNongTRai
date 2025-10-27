@@ -146,6 +146,12 @@ namespace TinyFarm.Tools
             // Store old tool for event
             ToolItemData oldTool = currentTool;
 
+            // ✅ EXIT pickup state from old tool if needed
+            if (oldTool != null && IsCarryableItem(oldTool))
+            {
+                OnUnequipCarryableItem();
+            }
+
             // Equip new tool
             currentTool = toolData;
             currentToolType = toolData.toolType;
@@ -153,6 +159,12 @@ namespace TinyFarm.Tools
 
             // Update animation controller
             animController.SetCurrentTool(currentToolType);
+
+            // ✅ ENTER pickup state for new tool if needed
+            if (IsCarryableItem(toolData))
+            {
+                OnEquipCarryableItem();
+            }
 
             // Fire events
             OnToolEquipped?.Invoke(toolData);
@@ -162,7 +174,7 @@ namespace TinyFarm.Tools
                 OnToolChanged?.Invoke(oldTool, toolData);
             }
 
-            LogDebug($"Equipped tool: {toolData.itemName} ({currentToolType}) [Efficiency: {toolData.efficiency}]");
+            LogDebug($"✅ Equipped tool: {toolData.itemName} ({currentToolType}) [Efficiency: {toolData.efficiency}]");
 
             return true;
         }
@@ -178,6 +190,12 @@ namespace TinyFarm.Tools
 
             ToolItemData oldTool = currentTool;
 
+            // ✅ EXIT pickup state if this was a carryable item
+            if (oldTool != null && IsCarryableItem(oldTool))
+            {
+                OnUnequipCarryableItem();
+            }
+
             // Clear tool
             currentTool = null;
             currentToolType = ToolType.None;
@@ -189,7 +207,7 @@ namespace TinyFarm.Tools
             // Fire event
             OnToolUnequipped?.Invoke(oldTool);
 
-            LogDebug($"Unequipped tool: {oldTool?.itemName}");
+            LogDebug($"✅ Unequipped tool: {oldTool?.itemName}");
         }
 
         /// Quick equip bằng ToolType (nếu không có ToolItemData instance)
@@ -213,9 +231,52 @@ namespace TinyFarm.Tools
             LogDebug($"Equipped tool by type: {toolType}");
         }
 
+        // Gọi khi equip item/tool có visual (carrot, etc.)
+        public void OnEquipCarryableItem()
+        {
+            if (animController != null)
+            {
+                animController.PlayPickUp();
+                Debug.Log("✅ [ToolEquipment] Entered PickUp state");
+            }
+        }
+
+        // Gọi khi unequip item/tool có visual
+        public void OnUnequipCarryableItem()
+        {
+            if (animController != null)
+            {
+                animController.ExitPickUpState();
+                Debug.Log("✅ [ToolEquipment] Exited PickUp state");
+            }
+        }
+
         // ==========================================
         // PUBLIC API - USAGE
         // ==========================================
+
+        // Check if item should trigger pickup animation
+        private bool IsCarryableItem(ToolItemData toolData)
+        {
+            if (toolData == null)
+                return false;
+
+            // ✅ Thêm logic của bạn ở đây
+            // Option 1: Check tool type
+            if (toolData.toolType == ToolType.PickUpIdle ||
+                toolData.toolType == ToolType.PickUpRun)
+            {
+                return true;
+            }
+
+            // Option 2: Check if tool has pickup animation flag (nếu bạn có field này)
+            // return toolData.hasPickupAnimation;
+
+            // Option 3: Check tool name (temporary solution)
+            // return toolData.itemName.Contains("Carrot") || toolData.itemName.Contains("Seed");
+
+            return false;
+        }
 
         /// Sử dụng tool hiện tại (trigger animation)
         /// <returns>True nếu sử dụng thành công</returns>
@@ -249,12 +310,6 @@ namespace TinyFarm.Tools
                     break;
                 case ToolType.Sickle:
                     animationStarted = animController.PlaySickle();
-                    break;
-                case ToolType.PickUpIdle:
-                    animationStarted = animController.PlayPickUpIdle();
-                    break;
-                case ToolType.PickUpRun:
-                    animationStarted = animController.PlayPickUpRun();
                     break;
                 default:
                     Debug.LogWarning($"Tool type {currentTool.toolType} not implemented!");

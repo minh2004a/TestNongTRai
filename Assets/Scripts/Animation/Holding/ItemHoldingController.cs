@@ -233,11 +233,14 @@ namespace TinyFarm.PlayerInput
         // PUBLIC API - EQUIP/UNEQUIP
         // ==========================================
 
-        /// <summary>
         /// Equip item để hiển thị trên tay (Seeds, consumables, etc.)
-        /// </summary>
         public bool EquipItem(Item item)
         {
+            if (animController != null)
+            {
+                animController.PlayPickUp();
+            }
+
             Debug.Log($"[ItemHolding] 📥 EquipItem() called with item: {(item != null ? item.ItemData?.itemName : "NULL")}");
 
             if (item == null)

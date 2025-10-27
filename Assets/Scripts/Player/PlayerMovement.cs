@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerAnimationController animController;
     [SerializeField] private Rigidbody2D rb;
-
+    [SerializeField] private Animator animator;
+ 
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
 
@@ -21,7 +22,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 normalizedInput;
     private Vector2 lastNonZeroInput;
     private float currentSpeed;
-
     // ==========================================
     // UNITY LIFECYCLE
     // ==========================================
@@ -93,9 +93,7 @@ public class PlayerMovement : MonoBehaviour
     // PUBLIC API - Called by PlayerInputHandler
     // ==========================================
 
-    /// <summary>
     /// Set move input từ PlayerInputHandler
-    /// </summary>
     public void SetMoveInput(Vector2 input)
     {
         moveInput = input;
@@ -143,21 +141,41 @@ public class PlayerMovement : MonoBehaviour
     {
         // Don't update animations if action is locked
         if (animController.IsActionLocked)
-        {
             return;
+
+        // Handle PickUp Movement - CHỈ toggle giữa PickUpIdle và PickUpRun
+        if (animController.CurrentState == AnimationState.PickUpIdle ||
+            animController.CurrentState == AnimationState.PickUpRun)
+        {
+            if (normalizedInput.sqrMagnitude > 0.01f)
+            {
+                // Moving -> PickUpRun
+                if (animController.CurrentState != AnimationState.PickUpRun)
+                {
+                    animController.PlayPickUpRun();
+                }
+                animController.UpdateDirection(normalizedInput);
+                animController.UpdateDirectionParameters(normalizedInput);
+                animController.UpdateSpriteFlip(normalizedInput);
+            }
+            else
+            {
+                // Idle -> PickUpIdle
+                if (animController.CurrentState != AnimationState.PickUpIdle)
+                {
+                    animController.PlayPickUpIdle();
+                }
+                animController.UpdateDirectionParameters(animController.CurrentDirectionVector);
+                animController.UpdateSpriteFlip(animController.CurrentDirectionVector);
+            }
+            return; // ✅ IMPORTANT: Return here, don't fall through
         }
 
-        // Update animations based on movement
+        // Normal animations (when NOT in pickup state)
         if (normalizedInput.sqrMagnitude > 0.01f)
-        {
-            // Moving - pass normalized input to animation controller
             animController.PlayMovement(normalizedInput);
-        }
         else
-        {
-            // Idle - keep last direction
             animController.PlayIdle();
-        }
     }
 
     // ==========================================
@@ -183,9 +201,7 @@ public class PlayerMovement : MonoBehaviour
     // PUBLIC METHODS
     // ==========================================
 
-    /// <summary>
     /// Force stop movement và animations
-    /// </summary>
     public void ForceStop()
     {
         moveInput = Vector2.zero;
