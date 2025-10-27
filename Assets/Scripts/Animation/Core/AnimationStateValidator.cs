@@ -8,8 +8,8 @@ namespace TinyFarm.Animation
     // Mục tiêu: ngăn bug kiểu “đang hoe mà vẫn có thể nhảy sang run”.
     public class AnimationStateValidator
     {
-        private readonly Dictionary<AnimationState, int> priorities = new();      // Độ ưu tiên từng state
-        private readonly Dictionary<AnimationState, bool> canInterrupt = new();   // Có thể bị ngắt giữa chừng không
+        private readonly Dictionary<AnimationState, int> priorities = new();
+        private readonly Dictionary<AnimationState, bool> canInterrupt = new();
 
         public AnimationStateValidator()
         {
@@ -27,6 +27,10 @@ namespace TinyFarm.Animation
             if (to == AnimationState.Idle)
                 return true;
 
+            // ✅ CHO PHÉP chuyển đổi giữa các visual states (Idle/Running/PickUp)
+            if (IsVisualState(from) && IsVisualState(to))
+                return true;
+
             // Không cho transition giữa các tool actions
             if (IsToolAction(from) && IsToolAction(to))
                 return false;
@@ -38,36 +42,42 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        // Thiết lập độ ưu tiên mặc định cho từng AnimationState.
-        // Bạn có thể mở rộng nếu thêm hành động mới (như Fishing, Riding, v.v.).
         public void SetupPriorities()
         {
             priorities.Clear();
             canInterrupt.Clear();
 
+            // ✅ Visual States - CÓ THỂ interrupt
             priorities[AnimationState.Idle] = 1;
             priorities[AnimationState.Running] = 2;
+            priorities[AnimationState.PickUpIdle] = 3;  // ✅ Visual state
+            priorities[AnimationState.PickUpRun] = 4;   // ✅ Visual state
 
+            // Tool Actions - KHÔNG THỂ interrupt
             priorities[AnimationState.UsingTool] = 10;
             priorities[AnimationState.Hoeing] = 11;
             priorities[AnimationState.Watering] = 12;
             priorities[AnimationState.Sickle] = 13;
-            priorities[AnimationState.PickUpIdle] = 14;
-            priorities[AnimationState.PickUpRun] = 15;
 
+            // Sleep
+            priorities[AnimationState.Sleep] = 20;
+
+            // ✅ Visual States - Interruptible
             canInterrupt[AnimationState.Idle] = true;
             canInterrupt[AnimationState.Running] = true;
-            canInterrupt[AnimationState.Sleep] = true;
+            canInterrupt[AnimationState.PickUpIdle] = true;   // ✅ CÓ THỂ interrupt
+            canInterrupt[AnimationState.PickUpRun] = true;    // ✅ CÓ THỂ interrupt
 
+            // Tool Actions - Not Interruptible
             canInterrupt[AnimationState.UsingTool] = false;
             canInterrupt[AnimationState.Hoeing] = false;
             canInterrupt[AnimationState.Watering] = false;
             canInterrupt[AnimationState.Sickle] = false;
-            canInterrupt[AnimationState.PickUpIdle] = false;
-            canInterrupt[AnimationState.PickUpRun] = false;
+
+            // Sleep
+            canInterrupt[AnimationState.Sleep] = true;
         }
 
-        // Kiểm tra xem có thể chuyển từ state A sang state B không.
         public bool ValidateTransition(AnimationState from, AnimationState to)
         {
             // Same state - no transition needed
@@ -76,6 +86,10 @@ namespace TinyFarm.Animation
 
             // Always allow transition to Idle
             if (to == AnimationState.Idle)
+                return true;
+
+            // ✅ Allow transitions between visual states
+            if (IsVisualState(from) && IsVisualState(to))
                 return true;
 
             int fromPriority = GetStatePriority(from);
@@ -88,40 +102,54 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        // Kiểm tra state có thể bị hủy giữa chừng hay không.
         public bool CanInterruptState(AnimationState state)
         {
             return canInterrupt.TryGetValue(state, out bool result) && result;
         }
 
-        // Trả về độ ưu tiên (priority) của state.
         public int GetStatePriority(AnimationState state)
         {
             return priorities.TryGetValue(state, out int p) ? p : 0;
         }
 
-        // Xác định xem state có phải loại “action” (có animation riêng, lock input).
-        public bool IsActionState(AnimationState state)
+        /// <summary>
+        /// ✅ FIXED: Chỉ Tool Actions (Hoe, Watering, Sickle)
+        /// KHÔNG bao gồm PickUpIdle/PickUpRun
+        /// </summary>
+        public bool IsToolAction(AnimationState state)
         {
             return state == AnimationState.UsingTool ||
                    state == AnimationState.Hoeing ||
                    state == AnimationState.Watering ||
-                   state == AnimationState.Sickle ||
+                   state == AnimationState.Sickle;
+        }
+
+        /// <summary>
+        /// ✅ NEW: Visual States (Idle, Running, PickUpIdle, PickUpRun)
+        /// Có thể chuyển đổi tự do giữa các state này
+        /// </summary>
+        public bool IsVisualState(AnimationState state)
+        {
+            return state == AnimationState.Idle ||
+                   state == AnimationState.Running ||
                    state == AnimationState.PickUpIdle ||
                    state == AnimationState.PickUpRun;
         }
 
-        // ADDED: Helper method cho tool actions
-        public bool IsToolAction(AnimationState state)
+        /// <summary>
+        /// DEPRECATED: Use IsToolAction() hoặc IsVisualState()
+        /// </summary>
+        public bool IsActionState(AnimationState state)
         {
-            return IsActionState(state);
+            return IsToolAction(state);
         }
 
-        // Xác định xem state có phải loại “movement” (idle, walk, run).
         public bool IsMovementState(AnimationState state)
         {
             return state == AnimationState.Idle ||
-                   state == AnimationState.Running;
+                   state == AnimationState.Running ||
+                   state == AnimationState.PickUpIdle ||
+                   state == AnimationState.PickUpRun;
         }
 
 #if UNITY_EDITOR
@@ -131,7 +159,7 @@ namespace TinyFarm.Animation
             foreach (var kvp in priorities)
             {
                 bool _canInterrupt = canInterrupt.TryGetValue(kvp.Key, out bool val) && val;
-                Debug.Log($"State: {kvp.Key} | Priority: {kvp.Value} | Interruptible: {canInterrupt}");
+                Debug.Log($"State: {kvp.Key} | Priority: {kvp.Value} | Interruptible: {_canInterrupt}");
             }
         }
 #endif
