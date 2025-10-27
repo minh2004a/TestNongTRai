@@ -18,7 +18,6 @@ namespace TinyFarm.PlayerInput
         [SerializeField] private Transform itemHoldPoint;
 
         [Header("Settings")]
-        [SerializeField] private bool debugMode = true;
         [SerializeField] private bool autoCreateItemSprite = true;
 
         [Header("Position Offsets (per Direction)")]

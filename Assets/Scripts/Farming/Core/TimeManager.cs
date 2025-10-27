@@ -59,6 +59,8 @@ namespace TinyFarm.Farming
             UpdateTime(Time.deltaTime);
         }
 
+        public int GetCurrentDay() => currentDay;
+
         /// Cập nhật thời gian
         private void UpdateTime(float deltaTime)
         {

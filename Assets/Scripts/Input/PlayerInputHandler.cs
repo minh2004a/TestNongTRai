@@ -209,45 +209,36 @@ namespace TinyFarm.PlayerInput
             // Use Tool (Mouse0)
             if (UnityEngine.Input.GetKeyDown(inputSettings.useToolKey))
             {
-                Debug.Log("🖱️ [PlayerInput] Mouse0 pressed - Calling HandleToolUse()");
                 HandleToolUse();
             }
         }
 
         private void HandleToolUse()
         {
-            Debug.Log("🔧 [PlayerInput] HandleToolUse() called");
 
             if (toolEquipment == null)
             {
-                Debug.LogError("❌ [PlayerInput] toolEquipment is NULL!");
                 return;
             }
 
             // Check if can use tool
             if (CanUseTool())
             {
-                Debug.Log("✅ [PlayerInput] CanUseTool() = true, calling UseTool()");
                 bool success = toolEquipment.UseTool();
 
                 if (success)
                 {
-                    Debug.Log("✅ [PlayerInput] UseTool() returned TRUE");
                 }
                 else
                 {
-                    Debug.LogWarning("❌ [PlayerInput] UseTool() returned FALSE");
                 }
             }
             else
             {
-                Debug.LogWarning("⏳ [PlayerInput] CanUseTool() = false, buffering...");
-
                 // Buffer input if enabled
                 if (inputSettings.enableBuffering)
                 {
                     BufferInput(InputAction.UseTool);
-                    Debug.Log("📥 [PlayerInput] Tool use buffered");
                 }
             }
         }
@@ -256,18 +247,15 @@ namespace TinyFarm.PlayerInput
         {
             if (inputSettings.blockToolUseWhenLocked && IsActionLocked())
             {
-                Debug.Log("⏳ [PlayerInput] CanUseTool = false (action locked)");
                 return false;
             }
 
             if (toolEquipment == null)
             {
-                Debug.LogError("❌ [PlayerInput] CanUseTool = false (toolEquipment null)");
                 return false;
             }
 
             bool canUse = toolEquipment.CanUseTool();
-            Debug.Log($"[PlayerInput] toolEquipment.CanUseTool() = {canUse}");
             return canUse;
         }
 

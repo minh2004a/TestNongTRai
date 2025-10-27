@@ -76,8 +76,6 @@ namespace TinyFarm.Items.UI
 
             isInitialized = true;
             OnHotbarInitialized?.Invoke();
-
-            Debug.Log("[HotbarSystem] ✅ Initialization complete");
         }
 
         private IEnumerator WaitForInventoryInit()
@@ -133,7 +131,6 @@ namespace TinyFarm.Items.UI
                 }
                 else
                 {
-                    Debug.LogError($"[HotbarSystem] ❌ Cannot get slot {slotIndex} from inventory!");
                 }
             }
 
@@ -166,22 +163,18 @@ namespace TinyFarm.Items.UI
             }
             else
             {
-                Debug.LogError("[HotbarSystem] ❌ PlayerInputHandler not found!");
             }
 
             // ✅ THÊM: Validate ItemHoldingController
             if (itemHolding == null)
             {
-                Debug.LogWarning("[HotbarSystem] ⚠️ ItemHoldingController not found!");
             }
             else
             {
-                Debug.Log("[HotbarSystem] ✅ ItemHoldingController found");
             }
 
             if (toolEquipment == null)
             {
-                Debug.LogWarning("[HotbarSystem] ⚠️ ToolEquipmentController not found!");
             }
 
             if (hotbarUI == null)
@@ -199,17 +192,13 @@ namespace TinyFarm.Items.UI
 
         private void OnHotbarKeyPressed(int slotIndex)
         {
-            Debug.Log($"[HotbarSystem] 🎮 Key pressed for slot {slotIndex}");
-
             if (!isInitialized)
             {
-                Debug.LogWarning("[HotbarSystem] ⚠️ Not initialized yet!");
                 return;
             }
 
             if (slotIndex < 0 || slotIndex >= hotbarSlots.Count)
             {
-                Debug.LogWarning($"[HotbarSystem] ⚠️ Invalid slot index: {slotIndex}");
                 return;
             }
 
@@ -222,11 +211,9 @@ namespace TinyFarm.Items.UI
             {
                 if (slot.IsEmpty)
                 {
-                    Debug.Log($"[HotbarSystem] 📭 Slot {slotIndex} is empty");
                 }
                 else
                 {
-                    Debug.Log($"[HotbarSystem] 📦 Slot {slotIndex}: {slot.ItemName} x{slot.Quantity}");
                 }
             }
 
@@ -237,8 +224,6 @@ namespace TinyFarm.Items.UI
         // ✅ FIXED: Equip logic với ItemHoldingController
         private void EquipItemFromSlot(int slotIndex)
         {
-            Debug.Log($"[HotbarSystem] 🔧 EquipItemFromSlot({slotIndex}) called");
-
             InventorySlot slot = GetHotbarSlot(slotIndex);
 
             if (slot == null)
@@ -270,12 +255,10 @@ namespace TinyFarm.Items.UI
             }
 
             ItemType itemType = item.ItemData.GetItemType();
-            Debug.Log($"[HotbarSystem] 📦 Item type: {itemType}");
 
             // ✅ Check item type và equip tương ứng
             if (itemType == ItemType.Tool)
             {
-                Debug.Log("[HotbarSystem] 🔧 Equipping TOOL");
 
                 ToolItemData toolData = item.ItemData as ToolItemData;
 
@@ -285,47 +268,38 @@ namespace TinyFarm.Items.UI
                     if (itemHolding != null)
                     {
                         itemHolding.UnequipItem();
-                        Debug.Log("[HotbarSystem] ✅ Unequipped item holding");
                     }
 
                     // Equip tool
                     if (toolEquipment != null)
                     {
                         bool success = toolEquipment.EquipTool(toolData);
-                        Debug.Log($"[HotbarSystem] Tool equip result: {success}");
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("[HotbarSystem] ⚠️ ToolItemData cast failed!");
                 }
             }
             else if (itemType == ItemType.Seed || itemType == ItemType.Consumable)
             {
-                Debug.Log($"[HotbarSystem] 🌱 Equipping ITEM ({itemType})");
 
                 // Unequip tool
                 if (toolEquipment != null)
                 {
                     toolEquipment.UnequipTool();
-                    Debug.Log("[HotbarSystem] ✅ Unequipped tool");
                 }
 
                 // ✅ Equip item holding
                 if (itemHolding != null)
                 {
-                    Debug.Log($"[HotbarSystem] 🎯 Calling itemHolding.EquipItem() for: {item.ItemData.itemName}");
                     bool success = itemHolding.EquipItem(item);
-                    Debug.Log($"[HotbarSystem] ✅ Item holding equip result: {success}");
                 }
                 else
                 {
-                    Debug.LogError("[HotbarSystem] ❌ ItemHoldingController is NULL!");
                 }
             }
             else
             {
-                Debug.Log($"[HotbarSystem] ℹ️ Other item type: {itemType} - unequipping all");
 
                 // Other items → Unequip all
                 if (toolEquipment != null)
@@ -356,7 +330,6 @@ namespace TinyFarm.Items.UI
 
             InventorySlot slot = GetSelectedSlot();
             string itemInfo = slot?.IsEmpty == false ? slot.ItemName : "Empty";
-            Debug.Log($"[HotbarSystem] Selected slot {selectedSlotIndex}: {itemInfo}");
         }
 
         public void SelectNextSlot()
@@ -422,7 +395,6 @@ namespace TinyFarm.Items.UI
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot == null || selectedSlot.IsEmpty)
             {
-                Debug.LogWarning("[HotbarSystem] No item selected to use!");
                 return false;
             }
 
@@ -430,7 +402,6 @@ namespace TinyFarm.Items.UI
 
             if (used)
             {
-                Debug.Log($"[HotbarSystem] Used {selectedSlot.ItemName}");
             }
 
             return used;
@@ -441,7 +412,6 @@ namespace TinyFarm.Items.UI
             InventorySlot selectedSlot = GetSelectedSlot();
             if (selectedSlot == null)
             {
-                Debug.LogWarning("[HotbarSystem] No slot selected!");
                 return null;
             }
 
@@ -452,13 +422,11 @@ namespace TinyFarm.Items.UI
         {
             if (!allowHotbarSwap)
             {
-                Debug.LogWarning("[HotbarSystem] Hotbar swap is disabled!");
                 return false;
             }
 
             if (index1 < 0 || index1 >= hotbarSize || index2 < 0 || index2 >= hotbarSize)
             {
-                Debug.LogWarning("[HotbarSystem] Invalid hotbar indices!");
                 return false;
             }
 
@@ -540,11 +508,7 @@ namespace TinyFarm.Items.UI
         }
 
         [ContextMenu("Select Next Slot")]
-        private void DebugSelectNext()
-        {
-            SelectNextSlot();
-        }
-
+        
         [ContextMenu("Select Previous Slot")]
         private void DebugSelectPrevious()
         {

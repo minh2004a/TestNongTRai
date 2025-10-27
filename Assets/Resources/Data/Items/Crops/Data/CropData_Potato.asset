@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c2236a08ade34bb12b003e367faab, type: 3}
+  m_Name: CropData_Potato
+  m_EditorClassIdentifier: 
+  cropID: copdata_potato
+  cropName: CopData_Potato
+  cropType: 1
+  growthStages: 6
+  daysPerStage: 010000000100000001000000010000000100000001000000
+  requiresDailyWatering: 1
+  isRegrowable: 0
+  regrowDays: 0
+  regrowStage: 0
+  allowedSeasons: 
+  harvestItem: {fileID: 11400000, guid: 1273ffdc3decaf540bc5e24466f2950c, type: 2}
+  minYield: 1
+  maxYield: 1
+  stageSprites:
+  - {fileID: 1673481958, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1643509135, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1760123755, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -1320700549, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 38889806, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 302460, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  sellPrice: 10

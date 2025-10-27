@@ -49,7 +49,6 @@ namespace TinyFarm.Items.UI
 
             if (slotUIBase == null)
             {
-                Debug.LogError("[DragDropHandler] No valid slot UI component found (SlotUI or HotBarSlotUI)!", this);
             }
 
             if (canvas == null)

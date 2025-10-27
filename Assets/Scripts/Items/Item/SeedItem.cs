@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using TinyFarm.Farming;
 using UnityEngine;
 
 namespace TinyFarm.Items
@@ -11,11 +12,10 @@ namespace TinyFarm.Items
         private SeedItemData seedData;
 
         // Properties
-        public CropType CropType => seedData?.cropType ?? CropType.None;
-        public int GrowthTime => seedData?.growthDays ?? 0;
-        public Season GrowSeasons => seedData?.validSeason ?? new Season();
-        public int HarvestYield => UnityEngine.Random.Range(seedData.minYield, seedData.maxYield + 1);
-        public CropItemData ResultCrop => seedData?.resultCrop;
+        public CropData CropData => seedData?.cropData;
+        public bool RequiresDailyWatering => seedData != null && seedData.requiresDailyWatering;
+        public SeedItemData SeedData => seedData;
+
 
         // Events
         public event Action<SeedItem, Vector3> OnSeedPlanted;
@@ -31,41 +31,45 @@ namespace TinyFarm.Items
         }
 
         // Trồng seed tại vị trí
-        public bool PlantSeed(Vector3 position, Season currentSeason)
+        public bool TryPlant(FarmTile tile, Season currentSeason)
         {
-            // Kiểm tra season
-            if (!CanPlantInSeason(currentSeason))
-            {
+            if (tile == null || seedData == null)
                 return false;
+
+            // Kiểm tra xem mùa hiện tại có hợp lệ không
+            if (!seedData.CanPlantInSeason(currentSeason))
+                return false;
+
+            // Kiểm tra ô đất có thể trồng không
+            if (!tile.CanPlant())
+                return false;
+
+            // Thực hiện trồng
+            bool planted = tile.Plant(seedData.cropData);
+            if (planted)
+            {
+                // Giảm số lượng hạt giống
+                //RemoveFromStack(1);
+
+                // Kích hoạt event
+                OnSeedPlanted?.Invoke(this, tile.transform.position);
             }
 
-            if (CurrentStack <= 0)
-            {
-                return false;
-            }
-
-            // Giảm số lượng seed
-            Stackable.RemoveFromStack(1);
-
-            OnSeedPlanted?.Invoke(this, position);
-            return true;
+            return planted;
         }
 
-        // Kiểm tra có thể trồng trong season này không
-        public bool CanPlantInSeason(Season season)
-        {
-            return GrowSeasons == season;
-        }
-
-        // Lấy thông tin crop sẽ thu hoạch
         public string GetCropInfo()
         {
-            return $"Grows in {GrowthTime} days, Yields {HarvestYield} {ResultCrop?.itemName}";
+            if (CropData == null)
+                return "No crop data linked.";
+
+            return $"{CropData.cropName} - grows in {CropData.GetGrowthDays()} days, " +
+                   $"yield: {CropData.minYield}-{CropData.maxYield}";
         }
 
         public override string ToString()
         {
-            return $"{Name} x{CurrentStack} (Growth: {GrowthTime}d)";
+            return $"{Name} x{CurrentStack}";
         }
     }
 }

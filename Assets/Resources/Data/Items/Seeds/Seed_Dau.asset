@@ -20,6 +20,7 @@ MonoBehaviour:
   description: 
   maxStackSize: 999
   isStackable: 1
+  canCarry: 0
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -48,11 +49,5 @@ MonoBehaviour:
   cooldown: 0
   canBeDropped: 1
   canBeEquippable: 0
-  cropID: seed_dau
-  cropType: 0
-  resultCrop: {fileID: 0}
-  validSeason: 0
-  growthDays: 7
+  cropData: {fileID: 0}
   requiresDailyWatering: 1
-  minYield: 1
-  maxYield: 3

@@ -282,20 +282,15 @@ namespace TinyFarm.Tools
         // <returns>True nếu sử dụng thành công</returns>
         public bool UseTool()
         {
-            Debug.Log($"[ToolEquipment] 🧭 UseTool() called at frame {Time.frameCount}");
             if (currentTool == null)
             {
-                Debug.LogWarning("[ToolEquipment] No tool equipped!");
                 return false;
             }
 
             if (!CanUseTool())
             {
-                Debug.LogWarning("[ToolEquipment] Cannot use tool right now!");
                 return false;
             }
-
-            Debug.Log($"[ToolEquipment] 🔧 Using tool: {currentTool.toolType}");
 
             // Trigger animation
             bool animationStarted = false;
@@ -312,18 +307,15 @@ namespace TinyFarm.Tools
                     animationStarted = animController.PlaySickle();
                     break;
                 default:
-                    Debug.LogWarning($"Tool type {currentTool.toolType} not implemented!");
                     break;
             }
 
             if (animationStarted)
             {
-                Debug.Log($"[ToolEquipment] ✅ Tool animation started");
                 return true;
             }
             else
             {
-                Debug.LogWarning($"[ToolEquipment] ❌ Failed to start tool animation");
                 return false;
             }
             
@@ -436,13 +428,10 @@ namespace TinyFarm.Tools
         && (currentTool == null || currentTool.isUsable);
 
             if (!hasToolEquipped)
-                Debug.LogWarning("[CanUseTool] ❌ No tool equipped!");
             if (animController.IsActionLocked)
-                Debug.LogWarning("[CanUseTool] 🔒 Animation is locked!");
             if (currentTool != null && !currentTool.isUsable)
                 Debug.LogWarning("[CanUseTool] ⚠️ Tool is not usable!");
 
-            Debug.Log($"[CanUseTool] Result = {canUse}");
             return canUse;
         }
 
