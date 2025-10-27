@@ -280,8 +280,6 @@ namespace TinyFarm.Animation
                 AnimationState.Hoeing => ToolType.Hoe,
                 AnimationState.Watering => ToolType.Watering,
                 AnimationState.Sickle => ToolType.Sickle,
-                AnimationState.PickUpIdle => ToolType.PickUpIdle,
-                AnimationState.PickUpRun => ToolType.PickUpRun,
                 _ => null
             };
         }

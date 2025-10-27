@@ -56,6 +56,10 @@ namespace TinyFarm.Animation
         public event Action OnActionComplete;
         public event Action<AnimationState> OnToolActionStarted;
 
+        // CARRY / ACTION TYPE (new)
+        private ActionType currentActionType = ActionType.None;
+        private bool isCarrying = false;
+
         // PROPERTIES
         public AnimationState CurrentState => currentState;
         public AnimationState PreviousState => previousState;
@@ -65,6 +69,8 @@ namespace TinyFarm.Animation
         public bool IsMoving => currentState == AnimationState.Running;
         public Animator Animator => animator;
         public Vector2 CurrentDirectionVector => lastDirectionVector;
+        public ActionType CurrentActionType => currentActionType;
+        public bool IsCarrying => isCarrying;
 
 
         private void Awake()
@@ -140,6 +146,47 @@ namespace TinyFarm.Animation
             UpdateDirectionParameters(lastDirectionVector);
 
             LogDebug("PlayerAnimationController initialized");
+        }
+
+        // ==========================================
+        // CARRY / ACTION TYPE API
+        // ==========================================
+
+        // Set action type (if you manage action states globally).
+        // Setting ActionType.Carry will set carrying flag; other types will clear it.
+        public void SetActionType(ActionType type)
+        {
+            currentActionType = type;
+            SetCarrying(type == ActionType.Carry);
+        }
+
+        // Directly set carrying visual flag.
+        // When carrying == true, PlayPickUp() will be triggered.
+        // When carrying == false, ExitPickUpState() will be called to return to movement states.
+        public void SetCarrying(bool carrying)
+        {
+            if (isActionLocked)
+            {
+                LogDebug("Cannot change carrying state - action locked");
+                return;
+            }
+
+            if (isCarrying == carrying)
+                return;
+
+            isCarrying = carrying;
+            LogDebug($"SetCarrying: {isCarrying}");
+
+            if (isCarrying)
+            {
+                // Enter pickup visual state immediately (choose Idle/Run automatically)
+                PlayPickUp();
+            }
+            else
+            {
+                // Exit pickup visual state and return to Idle/Run based on previous inputs/direction
+                ExitPickUpState();
+            }
         }
 
         // Exit pickup state and return to normal movement state
@@ -271,7 +318,7 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        /// Play PickUpRun animation - Visual state only, no action lock
+        // Play PickUpRun animation - Visual state only, no action lock
         public bool PlayPickUpRun()
         {
             if (isActionLocked)
@@ -287,7 +334,7 @@ namespace TinyFarm.Animation
             return true;
         }
 
-        /// Play PickUp animation - Auto select Idle or Run based on current state
+        // Play PickUp animation - Auto select Idle or Run based on current state
         public bool PlayPickUp()
         {
             // Determine which pickup to use based on current state

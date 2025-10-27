@@ -233,7 +233,7 @@ namespace TinyFarm.PlayerInput
         // PUBLIC API - EQUIP/UNEQUIP
         // ==========================================
 
-        /// Equip item để hiển thị trên tay (Seeds, consumables, etc.)
+        // Equip item để hiển thị trên tay (Seeds, consumables, etc.)
         public bool EquipItem(Item item)
         {
             if (animController != null)
@@ -280,6 +280,7 @@ namespace TinyFarm.PlayerInput
             currentItem = item;
             currentItemData = item.ItemData;
             isHoldingItem = true;
+            animController.SetCarrying(true);
 
             Debug.Log($"[ItemHolding] ✅ Item equipped - isHoldingItem: {isHoldingItem}");
 
@@ -310,9 +311,7 @@ namespace TinyFarm.PlayerInput
             return true;
         }
 
-        /// <summary>
-        /// Unequip item hiện tại
-        /// </summary>
+        // Unequip item hiện tại
         public void UnequipItem()
         {
             Debug.Log($"[ItemHolding] 📤 UnequipItem() called - Current holding: {isHoldingItem}");
@@ -338,15 +337,14 @@ namespace TinyFarm.PlayerInput
                 Debug.Log("[ItemHolding] 👁️ ItemSprite hidden");
             }
 
+            animController.SetCarrying(false);
             // Fire event
             OnItemUnequipped?.Invoke(oldItem);
 
             Debug.Log($"[ItemHolding] ✅ Unequipped item: {oldItem?.ItemData?.itemName}");
         }
 
-        /// <summary>
-        /// Quick equip từ ItemData (testing)
-        /// </summary>
+        // Quick equip từ ItemData (testing)
         public bool EquipItemData(ItemData itemData)
         {
             Debug.Log($"[ItemHolding] EquipItemData() called with: {(itemData != null ? itemData.itemName : "NULL")}");

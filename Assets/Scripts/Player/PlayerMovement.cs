@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // ==========================================
-    // MOVEMENT (Now controlled by PlayerInputHandler)
+    // MOVEMENT
     // ==========================================
 
     private void HandleMovement()
@@ -143,39 +143,37 @@ public class PlayerMovement : MonoBehaviour
         if (animController.IsActionLocked)
             return;
 
-        // Handle PickUp Movement - CHỈ toggle giữa PickUpIdle và PickUpRun
-        if (animController.CurrentState == AnimationState.PickUpIdle ||
-            animController.CurrentState == AnimationState.PickUpRun)
+        bool hasMove = normalizedInput.sqrMagnitude > 0.01f;
+
+        if (animController.IsCarrying)
         {
-            if (normalizedInput.sqrMagnitude > 0.01f)
+            // Nếu có input → chạy pickup run
+            if (hasMove)
             {
-                // Moving -> PickUpRun
-                if (animController.CurrentState != AnimationState.PickUpRun)
-                {
-                    animController.PlayPickUpRun();
-                }
+                animController.PlayPickUpRun();
                 animController.UpdateDirection(normalizedInput);
                 animController.UpdateDirectionParameters(normalizedInput);
                 animController.UpdateSpriteFlip(normalizedInput);
             }
             else
             {
-                // Idle -> PickUpIdle
-                if (animController.CurrentState != AnimationState.PickUpIdle)
-                {
-                    animController.PlayPickUpIdle();
-                }
-                animController.UpdateDirectionParameters(animController.CurrentDirectionVector);
-                animController.UpdateSpriteFlip(animController.CurrentDirectionVector);
+                // Không di chuyển → pickup idle
+                animController.PlayPickUpIdle();
+                animController.UpdateDirectionParameters(lastNonZeroInput);
+                animController.UpdateSpriteFlip(lastNonZeroInput);
             }
-            return; // ✅ IMPORTANT: Return here, don't fall through
+            return;
         }
 
-        // Normal animations (when NOT in pickup state)
-        if (normalizedInput.sqrMagnitude > 0.01f)
+        // Không cầm đồ → animation thường
+        if (hasMove)
+        {
             animController.PlayMovement(normalizedInput);
+        }
         else
+        {
             animController.PlayIdle();
+        }
     }
 
     // ==========================================
