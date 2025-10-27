@@ -11,7 +11,7 @@ namespace TinyFarm.PlayerInput
     {
         [Header("References")]
         [SerializeField] private PlayerAnimationController animController;
-        [SerializeField] private SpriteRenderer playerSpriteRenderer; // ⚠️ Assign manually từ Player GameObject
+        [SerializeField] private SpriteRenderer playerSpriteRenderer;
 
         [Header("Item Sprite")]
         [SerializeField] private SpriteRenderer itemSpriteRenderer;
@@ -63,17 +63,14 @@ namespace TinyFarm.PlayerInput
 
         private void Awake()
         {
-            Debug.Log("[ItemHolding] 🔧 Awake() called");
             InitializeComponents();
         }
 
         private void Start()
         {
-            Debug.Log("[ItemHolding] ▶️ Start() called");
             ValidateSetup();
             SetupItemSprite();
             SubscribeToEvents();
-            Debug.Log("[ItemHolding] ✅ Initialization complete");
         }
 
         private void OnDestroy()
@@ -83,7 +80,6 @@ namespace TinyFarm.PlayerInput
 
         private void LateUpdate()
         {
-            // Update item position/rotation theo animation
             if (isHoldingItem)
             {
                 UpdateItemTransform();
@@ -92,7 +88,6 @@ namespace TinyFarm.PlayerInput
 
         private void OnValidate()
         {
-            // ✅ Tự động tìm AnimController
             if (animController == null)
             {
                 animController = GetComponent<PlayerAnimationController>();
@@ -101,9 +96,6 @@ namespace TinyFarm.PlayerInput
                 if (animController == null)
                     animController = GetComponentInChildren<PlayerAnimationController>();
             }
-
-            // ⚠️ KHÔNG tự động assign PlayerSpriteRenderer
-            // Để user tự assign manually
         }
 
         private void InitializeComponents()
@@ -112,7 +104,6 @@ namespace TinyFarm.PlayerInput
             {
                 animController = GetComponent<PlayerAnimationController>();
 
-                // ✅ Nếu không tìm thấy, tìm trong parent/children
                 if (animController == null)
                 {
                     animController = GetComponentInParent<PlayerAnimationController>();
@@ -121,60 +112,22 @@ namespace TinyFarm.PlayerInput
                 {
                     animController = GetComponentInChildren<PlayerAnimationController>();
                 }
-
-                Debug.Log($"[ItemHolding] AnimController: {(animController != null ? "✅ Found" : "❌ Missing")}");
-            }
-
-            // ⚠️ KHÔNG tự động GetComponent SpriteRenderer
-            // Phải assign manually trong Inspector
-            if (playerSpriteRenderer == null)
-            {
-                Debug.LogError("[ItemHolding] ❌ PlayerSpriteRenderer NOT assigned! Please assign manually in Inspector!");
-            }
-            else
-            {
-                Debug.Log($"[ItemHolding] PlayerSpriteRenderer: ✅ Assigned ({playerSpriteRenderer.gameObject.name})");
-            }
-
-            if (animController == null)
-            {
-                Debug.LogError("[ItemHolding] ❌ PlayerAnimationController not found!");
-                enabled = false;
             }
         }
 
         private void ValidateSetup()
         {
-            Debug.Log("[ItemHolding] 🔍 Validating setup...");
-
-            if (animController == null)
-            {
-                Debug.LogError("[ItemHolding] ❌ Missing PlayerAnimationController!");
-                enabled = false;
-                return;
-            }
-
-            if (playerSpriteRenderer == null)
-            {
-                Debug.LogWarning("[ItemHolding] ⚠️ Missing player SpriteRenderer!");
-            }
-
-            Debug.Log($"[ItemHolding] AutoCreateItemSprite: {autoCreateItemSprite}");
+            
         }
 
         private void SetupItemSprite()
         {
-            Debug.Log("[ItemHolding] 🎨 Setting up item sprite...");
-
             // Tạo GameObject cho item sprite nếu chưa có
             if (itemSpriteRenderer == null && autoCreateItemSprite)
             {
-                Debug.Log("[ItemHolding] 🆕 Creating ItemSprite GameObject...");
-
                 GameObject itemObj = new GameObject("ItemSprite");
                 itemObj.transform.SetParent(transform);
                 itemObj.transform.localPosition = Vector3.zero;
-
                 itemSpriteRenderer = itemObj.AddComponent<SpriteRenderer>();
 
                 // Set sorting layer
@@ -182,33 +135,20 @@ namespace TinyFarm.PlayerInput
                 {
                     itemSpriteRenderer.sortingLayerName = playerSpriteRenderer.sortingLayerName;
                     itemSpriteRenderer.sortingOrder = playerSpriteRenderer.sortingOrder + 1;
-                    Debug.Log($"[ItemHolding] Sorting Layer: {itemSpriteRenderer.sortingLayerName}, Order: {itemSpriteRenderer.sortingOrder}");
                 }
                 else
                 {
                     itemSpriteRenderer.sortingLayerName = "Player";
                     itemSpriteRenderer.sortingOrder = 10;
-                    Debug.LogWarning("[ItemHolding] ⚠️ PlayerSpriteRenderer null, using default sorting");
                 }
 
                 itemHoldPoint = itemObj.transform;
 
-                Debug.Log("[ItemHolding] ✅ ItemSprite created successfully");
             }
-            else if (itemSpriteRenderer != null)
-            {
-                Debug.Log("[ItemHolding] ✅ ItemSpriteRenderer already assigned");
-            }
-            else
-            {
-                Debug.LogWarning("[ItemHolding] ⚠️ AutoCreate disabled and no ItemSpriteRenderer assigned!");
-            }
-
             // Ẩn item sprite ban đầu
             if (itemSpriteRenderer != null)
             {
                 itemSpriteRenderer.enabled = false;
-                Debug.Log("[ItemHolding] ItemSprite hidden initially");
             }
         }
 
@@ -217,7 +157,6 @@ namespace TinyFarm.PlayerInput
             if (animController != null)
             {
                 animController.OnStateChanged += OnAnimationStateChanged;
-                Debug.Log("[ItemHolding] ✅ Subscribed to animation events");
             }
         }
 
@@ -236,77 +175,29 @@ namespace TinyFarm.PlayerInput
         // Equip item để hiển thị trên tay (Seeds, consumables, etc.)
         public bool EquipItem(Item item)
         {
-            if (animController != null)
-            {
-                animController.PlayPickUp();
-            }
+            if (item == null || item.ItemData == null) return false;
 
-            Debug.Log($"[ItemHolding] 📥 EquipItem() called with item: {(item != null ? item.ItemData?.itemName : "NULL")}");
+            // If already equipped same item
+            if (currentItem == item) return true;
 
-            if (item == null)
-            {
-                Debug.LogWarning("[ItemHolding] ❌ Cannot equip null item");
-                return false;
-            }
-
-            if (item.ItemData == null)
-            {
-                Debug.LogWarning("[ItemHolding] ❌ Item has null ItemData");
-                return false;
-            }
-
-            Debug.Log($"[ItemHolding] Item details - Name: {item.ItemData.itemName}, ID: {item.ItemData.itemID}");
-
-            // Check if item has sprite
-            if (item.ItemData.icon == null)
-            {
-                Debug.LogWarning($"[ItemHolding] ⚠️ Item has no icon sprite: {item.ItemData.itemName}");
-                return false;
-            }
-
-            Debug.Log($"[ItemHolding] Item icon: {item.ItemData.icon.name}");
-
-            // Check if already equipped
-            if (currentItem == item)
-            {
-                Debug.Log($"[ItemHolding] ℹ️ Item already equipped: {item.ItemData.itemName}");
-                return true;
-            }
-
-            // Store old item
             Item oldItem = currentItem;
 
-            // Equip new item
             currentItem = item;
             currentItemData = item.ItemData;
             isHoldingItem = true;
-            animController.SetCarrying(true);
 
-            Debug.Log($"[ItemHolding] ✅ Item equipped - isHoldingItem: {isHoldingItem}");
-
-            // Update sprite
             UpdateItemSprite();
 
-            // Show sprite
-            if (itemSpriteRenderer != null)
+            if (itemSpriteRenderer != null) itemSpriteRenderer.enabled = true;
+
+            // IMPORTANT: notify anim controller to enter Carry mode
+            if (animController != null)
             {
-                itemSpriteRenderer.enabled = true;
-                Debug.Log($"[ItemHolding] 👁️ ItemSprite enabled: {itemSpriteRenderer.enabled}");
-            }
-            else
-            {
-                Debug.LogError("[ItemHolding] ❌ ItemSpriteRenderer is NULL!");
+                animController.SetCarrying(true);
             }
 
-            // Fire events
             OnItemEquipped?.Invoke(item);
-
-            if (oldItem != null)
-            {
-                OnItemChanged?.Invoke(oldItem, item);
-            }
-
-            Debug.Log($"[ItemHolding] ✅✅✅ Item successfully equipped: {item.ItemData.itemName}");
+            if (oldItem != null) OnItemChanged?.Invoke(oldItem, item);
 
             return true;
         }
@@ -314,47 +205,36 @@ namespace TinyFarm.PlayerInput
         // Unequip item hiện tại
         public void UnequipItem()
         {
-            Debug.Log($"[ItemHolding] 📤 UnequipItem() called - Current holding: {isHoldingItem}");
+            if (!isHoldingItem) return;
 
-            if (!isHoldingItem)
-            {
-                Debug.Log("[ItemHolding] ℹ️ No item to unequip");
-                return;
-            }
+            Item old = currentItem;
 
-            Item oldItem = currentItem;
-
-            // Clear item
             currentItem = null;
             currentItemData = null;
             isHoldingItem = false;
 
-            // Hide sprite
             if (itemSpriteRenderer != null)
             {
                 itemSpriteRenderer.enabled = false;
                 itemSpriteRenderer.sprite = null;
-                Debug.Log("[ItemHolding] 👁️ ItemSprite hidden");
             }
 
-            animController.SetCarrying(false);
-            // Fire event
-            OnItemUnequipped?.Invoke(oldItem);
+            // IMPORTANT: notify anim controller to exit Carry mode
+            if (animController != null)
+            {
+                animController.SetCarrying(false);
+            }
 
-            Debug.Log($"[ItemHolding] ✅ Unequipped item: {oldItem?.ItemData?.itemName}");
+            OnItemUnequipped?.Invoke(old);
         }
 
         // Quick equip từ ItemData (testing)
         public bool EquipItemData(ItemData itemData)
         {
-            Debug.Log($"[ItemHolding] EquipItemData() called with: {(itemData != null ? itemData.itemName : "NULL")}");
-
             if (itemData == null)
             {
-                Debug.LogWarning("[ItemHolding] ❌ Cannot equip null ItemData");
                 return false;
             }
-
             // Create temporary item instance
             Item tempItem = new Item(itemData, 1);
             return EquipItem(tempItem);
@@ -366,52 +246,33 @@ namespace TinyFarm.PlayerInput
 
         private void UpdateItemSprite()
         {
-            Debug.Log("[ItemHolding] 🎨 UpdateItemSprite() called");
 
-            if (itemSpriteRenderer == null)
-            {
-                Debug.LogError("[ItemHolding] ❌ ItemSpriteRenderer is NULL!");
-                return;
-            }
+            if (itemSpriteRenderer == null) return;
 
-            if (currentItemData == null)
-            {
-                Debug.LogError("[ItemHolding] ❌ CurrentItemData is NULL!");
-                return;
-            }
+            if (currentItemData == null) return;
 
             // Set sprite from ItemData
             itemSpriteRenderer.sprite = currentItemData.icon;
             itemSpriteRenderer.sortingLayerName = "Object";
             itemSpriteRenderer.sortingOrder = 10;
             itemSpriteRenderer.transform.localScale = new Vector3(1.5f, 1.5f, 1f);
-            Debug.Log($"[ItemHolding] Set sprite to: {(currentItemData.icon != null ? currentItemData.icon.name : "NULL")}");
 
             // Match player's flip
             if (playerSpriteRenderer != null)
             {
                 itemSpriteRenderer.flipX = playerSpriteRenderer.flipX;
-                Debug.Log($"[ItemHolding] FlipX: {itemSpriteRenderer.flipX}");
             }
-
-            Debug.Log($"[ItemHolding] ✅ Item sprite updated: {currentItemData.itemName}");
         }
 
         private void UpdateItemTransform()
         {
-            if (itemHoldPoint == null || !isHoldingItem)
-                return;
+            if (itemHoldPoint == null || !isHoldingItem) return;
 
-            // Get current direction
             currentDirection = animController.CurrentDirection;
-
-            // Get offset based on direction
             ItemHoldOffset offset = GetOffsetForDirection(currentDirection);
 
-            // Apply position
             Vector3 position = offset.position;
 
-            // Flip X position nếu facing left
             if (playerSpriteRenderer != null && playerSpriteRenderer.flipX && currentDirection == Direction.Side)
             {
                 position.x = -position.x;
@@ -440,14 +301,10 @@ namespace TinyFarm.PlayerInput
         {
             switch (direction)
             {
-                case Direction.Up:
-                    return offsetUp;
-                case Direction.Down:
-                    return offsetDown;
-                case Direction.Side:
-                    return offsetSide;
-                default:
-                    return offsetDown;
+                case Direction.Up: return offsetUp;
+                case Direction.Down: return offsetDown;
+                case Direction.Side: return offsetSide;
+                default: return offsetDown;
             }
         }
 
@@ -492,9 +349,7 @@ namespace TinyFarm.PlayerInput
         // PUBLIC API - CONFIGURATION
         // ==========================================
 
-        /// <summary>
         /// Set offset cho direction cụ thể
-        /// </summary>
         public void SetOffset(Direction direction, Vector3 position, Vector3 rotation, int sortingOffset)
         {
             ItemHoldOffset offset = new ItemHoldOffset(position, rotation, sortingOffset);
@@ -511,13 +366,9 @@ namespace TinyFarm.PlayerInput
                     offsetSide = offset;
                     break;
             }
-
-            LogDebug($"Updated offset for {direction}");
         }
 
-        /// <summary>
         /// Update item sprite color (ví dụ: dim khi out of uses)
-        /// </summary>
         public void SetItemColor(Color color)
         {
             if (itemSpriteRenderer != null)
@@ -526,24 +377,10 @@ namespace TinyFarm.PlayerInput
             }
         }
 
-        /// <summary>
         /// Reset item color về white
-        /// </summary>
         public void ResetItemColor()
         {
             SetItemColor(Color.white);
-        }
-
-        // ==========================================
-        // DEBUG
-        // ==========================================
-
-        private void LogDebug(string message)
-        {
-            if (debugMode)
-            {
-                Debug.Log($"[ItemHolding] {message}");
-            }
         }
 
 #if UNITY_EDITOR

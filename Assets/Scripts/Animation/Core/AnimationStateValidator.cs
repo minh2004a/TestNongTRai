@@ -23,22 +23,10 @@ namespace TinyFarm.Animation
 
         public bool CanTransition(AnimationState from, AnimationState to)
         {
-            // Luôn cho phép về Idle
-            if (to == AnimationState.Idle)
-                return true;
-
-            // ✅ CHO PHÉP chuyển đổi giữa các visual states (Idle/Running/PickUp)
-            if (IsVisualState(from) && IsVisualState(to))
-                return true;
-
-            // Không cho transition giữa các tool actions
-            if (IsToolAction(from) && IsToolAction(to))
-                return false;
-
-            // Sleep không thể bị interrupt bởi tool actions
-            if (from == AnimationState.Sleep && IsToolAction(to))
-                return false;
-
+            if (to == AnimationState.Idle) return true;
+            if (IsVisualState(from) && IsVisualState(to)) return true;
+            if (IsToolAction(from) && IsToolAction(to)) return false;
+            if (from == AnimationState.Sleep && IsToolAction(to)) return false;
             return true;
         }
 
@@ -80,25 +68,14 @@ namespace TinyFarm.Animation
 
         public bool ValidateTransition(AnimationState from, AnimationState to)
         {
-            // Same state - no transition needed
-            if (from == to)
-                return false;
-
-            // Always allow transition to Idle
-            if (to == AnimationState.Idle)
-                return true;
-
-            // ✅ Allow transitions between visual states
-            if (IsVisualState(from) && IsVisualState(to))
-                return true;
+            if (from == to) return false;
+            if (to == AnimationState.Idle) return true;
+            if (IsVisualState(from) && IsVisualState(to)) return true;
 
             int fromPriority = GetStatePriority(from);
             int toPriority = GetStatePriority(to);
 
-            // If current state cannot be interrupted and new state doesn't have higher priority
-            if (!CanInterruptState(from) && toPriority <= fromPriority)
-                return false;
-
+            if (!CanInterruptState(from) && toPriority <= fromPriority) return false;
             return true;
         }
 
@@ -112,10 +89,8 @@ namespace TinyFarm.Animation
             return priorities.TryGetValue(state, out int p) ? p : 0;
         }
 
-        /// <summary>
         /// ✅ FIXED: Chỉ Tool Actions (Hoe, Watering, Sickle)
         /// KHÔNG bao gồm PickUpIdle/PickUpRun
-        /// </summary>
         public bool IsToolAction(AnimationState state)
         {
             return state == AnimationState.UsingTool ||
@@ -124,10 +99,8 @@ namespace TinyFarm.Animation
                    state == AnimationState.Sickle;
         }
 
-        /// <summary>
         /// ✅ NEW: Visual States (Idle, Running, PickUpIdle, PickUpRun)
         /// Có thể chuyển đổi tự do giữa các state này
-        /// </summary>
         public bool IsVisualState(AnimationState state)
         {
             return state == AnimationState.Idle ||
@@ -136,20 +109,15 @@ namespace TinyFarm.Animation
                    state == AnimationState.PickUpRun;
         }
 
-        /// <summary>
         /// DEPRECATED: Use IsToolAction() hoặc IsVisualState()
-        /// </summary>
-        public bool IsActionState(AnimationState state)
-        {
-            return IsToolAction(state);
-        }
+        //public bool IsActionState(AnimationState state)
+        //{
+        //    return IsToolAction(state);
+        //}
 
         public bool IsMovementState(AnimationState state)
         {
-            return state == AnimationState.Idle ||
-                   state == AnimationState.Running ||
-                   state == AnimationState.PickUpIdle ||
-                   state == AnimationState.PickUpRun;
+            return IsVisualState(state);
         }
 
 #if UNITY_EDITOR

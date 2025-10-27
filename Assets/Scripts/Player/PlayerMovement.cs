@@ -12,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     [Header("References")]
     [SerializeField] private PlayerAnimationController animController;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private Animator animator;
  
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
@@ -34,12 +33,10 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         lastNonZeroInput = Vector2.down;
-        LogDebug("PlayerMovement initialized");
     }
 
     private void Update()
     {
-        // Input handled by PlayerInputHandler now
         UpdateAnimations();
     }
 
@@ -71,14 +68,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (animController == null)
         {
-            Debug.LogError("[PlayerMovement] PlayerAnimationController not found!");
             enabled = false;
             return;
         }
 
         if (rb == null)
         {
-            Debug.LogError("[PlayerMovement] Rigidbody2D not found!");
             enabled = false;
             return;
         }
@@ -133,15 +128,12 @@ public class PlayerMovement : MonoBehaviour
         currentSpeed = moveSpeed;
 
         // Apply movement
-        Vector2 velocity = normalizedInput * currentSpeed;
-        rb.velocity = velocity;
+        rb.velocity = normalizedInput * currentSpeed;
     }
 
     private void UpdateAnimations()
     {
-        // Don't update animations if action is locked
-        if (animController.IsActionLocked)
-            return;
+        if (animController.IsActionLocked) return;
 
         bool hasMove = normalizedInput.sqrMagnitude > 0.01f;
 
@@ -177,58 +169,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // ==========================================
-    // HELPER METHODS
-    // ==========================================
-
-    private string GetDirectionName(Vector2 dir)
-    {
-        float absX = Mathf.Abs(dir.x);
-        float absY = Mathf.Abs(dir.y);
-
-        if (absY > absX)
-        {
-            return dir.y > 0 ? "Up" : "Down";
-        }
-        else
-        {
-            return dir.x > 0 ? "Right" : "Left";
-        }
-    }
-
-    // ==========================================
-    // PUBLIC METHODS
-    // ==========================================
-
-    /// Force stop movement và animations
-    public void ForceStop()
-    {
-        moveInput = Vector2.zero;
-        normalizedInput = Vector2.zero;
-        rb.velocity = Vector2.zero;
-        animController.ForceStop();
-        LogDebug("Force stopped");
-    }
-
-    /// Set movement enabled/disabled
-    public void SetMovementEnabled(bool enabled)
-    {
-        this.enabled = enabled;
-        if (!enabled)
-        {
-            rb.velocity = Vector2.zero;
-        }
-    }
-
-    /// Teleport player to position
-    public void TeleportTo(Vector2 position)
-    {
-        transform.position = position;
-        rb.velocity = Vector2.zero;
-        moveInput = Vector2.zero;
-        normalizedInput = Vector2.zero;
-    }
-
-    // ==========================================
     // GETTERS
     // ==========================================
 
@@ -237,13 +177,4 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 GetLastDirection() => lastNonZeroInput;
     public bool IsMoving() => normalizedInput.sqrMagnitude > 0.01f;
     public float GetCurrentSpeed() => currentSpeed;
-
-    // ==========================================
-    // DEBUG
-    // ==========================================
-
-    private void LogDebug(string message)
-    {
-        
-    }
 }

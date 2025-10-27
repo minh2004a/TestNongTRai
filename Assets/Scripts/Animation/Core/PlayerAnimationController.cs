@@ -108,31 +108,20 @@ namespace TinyFarm.Animation
                 toolMapper.Initialize(toolConfigs);
                 LogDebug($"Loaded {toolConfigs.Length} tool configurations");
             }
-            else
-            {
-                Debug.LogWarning("[PlayerAnimController] No ToolAnimationConfig assigned!");
-            }
         }
 
         private void ValidateSetup()
         {
             if (animator == null)
             {
-                Debug.LogError("[PlayerAnimController] Animator is missing!");
                 enabled = false;
                 return;
             }
 
             if (animator.runtimeAnimatorController == null)
             {
-                Debug.LogError("[PlayerAnimController] Animator Controller not assigned!");
                 enabled = false;
                 return;
-            }
-
-            if (settings == null)
-            {
-                Debug.LogWarning("[PlayerAnimController] AnimationSettings not assigned! Using defaults.");
             }
         }
 
@@ -179,12 +168,10 @@ namespace TinyFarm.Animation
 
             if (isCarrying)
             {
-                // Enter pickup visual state immediately (choose Idle/Run automatically)
                 PlayPickUp();
             }
             else
             {
-                // Exit pickup visual state and return to Idle/Run based on previous inputs/direction
                 ExitPickUpState();
             }
         }
@@ -203,7 +190,6 @@ namespace TinyFarm.Animation
             if (currentState != AnimationState.PickUpIdle &&
                 currentState != AnimationState.PickUpRun)
             {
-                LogDebug("Not in PickUp state, no need to exit");
                 return false;
             }
 
@@ -218,7 +204,6 @@ namespace TinyFarm.Animation
             }
 
             UpdateDirectionParameters(lastDirectionVector);
-            LogDebug("✅ Exited PickUp state");
             return true;
         }
 
@@ -237,7 +222,6 @@ namespace TinyFarm.Animation
         {
             if (isActionLocked)
             {
-                LogDebug("Cannot play idle - action locked");
                 return;
             }
 
@@ -249,7 +233,6 @@ namespace TinyFarm.Animation
         {
             if (isActionLocked)
             {
-                LogDebug("Cannot play movement - action locked");
                 return;
             }
 
@@ -265,19 +248,19 @@ namespace TinyFarm.Animation
             UpdateSpriteFlip(direction);
         }
 
-        public void SetMovementSpeed(float speed)
-        {
-            if (settings != null)
-            {
-                float animSpeed = settings.GetAnimationSpeed(speed);
-                animator.speed = animSpeed;
-            }
-        }
+        //public void SetMovementSpeed(float speed)
+        //{
+        //    if (settings != null)
+        //    {
+        //        float animSpeed = settings.GetAnimationSpeed(speed);
+        //        animator.speed = animSpeed;
+        //    }
+        //}
 
-        public void StopMovement()
-        {
-            PlayIdle();
-        }
+        //public void StopMovement()
+        //{
+        //    PlayIdle();
+        //}
 
         // ==========================================
         // TOOL ANIMATIONS
@@ -307,14 +290,12 @@ namespace TinyFarm.Animation
         {
             if (isActionLocked)
             {
-                LogDebug("Cannot play PickUpIdle - action locked");
                 return false;
             }
 
             TransitionToState(AnimationState.PickUpIdle);
             UpdateDirectionParameters(lastDirectionVector);
 
-            LogDebug("Playing PickUpIdle (visual state)");
             return true;
         }
 
@@ -323,27 +304,24 @@ namespace TinyFarm.Animation
         {
             if (isActionLocked)
             {
-                LogDebug("Cannot play PickUpRun - action locked");
                 return false;
             }
 
             TransitionToState(AnimationState.PickUpRun);
             UpdateDirectionParameters(lastDirectionVector);
 
-            LogDebug("Playing PickUpRun (visual state)");
             return true;
         }
 
         // Play PickUp animation - Auto select Idle or Run based on current state
         public bool PlayPickUp()
         {
-            // Determine which pickup to use based on current state
-            bool isRunning = (currentState == AnimationState.Running || currentState == AnimationState.PickUpRun);
+            if (isActionLocked) return false;
 
-            if (isRunning)
-                return PlayPickUpRun();
-            else
-                return PlayPickUpIdle();
+            bool wantRun = currentState == AnimationState.Running || lastDirectionVector.sqrMagnitude > minMoveThreshold;
+            if (wantRun) { PlayPickUpRun(); return true; }
+            PlayPickUpIdle();
+            return true;
         }
 
         // ==========================================
@@ -354,7 +332,6 @@ namespace TinyFarm.Animation
         {
             if (isActionLocked)
             {
-                LogDebug("Cannot sleep - action locked");
                 return;
             }
 
@@ -377,42 +354,30 @@ namespace TinyFarm.Animation
 
         private bool PlayToolAnimation(ToolType toolType)
         {
-            LogDebug($"🔧 PlayToolAnimation: {toolType}");
-
             if (isActionLocked)
             {
-                LogDebug($"⏳ Cannot play {toolType} - action locked");
                 return false;
             }
 
             if (toolMapper == null)
             {
-                Debug.LogError("ToolAnimationMapper is null!");
                 return false;
             }
 
             AnimationState toolState = toolMapper.GetAnimationState(toolType);
-            if (toolState == AnimationState.Idle)
-            {
-                Debug.LogWarning($"No animation state mapped for tool: {toolType}");
-                return false;
-            }
-
             ToolAnimationConfig config = toolMapper.GetConfig(toolType);
+
             if (config == null)
             {
-                Debug.LogError($"No config found for tool: {toolType}");
                 return false;
             }
 
             float duration = config.GetDuration(currentDirection);
             if (duration <= 0f)
             {
-                Debug.LogWarning($"Invalid duration for {toolType}: {duration}");
                 duration = 1f;
             }
 
-            LogDebug($"✅ Playing tool animation: {toolState}, duration: {duration:F2}s");
             StartToolAction(toolState, duration);
 
             return true;
@@ -420,8 +385,6 @@ namespace TinyFarm.Animation
 
         private void StartToolAction(AnimationState toolState, float duration)
         {
-            LogDebug($"StartToolAction: {toolState}, duration: {duration:F2}s");
-
             if (actionCoroutine != null)
             {
                 StopCoroutine(actionCoroutine);
@@ -447,14 +410,10 @@ namespace TinyFarm.Animation
             actionStartTime = Time.time;
             actionDuration = duration;
 
-            LogDebug($"Action locked for {duration:F2}s, will return to: {returnState}");
-
             yield return new WaitForSeconds(duration);
 
             isActionLocked = false;
             actionDuration = 0f;
-
-            LogDebug($"Action unlocked, returning to: {returnState}");
 
             OnActionComplete?.Invoke();
             TransitionToState(returnState);
@@ -489,16 +448,12 @@ namespace TinyFarm.Animation
 
         private void SetAnimatorState(AnimationState state)
         {
-            int stateValue = (int)state;
-            Debug.Log($"[PlayerAnim] 🎯 SetAnimatorState: {state} = {stateValue}");
-            SetAnimatorInt(PARAM_STATE, stateValue);
-
-            // ✅ THÊM: Verify animator parameter was set
+            SetAnimatorInt(PARAM_STATE, (int)state);
             if (animator != null && paramCache != null)
             {
-                int hash = paramCache.GetHash(PARAM_STATE);
-                int actualValue = animator.GetInteger(hash);
-                Debug.Log($"[PlayerAnim] Animator State parameter is now: {actualValue}");
+                var hash = paramCache.GetHash(PARAM_STATE);
+                int actual = animator.GetInteger(hash);
+                LogDebug($"Animator State param is now: {actual}");
             }
         }
 
@@ -519,8 +474,7 @@ namespace TinyFarm.Animation
 
         public void UpdateDirection(Vector2 moveInput)
         {
-            if (moveInput.sqrMagnitude < minMoveThreshold)
-                return;
+            if (moveInput.sqrMagnitude < minMoveThreshold) return;
 
             lastDirectionVector = moveInput.normalized;
 
@@ -535,8 +489,6 @@ namespace TinyFarm.Animation
             {
                 currentDirection = Direction.Side;
             }
-
-            LogDebug($"UpdateDirection: input={moveInput:F2}, dir={currentDirection}");
         }
 
         public void UpdateDirectionParameters(Vector2 direction)
@@ -554,7 +506,6 @@ namespace TinyFarm.Animation
             {
                 bool shouldFlipLeft = direction.x < 0;
                 spriteRenderer.flipX = shouldFlipLeft;
-                LogDebug($"Sprite flip: {shouldFlipLeft}");
             }
         }
 
@@ -570,27 +521,13 @@ namespace TinyFarm.Animation
         private void SetAnimatorFloat(string paramName, float value)
         {
             if (paramCache.HasParameter(paramName))
-            {
-                int hash = paramCache.GetHash(paramName);
-                animator.SetFloat(hash, value);
-            }
-            else
-            {
-                Debug.LogWarning($"Parameter not found: {paramName}");
-            }
+                animator.SetFloat(paramCache.GetHash(paramName), value);
         }
 
         private void SetAnimatorInt(string paramName, int value)
         {
             if (paramCache.HasParameter(paramName))
-            {
-                int hash = paramCache.GetHash(paramName);
-                animator.SetInteger(hash, value);
-            }
-            else
-            {
-                Debug.LogWarning($"Parameter not found: {paramName}");
-            }
+                animator.SetInteger(paramCache.GetHash(paramName), value);
         }
 
         // ==========================================
@@ -649,6 +586,10 @@ namespace TinyFarm.Animation
             float elapsed = Time.time - actionStartTime;
             return Mathf.Clamp01(elapsed / actionDuration);
         }
+
+        // ======================
+        // HELPERS
+        // ======================
 
         public bool IsToolAction(AnimationState state)
         {
