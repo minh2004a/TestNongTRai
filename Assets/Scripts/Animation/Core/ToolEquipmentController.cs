@@ -318,38 +318,9 @@ namespace TinyFarm.Tools
             {
                 return false;
             }
-            
+
         }
-
-        // Trigger animation dựa vào tool type
-        //private bool TriggerToolAnimation()
-        //{
-        //    switch (currentToolType)
-        //    {
-        //        case ToolType.Hoe:
-        //            return animController.PlayHoeing();
-
-        //        case ToolType.Watering:
-        //            return animController.PlayWatering();
-
-        //        case ToolType.Sickle:
-        //            return animController.PlaySickle();
-
-        //        case ToolType.PickUpIdle:
-        //        case ToolType.PickUpRun:
-        //            return animController.PlayPickUp();
-
-        //        case ToolType.Seeds:
-        //            // TODO: Implement planting animation
-        //            LogDebug("Planting not implemented yet");
-        //            return false;
-
-        //        default:
-        //            Debug.LogWarning($"[ToolEquipment] No animation for tool type: {currentToolType}");
-        //            return false;
-        //    }
-        //}
-
+        
         // ==========================================
         // EVENT HANDLERS
         // ==========================================

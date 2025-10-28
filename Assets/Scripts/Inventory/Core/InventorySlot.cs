@@ -176,6 +176,16 @@ namespace TinyFarm.Items
                 return;
             }
 
+            // ✅ Nếu null → clear slot an toàn
+            if (item == null)
+            {
+                itemStack.Clear();
+                OnSlotCleared?.Invoke(this);
+                OnSlotChanged?.Invoke(this);
+                return;
+            }
+
+            // ✅ Clone item hợp lệ
             itemStack.SetItem(item.Clone());
             OnSlotChanged?.Invoke(this);
         }
@@ -183,14 +193,18 @@ namespace TinyFarm.Items
         // Swap với slot khác
         public void SwapWith(InventorySlot otherSlot)
         {
-            if (otherSlot == null || isLocked || otherSlot.isLocked) return;
+            if (otherSlot == null || isLocked || otherSlot.isLocked)
+                return;
 
-            Item temp = this.Item?.Clone();
-            Item other = otherSlot.Item?.Clone();
+            // ✅ Backup hai item
+            Item tempThis = this.Item?.Clone();
+            Item tempOther = otherSlot.Item?.Clone();
 
-            this.SetItem(other);
-            otherSlot.SetItem(temp);
+            // ✅ Gán trực tiếp, không gọi lồng SetItem (tránh gọi event hai lần)
+            this.itemStack.SetItem(tempOther);
+            otherSlot.itemStack.SetItem(tempThis);
 
+            // ✅ Bắn event để UI cập nhật
             OnSlotChanged?.Invoke(this);
             otherSlot.OnSlotChanged?.Invoke(otherSlot);
         }

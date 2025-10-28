@@ -62,6 +62,14 @@ namespace TinyFarm.Items.UI
                 raycaster = canvas?.GetComponent<GraphicRaycaster>();
             }
 
+            // --- NEW: ensure we have inventoryManager reference ---
+            if (inventoryManager == null)
+            {
+                inventoryManager = FindObjectOfType<InventoryManager>();
+                if (inventoryManager == null)
+                    Debug.LogWarning("[DragDropHandler] InventoryManager not found in scene!");
+            }
+
             CreateHighlightOverlay();
         }
 
@@ -286,32 +294,35 @@ namespace TinyFarm.Items.UI
                 return;
             }
 
-            // Check if can merge
             bool canMerge = !target.IsEmpty && source.Slot.CanMergeWith(target.Slot);
 
             if (canMerge)
             {
-                // Merge stacks
+                // Merge stack
                 bool merged = target.Slot.MergeWith(source.Slot);
                 if (merged)
-                {
-                    Debug.Log($"[DragDrop] Merged {source.Slot.ItemID} into slot {target.SlotIndex}");
-                }
+                    Debug.Log($"[DragDrop] ✅ Merged {source.Slot.ItemID} into slot {target.SlotIndex}");
             }
             else
             {
                 if (inventoryManager != null)
                 {
-                    inventoryManager.SwapSlots(source.Slot, target.Slot);
+                    bool swapped = inventoryManager.SafeSwap(source.Slot, target.Slot);
+                    if (!swapped)
+                    {
+                        Debug.LogWarning("[DragDrop] SafeSwap returned false - swap not performed");
+                        // fallback an toàn
+                        source.Slot.SwapWith(target.Slot);
+                    }
                 }
                 else
                 {
-                    // Swap slots
+                    Debug.LogWarning("[DragDrop] inventoryManager is null - using direct SwapWith()");
                     source.Slot.SwapWith(target.Slot);
                 }
             }
 
-            // Force refresh both slots
+            // ✅ Cập nhật giao diện
             source.UpdateUI();
             target.UpdateUI();
         }

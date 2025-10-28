@@ -188,121 +188,60 @@ namespace TinyFarm.Items.UI
 
         private void OnHotbarKeyPressed(int slotIndex)
         {
-            if (!isInitialized)
-            {
-                return;
-            }
+            if (!isInitialized) return;
+            if (slotIndex < 0 || slotIndex >= hotbarSlots.Count) return;
 
-            if (slotIndex < 0 || slotIndex >= hotbarSlots.Count)
-            {
-                return;
-            }
+            if (slotIndex == selectedSlotIndex)
+                return; // ✅ Không làm lại nếu chọn đúng slot đang chọn
 
-            // Select slot
             SelectSlot(slotIndex);
-
-            // Get slot info
-            InventorySlot slot = GetHotbarSlot(slotIndex);
-            if (slot != null)
-            {
-                if (slot.IsEmpty)
-                {
-                }
-                else
-                {
-                }
-            }
-
-            // ✅ Equip item hoặc tool
             EquipItemFromSlot(slotIndex);
+            if (hotbarUI != null)
+                hotbarUI.UpdateUI();
         }
 
         // ✅ FIXED: Equip logic với ItemHoldingController
         private void EquipItemFromSlot(int slotIndex)
         {
             InventorySlot slot = GetHotbarSlot(slotIndex);
-
             if (slot == null)
             {
-                Debug.LogWarning("[HotbarSystem] ❌ Slot is null!");
+                Debug.LogWarning("[HotbarSystem] ❌ Slot null!");
                 return;
             }
 
-            // ✅ Empty slot → Unequip all
             if (slot.IsEmpty)
             {
-                Debug.Log("[HotbarSystem] 📭 Empty slot - unequipping all");
-
-                if (toolEquipment != null)
-                    toolEquipment.UnequipTool();
-
-                if (itemHolding != null)
-                    itemHolding.UnequipItem();
-
+                Debug.Log("[HotbarSystem] 📭 Slot empty — unequipping all");
+                toolEquipment?.UnequipTool();
+                itemHolding?.UnequipItem();
                 return;
             }
 
             Item item = slot.Item;
-
             if (item?.ItemData == null)
             {
-                Debug.LogWarning("[HotbarSystem] ⚠️ Item or ItemData is null!");
+                Debug.LogWarning("[HotbarSystem] ⚠️ ItemData missing!");
                 return;
             }
 
-            ItemType itemType = item.ItemData.GetItemType();
-
-            // ✅ Check item type và equip tương ứng
-            if (itemType == ItemType.Tool)
+            switch (item.ItemData.GetItemType())
             {
+                case ItemType.Tool:
+                    itemHolding?.UnequipItem();
+                    toolEquipment?.EquipTool(item.ItemData as ToolItemData);
+                    break;
 
-                ToolItemData toolData = item.ItemData as ToolItemData;
+                case ItemType.Seed:
+                case ItemType.Consumable:
+                    toolEquipment?.UnequipTool();
+                    itemHolding?.EquipItem(item);
+                    break;
 
-                if (toolData != null)
-                {
-                    // Unequip item holding
-                    if (itemHolding != null)
-                    {
-                        itemHolding.UnequipItem();
-                    }
-
-                    // Equip tool
-                    if (toolEquipment != null)
-                    {
-                        bool success = toolEquipment.EquipTool(toolData);
-                    }
-                }
-                else
-                {
-                }
-            }
-            else if (itemType == ItemType.Seed || itemType == ItemType.Consumable)
-            {
-
-                // Unequip tool
-                if (toolEquipment != null)
-                {
-                    toolEquipment.UnequipTool();
-                }
-
-                // ✅ Equip item holding
-                if (itemHolding != null)
-                {
-                    bool success = itemHolding.EquipItem(item);
-                }
-                else
-                {
-                }
-            }
-            else
-            {
-
-                // Other items → Unequip all
-                if (toolEquipment != null)
-                    toolEquipment.UnequipTool();
-
-                if (itemHolding != null)
-                    itemHolding.UnequipItem();
+                default:
+                    toolEquipment?.UnequipTool();
+                    itemHolding?.UnequipItem();
+                    break;
             }
         }
 

@@ -76,6 +76,8 @@ namespace TinyFarm.Items
         // Khởi tạo inventory
         public void Initialize()
         {
+            slots = new List<InventorySlot>();
+
             if (isInitialized) return;
 
             // Validate references
@@ -494,6 +496,35 @@ namespace TinyFarm.Items
             return target.MergeWith(source);
         }
 
+        public bool SafeSwap(InventorySlot slotA, InventorySlot slotB)
+        {
+            if (slotA == null || slotB == null) 
+            {
+                Debug.LogWarning("[InventoryManager] SafeSwap failed: slot is null");
+                return false;
+            }
+            if (slotA == slotB)
+            {
+                Debug.LogWarning("[InventoryManager] SafeSwap failed: same slot");
+                return false;
+            }
+            if (slotA.IsLocked || slotB.IsLocked)
+            {
+                Debug.LogWarning("[InventoryManager] SafeSwap failed: one of slots is locked");
+                return false;
+            }
+
+            // Do swap on data layer
+            slotA.SwapWith(slotB);
+
+            // Update aggregated data and broadcast
+            UpdateItemCounts();
+            OnInventoryChanged?.Invoke();
+
+            // Optionally inform specific slot change callbacks (already fired inside SwapWith via OnSlotChanged)
+            return true;
+        }
+
         /// Sort inventory (group same items together)
         public void SortInventory()
         {
@@ -599,23 +630,28 @@ namespace TinyFarm.Items
 
         private void UpdateItemCounts()
         {
+            if (slots == null)
+            {
+                Debug.LogWarning("[InventoryManager] ⚠️ slots is null in UpdateItemCounts()");
+                return;
+            }
+
+            if (itemCounts == null)
+                itemCounts = new Dictionary<string, int>();
+
             itemCounts.Clear();
 
             foreach (var slot in slots)
             {
-                if (slot.IsEmpty) continue;
+                if (slot == null || slot.IsEmpty) continue;
 
                 string itemID = slot.ItemID;
                 int quantity = slot.Quantity;
 
                 if (itemCounts.ContainsKey(itemID))
-                {
                     itemCounts[itemID] += quantity;
-                }
                 else
-                {
                     itemCounts[itemID] = quantity;
-                }
             }
         }
 
@@ -708,11 +744,23 @@ namespace TinyFarm.Items
 
         private void OnDestroy()
         {
-            // Cleanup
-            foreach (var slot in slots)
+            if (slots != null)
             {
-                UnsubscribeFromSlotEvents(slot);
-                slot.Dispose();
+                foreach (var slot in slots)
+                {
+                    UnsubscribeFromSlotEvents(slot);
+                    slot.Dispose();
+                }
+            }
+
+            if (hotbarSlots != null)
+            {
+                foreach (var h in hotbarSlots)
+                {
+                    if (h == null) continue;
+                    UnsubscribeFromSlotEvents(h);
+                    h.Dispose();
+                }
             }
         }
 

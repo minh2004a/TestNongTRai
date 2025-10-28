@@ -24,14 +24,11 @@ namespace TinyFarm.Items.UI
         [SerializeField] private GameObject lockedOverlay;
 
         //DATA REFERENCE - Đây là cái quan trọng!
-        private SlotUI slotUI;
         private InventoryDescription descriptionPanel;
         private DragDropHandler dragDropHandler;
-        private InventorySlot inventorySlot;
 
         [Header("Visual Settings")]
         [SerializeField] private Color normalColor = Color.white;
-        [SerializeField] private Color highlightColor = Color.yellow;
         [SerializeField] private Color selectedColor = Color.green;
         [SerializeField] private Color lockedColor = Color.gray;
 
@@ -70,15 +67,9 @@ namespace TinyFarm.Items.UI
 
         public void Setup(SlotUI slot, InventoryDescription description)
         {
-            slotUI = slot;
             descriptionPanel = description;
             UpdateUI();
         }
-        public InventorySlot GetInventorySlot()
-        {
-            return inventorySlot;
-        }
-
         private void ValidateReferences()
         {
             if (itemIcon == null)
@@ -92,24 +83,16 @@ namespace TinyFarm.Items.UI
         }
 
         /// Bind slot data với UI
-        public void Initialize(InventorySlot inventorySlot)
+        public void Initialize(InventorySlot newSlot)
         {
-            if (inventorySlot == null)
-            {
-                Debug.LogError("[SlotUI] Cannot initialize with null slot!");
-                return;
-            }
-
-            // Unsubscribe old slot nếu có
             if (slot != null)
             {
                 UnsubscribeFromSlot();
             }
 
-            slot = inventorySlot;
+            slot = newSlot;
             SubscribeToSlot();
 
-            // Initial update
             UpdateUI();
         }
 
@@ -134,24 +117,41 @@ namespace TinyFarm.Items.UI
         {
             if (slot == null)
             {
-                // Clear UI nếu slot null
-                if (itemIcon != null)
-                {
-                    itemIcon.sprite = null;
-                    itemIcon.enabled = false;
-                }
-                if (quantityText != null)
-                {
-                    quantityText.text = "";
-                    quantityText.enabled = false;
-                }
+                itemIcon.enabled = false;
+                quantityText.enabled = false;
                 return;
             }
 
-            UpdateIcon();
-            UpdateQuantity();
-            UpdateBackground();
-            UpdateLockedState();
+            if (slot.IsEmpty)
+            {
+                itemIcon.enabled = false;
+                quantityText.enabled = false;
+            }
+            else
+            {
+                itemIcon.enabled = true;
+                itemIcon.sprite = slot.ItemIcon;
+
+                if (slot.Quantity > 1)
+                {
+                    quantityText.enabled = true;
+                    quantityText.text = slot.Quantity.ToString();
+                }
+                else
+                {
+                    quantityText.enabled = false;
+                }
+            }
+
+            backgroundImage.color = slot.IsLocked ? lockedColor : (isSelected ? selectedColor : normalColor);
+
+            if (lockedOverlay != null)
+                lockedOverlay.SetActive(slot.IsLocked);
+
+            // UpdateIcon();
+            // UpdateQuantity();
+            // UpdateBackground();
+            // UpdateLockedState();
         }
 
         private void UpdateIcon()
@@ -215,22 +215,18 @@ namespace TinyFarm.Items.UI
         public void Select()
         {
             isSelected = true;
-            UpdateBackground();
+            UpdateUI();
         }
 
         public void Deselect()
         {
             isSelected = false;
-            UpdateBackground();
-
-            
+            UpdateUI();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
             isHovered = true;
-            OnSlotHoverEnter?.Invoke(this);
-
             // Show tooltip
             if (!IsEmpty && TooltipSystem.Instance != null)
             {
@@ -241,7 +237,6 @@ namespace TinyFarm.Items.UI
         public void OnPointerExit(PointerEventData eventData)
         {
             isHovered = false;
-            OnSlotHoverExit?.Invoke(this);
 
             // Hide tooltip
             if (TooltipSystem.Instance != null)
@@ -299,8 +294,7 @@ namespace TinyFarm.Items.UI
 
         private void HandleLockChanged(bool locked)
         {
-            UpdateLockedState();
-            UpdateBackground();
+            UpdateUI();
         }
 
         private void OnDestroy()
