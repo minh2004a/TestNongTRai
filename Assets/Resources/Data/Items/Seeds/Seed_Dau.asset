@@ -49,5 +49,5 @@ MonoBehaviour:
   cooldown: 0
   canBeDropped: 1
   canBeEquippable: 0
-  cropData: {fileID: 0}
+  cropData: {fileID: 11400000, guid: 530b3916ffe309444b283ce8dd29a699, type: 2}
   requiresDailyWatering: 1

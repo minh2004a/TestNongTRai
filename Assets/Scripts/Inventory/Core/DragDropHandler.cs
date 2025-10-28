@@ -93,8 +93,6 @@ namespace TinyFarm.Items.UI
 
             draggedSlot = slotUIBase;
             CreateDragVisual();
-
-            Debug.Log($"[DragDrop] Started dragging: {draggedSlot.Slot.ItemID} from {slotUIBase.GetType().Name}");
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -307,7 +305,6 @@ namespace TinyFarm.Items.UI
             {
                 // Swap slots
                 source.Slot.SwapWith(target.Slot);
-                Debug.Log($"[DragDrop] Swapped slot {source.SlotIndex} ↔ {target.SlotIndex}");
             }
 
             // Force refresh both slots

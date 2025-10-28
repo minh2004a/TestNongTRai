@@ -44,15 +44,26 @@ namespace TinyFarm.Items
             if (!tile.CanPlant())
                 return false;
 
+            // ✅ Lấy SpriteRenderer từ FarmManager hoặc Grid System
+            SpriteRenderer cropRenderer = FarmManager.Instance?.GetCropRendererAt(tile.gridPosition);
+            if (cropRenderer == null)
+            {
+                Debug.LogWarning($"[SeedItem] No renderer found at {tile.gridPosition}");
+                return false;
+            }
+            
             // Thực hiện trồng
-            bool planted = tile.Plant(seedData.cropData);
+            bool planted = tile.Plant(seedData.cropData, cropRenderer);
             if (planted)
             {
                 // Giảm số lượng hạt giống
                 //RemoveFromStack(1);
 
+                // ✅ Lấy vị trí ô đất qua Tilemap (vì không có transform)
+                Vector3 worldPos = FarmManager.Instance.GridToWorld(tile.gridPosition);
+
                 // Kích hoạt event
-                OnSeedPlanted?.Invoke(this, tile.transform.position);
+                OnSeedPlanted?.Invoke(this, worldPos);
             }
 
             return planted;

@@ -20,6 +20,7 @@ MonoBehaviour:
   description: 
   maxStackSize: 999
   isStackable: 1
+  canCarry: 0
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -49,6 +50,7 @@ MonoBehaviour:
   canBeDropped: 1
   canBeEquippable: 0
   cropType: 2
+  cropData: {fileID: 11400000, guid: 8bfdb87bfb3dc0849bf9ed56c1e111de, type: 2}
   harvestedSeason: 1
   nutritionValue: 10
   energyValue: 5

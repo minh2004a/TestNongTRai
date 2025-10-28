@@ -234,7 +234,6 @@ namespace TinyFarm.Items.UI
             // Show tooltip
             if (!IsEmpty && TooltipSystem.Instance != null)
             {
-                Debug.Log($"[SlotUI] Showing tooltip for: {slot.ItemData.itemName}");
                 TooltipSystem.Instance.ShowTooltip(slot);
             }
         }

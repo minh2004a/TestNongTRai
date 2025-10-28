@@ -10,6 +10,7 @@ namespace TinyFarm.Items
         [Header("Crop Specific")]
         [Tooltip("Loại nông sản")]
         public CropType cropType;
+        public CropData cropData;
 
         [Tooltip("Mùa thu hoạch")]
         public Season harvestedSeason;

@@ -6,52 +6,49 @@ using TinyFarm.Crops;
 
 namespace TinyFarm.Farming
 {
-    public class FarmTile : MonoBehaviour
+    // Data class cho mỗi tile trong farm grid
+    [System.Serializable]
+    public class FarmTile
     {
-        [Header("Tile State")]
-        [SerializeField] private Vector2Int gridPosition;
-        [SerializeField] private TileState tileState = TileState.Empty;
-        [SerializeField] private bool isWatered = false;
-        [SerializeField] private bool isTilled = false;
-        [SerializeField] private FertilizerType appliedFertilizer = FertilizerType.None;
-
-        [Header("Crop")]
-        [SerializeField] private CropInstance currentCrop;
-        [SerializeField] private SpriteRenderer cropRenderer;
-
-        [Header("Rendering")]
-        [SerializeField] private SpriteRenderer tileRenderer;
-        [SerializeField] private Sprite emptySoil;
-        [SerializeField] private Sprite tilledSoil;
-        [SerializeField] private Sprite wateredSoil;
-
-        // PROPERTIES
-        public Vector2Int GridPosition => gridPosition;
+        // Position
+        public Vector2Int gridPosition;
+        
+        // State
+        public TileState tileState = TileState.Empty;
+        public bool isWatered = false;
+        public bool isTilled = false;
+        public FertilizerType appliedFertilizer = FertilizerType.None;
+        
+        // Crop
+        public CropInstance currentCrop;
+        
+        // Properties
         public bool HasCrop => currentCrop != null;
-        public CropInstance Crop => currentCrop;
         public bool IsWatered => isWatered;
         public bool IsTilled => isTilled;
         public TileState State => tileState;
 
-        private void Awake()
+        // Constructor
+        public FarmTile(Vector2Int position)
         {
-            if (tileRenderer == null)
-                tileRenderer = GetComponent<SpriteRenderer>();
-
-            UpdateVisuals();
+            gridPosition = position;
+            tileState = TileState.Empty;
+            isWatered = false;
+            isTilled = false;
+            currentCrop = null;
+            appliedFertilizer = FertilizerType.None;
         }
-
-        // ==========================================================
+        
+        // ==========================================
         // TILE ACTIONS
-        // ==========================================================
-
+        // ==========================================
+        
         public void Till()
         {
             if (tileState == TileState.Empty)
             {
                 isTilled = true;
                 tileState = TileState.Tilled;
-                UpdateVisuals();
             }
         }
 
@@ -61,54 +58,41 @@ namespace TinyFarm.Farming
 
             isWatered = true;
             tileState = TileState.Watered;
-            currentCrop.Water();
-
-            UpdateVisuals();
+            currentCrop?.Water();
         }
-
-        public bool Plant(CropData data)
+        
+        public bool Plant(CropData data, SpriteRenderer cropRenderer)
         {
             if (!CanPlant() || data == null) return false;
-
-            SpriteRenderer renderer = GetOrCreateCropRenderer();
-            int today = TimeManager.Instance != null ? TimeManager.Instance.GetCurrentDay() : 0;
-
-            currentCrop = new CropInstance(data, renderer, today);
-
+            
+            int today = TimeManager.Instance?.GetCurrentDay() ?? 0;
+            currentCrop = new CropInstance(data, cropRenderer, today);
+            
             isTilled = true;
             isWatered = false;
             tileState = TileState.Planted;
-
-            UpdateVisuals();
+            
             return true;
-        }
-
-        private SpriteRenderer GetOrCreateCropRenderer()
-        {
-            if (cropRenderer != null) return cropRenderer;
-
-            GameObject go = new GameObject("CropSprite");
-            go.transform.SetParent(transform);
-            go.transform.localPosition = Vector3.zero;
-
-            cropRenderer = go.AddComponent<SpriteRenderer>();
-            cropRenderer.sortingLayerID = tileRenderer.sortingLayerID;
-            cropRenderer.sortingOrder = tileRenderer.sortingOrder + 1;
-
-            return cropRenderer;
         }
 
         public void OnDayPassed()
         {
             currentCrop?.OnDayUpdate();
-            UpdateVisuals();
-        }
 
+            // Reset watered state daily
+            if (isWatered)
+            {
+                isWatered = false;
+                if (HasCrop)
+                    tileState = TileState.Planted;
+            }
+        }
+        
         public void ApplyFertilizer(FertilizerType type)
         {
             if (!HasCrop) return;
             appliedFertilizer = type;
-            currentCrop.ApplyFertilizer(type);
+            currentCrop?.ApplyFertilizer(type);
         }
 
         public List<Item> Harvest()
@@ -118,73 +102,41 @@ namespace TinyFarm.Farming
 
             var drops = currentCrop.Harvest();
 
-            ResetCropData();
-            UpdateVisuals();
+            // If not regrowable, reset crop
+            if (!currentCrop.CanRegrow())
+            {
+                ResetCropData();
+            }
 
             return drops;
         }
-
+        
         public void ResetTile()
         {
             ResetCropData();
             isTilled = false;
             tileState = TileState.Empty;
             isWatered = false;
-
-            UpdateVisuals();
         }
-
+        
         private void ResetCropData()
         {
             currentCrop = null;
             appliedFertilizer = FertilizerType.None;
         }
-
-        // ==========================================================
+        
+        // ==========================================
         // VALIDATIONS
-        // ==========================================================
-
+        // ==========================================
+        
         public bool CanPlant()
         {
             return tileState == TileState.Tilled && !HasCrop;
         }
-
+        
         public bool CanHoe() => tileState == TileState.Empty;
         public bool CanWater() => HasCrop && !isWatered;
-        public bool CanHarvest() => HasCrop && currentCrop.IsHarvestable;
-
-        // ==========================================================
-        // VISUALS
-        // ==========================================================
-
-        public void UpdateVisuals()
-        {
-            if (tileRenderer == null) return;
-
-            switch (tileState)
-            {
-                case TileState.Empty:
-                    tileRenderer.sprite = emptySoil;
-                    break;
-                case TileState.Tilled:
-                    tileRenderer.sprite = tilledSoil;
-                    break;
-                case TileState.Watered:
-                    tileRenderer.sprite = wateredSoil;
-                    break;
-                default:
-                    tileRenderer.sprite = tilledSoil;
-                    break;
-            }
-        }
-
-#if UNITY_EDITOR
-        private void OnValidate()
-        {
-            if (tileRenderer == null)
-                tileRenderer = GetComponent<SpriteRenderer>();
-        }
-#endif
+        public bool CanHarvest() => HasCrop && currentCrop != null && currentCrop.IsHarvestable;
     }
 }
 

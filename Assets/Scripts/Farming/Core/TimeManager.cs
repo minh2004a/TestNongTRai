@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TinyFarm.Items;
 using UnityEngine;
 
 namespace TinyFarm.Farming
@@ -9,6 +10,7 @@ namespace TinyFarm.Farming
     {
         // Singleton pattern
         public static TimeManager Instance { get; private set; }
+        public Season currentSeason;
 
         [Header("Time Settings")]
         [SerializeField] private float dayDuration = 60f; // 1 ngày game = 60 giây thực
@@ -152,6 +154,17 @@ namespace TinyFarm.Farming
         public void ResumeTime()
         {
             Time.timeScale = 1f;
+        }
+
+        // Trả về mùa hiện tại
+        public Season GetCurrentSeason()
+        {
+            return currentSeason;
+        }
+
+        public void SetSeason(Season season)
+        {
+            currentSeason = season;
         }
     }
 }
