@@ -60,9 +60,14 @@ namespace TinyFarm.Items.UI
         {
             GameObject slotGO = Instantiate(hotBarSlotPrefab, slotsContainer);
             HotbarSlotUI slotUI = slotGO.GetComponent<HotbarSlotUI>();
-
+            
             slotUI.Initialize(slot, index);
             slotUI.OnSlotClicked += OnSlotUIClicked;
+
+            // ✅ Gán inventoryManager cho DragDropHandler
+            var dragHandler = slotGO.GetComponent<DragDropHandler>();
+            if (dragHandler != null)
+                dragHandler.inventoryManager = inventoryManager;
 
             slotUIs.Add(slotUI);
         }

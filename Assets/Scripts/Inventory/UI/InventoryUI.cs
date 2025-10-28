@@ -135,6 +135,11 @@ namespace TinyFarm.Items.UI
                 slotUI.OnSlotHoverEnter += OnSlotUIHoverEnter;
                 slotUI.OnSlotHoverExit += OnSlotUIHoverExit;
 
+                // Gán InventoryManager cho DragDropHandler
+                var dragHandler = slotGO.GetComponent<DragDropHandler>();
+                if (dragHandler != null)
+                    dragHandler.inventoryManager = inventoryManager;
+
                 slotUIs.Add(slotUI);
             }
         }
