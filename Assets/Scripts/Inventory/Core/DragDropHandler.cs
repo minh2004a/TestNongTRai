@@ -298,31 +298,35 @@ namespace TinyFarm.Items.UI
 
             if (canMerge)
             {
-                // Merge stack
                 bool merged = target.Slot.MergeWith(source.Slot);
                 if (merged)
-                    Debug.Log($"[DragDrop] ✅ Merged {source.Slot.ItemID} into slot {target.SlotIndex}");
+                {
+                    Debug.Log($"[DragDrop] Merged {source.Slot.ItemID} into slot {target.SlotIndex}");
+                }
             }
             else
             {
+                // ✅ FIX: Cho phép swap giữa inventory & hotbar
+                if (!target.Slot.CanAcceptItem(source.Slot.Item))
+                {
+                    Debug.LogWarning($"[DragDrop] ❌ {target.Slot.SlotType} không chấp nhận {source.Slot.ItemName}");
+                    return;
+                }
+
                 if (inventoryManager != null)
                 {
                     bool swapped = inventoryManager.SafeSwap(source.Slot, target.Slot);
                     if (!swapped)
                     {
-                        Debug.LogWarning("[DragDrop] SafeSwap returned false - swap not performed");
-                        // fallback an toàn
                         source.Slot.SwapWith(target.Slot);
                     }
                 }
                 else
                 {
-                    Debug.LogWarning("[DragDrop] inventoryManager is null - using direct SwapWith()");
                     source.Slot.SwapWith(target.Slot);
                 }
             }
 
-            // ✅ Cập nhật giao diện
             source.UpdateUI();
             target.UpdateUI();
         }

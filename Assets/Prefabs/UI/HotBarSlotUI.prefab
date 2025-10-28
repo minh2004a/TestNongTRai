@@ -296,6 +296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6057763471818848344}
   - component: {fileID: 6719024167128781599}
+  - component: {fileID: -7711501469917750822}
   m_Layer: 5
   m_Name: HotBarSlotUI
   m_TagString: Untagged
@@ -353,6 +354,25 @@ MonoBehaviour:
   enableHoverAnimation: 1
   hoverScale: 1.1
   animationSpeed: 10
+--- !u!114 &-7711501469917750822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415082182887572559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d014e5ff0501f6488b55099f388d28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  raycaster: {fileID: 0}
+  dragAlpha: 0.7
+  dragIconSize: {x: 64, y: 64}
+  validDropColor: {r: 0, g: 1, b: 0, a: 0.3}
+  invalidDropColor: {r: 1, g: 0, b: 0, a: 0.3}
+  inventoryManager: {fileID: 0}
 --- !u!1 &7138402891474974153
 GameObject:
   m_ObjectHideFlags: 0

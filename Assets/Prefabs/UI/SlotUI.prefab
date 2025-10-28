@@ -160,6 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3057555244013165327}
   - component: {fileID: 2523404113726516617}
+  - component: {fileID: 4379036972712568492}
   m_Layer: 5
   m_Name: SlotUI
   m_TagString: Untagged
@@ -207,12 +208,30 @@ MonoBehaviour:
   backgroundImage: {fileID: 8604286300780648826}
   lockedOverlay: {fileID: 8290784978231019887}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
-  highlightColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   selectedColor: {r: 0, g: 1, b: 0, a: 1}
   lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   enableHoverAnimation: 1
   hoverScale: 1.1
   animationSpeed: 10
+--- !u!114 &4379036972712568492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7563342686495732400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d014e5ff0501f6488b55099f388d28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  raycaster: {fileID: 0}
+  dragAlpha: 0.7
+  dragIconSize: {x: 64, y: 64}
+  validDropColor: {r: 0, g: 1, b: 0, a: 0.3}
+  invalidDropColor: {r: 1, g: 0, b: 0, a: 0.3}
+  inventoryManager: {fileID: 0}
 --- !u!1 &8290784978231019887
 GameObject:
   m_ObjectHideFlags: 0
