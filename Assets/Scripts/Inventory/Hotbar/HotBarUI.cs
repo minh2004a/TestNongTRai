@@ -13,22 +13,17 @@ namespace TinyFarm.Items.UI
         [SerializeField] private GameObject hotBarSlotPrefab;
 
         [Header("Settings")]
-        [SerializeField] private int hotBarSize = 10; // 0-9
+        [SerializeField] private int hotBarSize = 10;
         [SerializeField] private bool autoCreateSlots = true;
-        [SerializeField]
 
-        // State
         private List<HotbarSlotUI> slotUIs = new List<HotbarSlotUI>();
         private int selectedSlotIndex = 0;
 
-        // Events
         public event Action<int> OnSlotSelected;
 
-        // Properties
         public int SelectedSlotIndex => selectedSlotIndex;
-        public HotbarSlotUI SelectedSlot => selectedSlotIndex >= 0 && selectedSlotIndex < slotUIs.Count
-            ? slotUIs[selectedSlotIndex]
-            : null;
+        public InventorySlot SelectedInventorySlot =>
+            inventoryManager.GetHotbarSlot(selectedSlotIndex);
 
         private void Start()
         {
@@ -37,55 +32,28 @@ namespace TinyFarm.Items.UI
 
         private void Initialize()
         {
-            // Find InventoryManager if not assigned
             if (inventoryManager == null)
             {
-                inventoryManager = FindObjectOfType<InventoryManager>();
-                if (inventoryManager == null)
-                {
-                    Debug.LogError("[HotBarUI] InventoryManager not found!");
-                    return;
-                }
+                Debug.LogError("[HotBarUI] Missing InventoryManager!");
+                return;
             }
 
-            // Create slot UIs
-            if (autoCreateSlots)
-            {
-                CreateSlotUIs();
-            }
+            if (autoCreateSlots) CreateSlotUIs();
 
-            // Select first slot by default
             SelectSlot(0);
         }
 
         private void CreateSlotUIs()
         {
-            if (hotBarSlotPrefab == null)
-            {
-                Debug.LogError("[HotBarUI] HotBarSlot Prefab not assigned!");
-                return;
-            }
-
-            if (slotsContainer == null)
-            {
-                Debug.LogError("[HotBarUI] Slots Container not assigned!");
-                return;
-            }
-
-            // Clear existing slots
-            foreach (Transform child in slotsContainer)
-            {
-                Destroy(child.gameObject);
-            }
             slotUIs.Clear();
+            foreach (Transform child in slotsContainer)
+                Destroy(child.gameObject);
 
-            // Create hotbar slot UIs (first 10 slots from inventory)
-            var slots = inventoryManager.GetAllSlots();
-            for (int i = 0; i < Mathf.Min(hotBarSize, slots.Count); i++)
+            for (int i = 0; i < hotBarSize; i++)
             {
-                CreateSlotUI(slots[i], i);
+                InventorySlot slot = inventoryManager.GetHotbarSlot(i);
+                CreateSlotUI(slot, i);
             }
-
         }
 
         private void CreateSlotUI(InventorySlot slot, int index)
@@ -93,92 +61,41 @@ namespace TinyFarm.Items.UI
             GameObject slotGO = Instantiate(hotBarSlotPrefab, slotsContainer);
             HotbarSlotUI slotUI = slotGO.GetComponent<HotbarSlotUI>();
 
-            if (slotUI != null)
-            {
-                slotUI.Initialize(slot, index);
-                slotUI.OnSlotClicked += OnSlotUIClicked;
-                slotUI.OnSlotRightClicked += OnSlotUIRightClicked;
-                slotUI.OnSlotHoverExit += OnSlotUIHoverExit;
+            slotUI.Initialize(slot, index);
+            slotUI.OnSlotClicked += OnSlotUIClicked;
 
-                slotUIs.Add(slotUI);
-            }
+            slotUIs.Add(slotUI);
         }
 
         public void SelectSlot(int index)
         {
-            if (index < 0 || index >= slotUIs.Count)
-            {
-                Debug.LogWarning($"[HotBarUI] Invalid slot index: {index}");
-                return;
-            }
+            if (index < 0 || index >= slotUIs.Count) return;
 
-            // Deselect old slot
-            if (selectedSlotIndex >= 0 && selectedSlotIndex < slotUIs.Count)
-            {
-                slotUIs[selectedSlotIndex].Deselect();
-            }
+            slotUIs[selectedSlotIndex].Deselect();
 
-            // Select new slot
             selectedSlotIndex = index;
             slotUIs[selectedSlotIndex].Select();
 
             OnSlotSelected?.Invoke(selectedSlotIndex);
         }
 
-        public void UseSelectedSlot()
-        {
-            var slot = SelectedSlot;
-            if (slot != null && !slot.IsEmpty)
-            {
-                slot.Slot.UseItem();
-                Debug.Log($"[HotBarUI] Used item from slot {selectedSlotIndex}");
-            }
-        }
-
         public void UpdateUI()
         {
-            // Update all slot UIs
-            foreach (var slotUI in slotUIs)
-            {
-                slotUI.UpdateUI();
-            }
+            for (int i = 0; i < slotUIs.Count; i++)
+                slotUIs[i].UpdateUI();
         }
 
-        private void OnSlotUIClicked(HotbarSlotUI slotUI)
+        private void OnSlotUIClicked(HotbarSlotUI ui)
         {
-            // Select clicked slot
-            int index = slotUIs.IndexOf(slotUI);
-            if (index >= 0)
-            {
-                SelectSlot(index);
-            }
-        }
-
-        private void OnSlotUIRightClicked(HotbarSlotUI slotUI)
-        {
-            if (slotUI.IsEmpty) return;
-
-            // Use item
-            slotUI.Slot.UseItem();
-        }
-
-        private void OnSlotUIHoverExit(HotbarSlotUI slotUI)
-        {
-            // Hide tooltip
-            TooltipSystem.Instance?.HideTooltip();
+            int idx = slotUIs.IndexOf(ui);
+            SelectSlot(idx);
         }
 
         private void OnDestroy()
         {
             foreach (var slotUI in slotUIs)
-            {
                 if (slotUI != null)
-                {
                     slotUI.OnSlotClicked -= OnSlotUIClicked;
-                    slotUI.OnSlotRightClicked -= OnSlotUIRightClicked;
-                    slotUI.OnSlotHoverExit -= OnSlotUIHoverExit;
-                }
-            }
         }
     }
 }

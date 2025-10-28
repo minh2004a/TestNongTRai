@@ -12,7 +12,7 @@ namespace TinyFarm.Items
         [SerializeField] private SeedRegistry seedRegistry;
 
         [Header("Season Settings")]
-        [SerializeField] private Season currentSeason = Season.None;
+        [SerializeField] private Season currentSeason = Season.Spring;
         [SerializeField] private bool strictSeasonCheck = true;
 
         public Season CurrentSeason

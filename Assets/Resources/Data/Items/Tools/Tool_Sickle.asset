@@ -21,6 +21,8 @@ MonoBehaviour:
     c\u1ECF"
   maxStackSize: 1
   isStackable: 0
+  quantity: 0
+  canCarry: 0
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -44,11 +46,11 @@ MonoBehaviour:
   sellPrice: 0
   isSellable: 1
   isPurchasable: 1
-  isUsable: 0
+  isUsable: 1
   isConsumable: 0
   cooldown: 0
-  canBeDropped: 1
-  canBeEquippable: 1
+  canBeDropped: 0
+  canBeEquippable: 0
   toolID: 
   toolType: 5
   efficiency: 1

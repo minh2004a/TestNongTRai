@@ -80,7 +80,7 @@ public class ItemStack
         // Nếu stack rỗng, set item mới
         if (IsEmpty)
         {
-            SetItem(itemToAdd);
+            SetItem(itemToAdd.Clone());
             return itemToAdd.CurrentStack;
         }
 
@@ -154,32 +154,49 @@ public class ItemStack
     // Merge stack khác vào stack này
     public bool MergeWith(ItemStack other)
     {
-        if (other == null || other.IsEmpty) return false;
-
-        if (IsEmpty)
-        {
-            SetItem(other.RemoveAll());
-            return true;
-        }
-
-        if (!item.CanStackWith(other.Item)) return false;
-
-        int added = AddItem(other.Item);
-
-        // Remove số lượng đã merge từ other stack
-        if (added > 0)
-        {
-            other.Item.Stackable.RemoveFromStack(added);
-
-            if (other.IsEmpty)
-            {
-                other.Clear();
-            }
-
-            return true;
-        }
-
+        if (other == null || other.IsEmpty) 
         return false;
+
+    Item otherItem = other.Item;
+    if (otherItem == null) 
+        return false;
+
+    // TRƯỜNG HỢP 1: Slot đang rỗng → đặt item mới theo giới hạn max
+    if (IsEmpty)
+    {
+        Item cloned = otherItem.Clone();
+
+        int max = cloned.Stackable.MaxStackSize;
+        int quantity = Math.Min(other.Quantity, max);
+
+        cloned.Stackable.SetStack(quantity);
+        SetItem(cloned);
+
+        other.Item.Stackable.RemoveFromStack(quantity);
+        if (other.IsEmpty) other.Clear();
+
+        return true;
+    }
+
+    // TRƯỜNG HỢP 2: Slot có item → merge phần thiếu
+    if (!item.CanStackWith(otherItem)) 
+        return false;
+
+    int space = item.Stackable.RemainingSpace;
+    if (space <= 0)
+        return false;
+
+    int toAdd = Math.Min(other.Quantity, space);
+
+    Item mergePart = otherItem.Clone();
+    mergePart.Stackable.SetStack(toAdd);
+
+    int added = AddItem(mergePart, toAdd);
+    other.Item.Stackable.RemoveFromStack(added);
+
+    if (other.IsEmpty) other.Clear();
+
+    return added > 0;
     }
 
     // Swap items với stack khác

@@ -53,6 +53,9 @@ namespace TinyFarm.Crops
             if (!isWateredToday && cropData.requiresDailyWatering)
                 return;
 
+            if (currentStage >= cropData.growthStages - 1 && !cropData.isRegrowable)
+                return;    
+
             daysInStage++;
 
             if (daysInStage >= cropData.daysPerStage[currentStage])
@@ -74,6 +77,10 @@ namespace TinyFarm.Crops
             isWateredToday = true;
         }
 
+        public void SetWatered(bool watered)
+        {
+            isWateredToday = watered;
+        }
         // ==========================================
         // HARVESTING
         // ==========================================

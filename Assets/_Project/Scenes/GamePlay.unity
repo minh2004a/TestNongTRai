@@ -4416,6 +4416,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &182356813
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 182356814}
+  - component: {fileID: 182356815}
+  m_Layer: 0
+  m_Name: FarmingInventoryBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &182356814
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182356813}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1026946103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &182356815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182356813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ac17cb5617daf4784bea1faa4ac455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  farmingController: {fileID: 2020930298}
+  inventoryManager: {fileID: 1909291318}
+  hotbarSystem: {fileID: 551641035}
+  autoAddToInventory: 1
+  debugMode: 1
 --- !u!1 &198009749
 GameObject:
   m_ObjectHideFlags: 0
@@ -17680,8 +17729,8 @@ MonoBehaviour:
   emptySoilTile: {fileID: 11400000, guid: 8157b371404fdc4448e4e5ff0a116e9b, type: 2}
   tilledSoilTile: {fileID: 11400000, guid: 82e40b6e6b547a541891b84f3be403e3, type: 2}
   wateredSoilTile: {fileID: 11400000, guid: 8e9c3da6f35e87e46a7c9dd9a2392d10, type: 2}
-  farmOrigin: {x: -36, y: -27}
-  farmSize: {x: 78, y: 47}
+  farmOrigin: {x: -37, y: -33}
+  farmSize: {x: 100, y: 100}
   debugMode: 1
   CropData: {fileID: 0}
 --- !u!1 &418627358
@@ -18903,6 +18952,7 @@ MonoBehaviour:
   dragIconSize: {x: 64, y: 64}
   validDropColor: {r: 0, g: 1, b: 0, a: 0.3}
   invalidDropColor: {r: 1, g: 0, b: 0, a: 0.3}
+  inventoryManager: {fileID: 0}
 --- !u!1 &660976226
 GameObject:
   m_ObjectHideFlags: 0
@@ -22622,7 +22672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812766860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -23204,8 +23254,10 @@ Transform:
   m_Children:
   - {fileID: 789694690}
   - {fileID: 78493439}
-  - {fileID: 1920300603}
   - {fileID: 2020930297}
+  - {fileID: 182356814}
+  - {fileID: 1920300603}
+  - {fileID: 1482050489}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1030219192
@@ -29549,6 +29601,11 @@ MonoBehaviour:
   - {fileID: -139705401, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
   - {fileID: -270334729, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
   - {fileID: 1040667467, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
+  - {fileID: -2061921141, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
+  - {fileID: 1335990761, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
+  - {fileID: -139705401, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
+  - {fileID: -270334729, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
+  - {fileID: 1040667467, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
   - {fileID: 1329480886, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
   - {fileID: -1673799581, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
   - {fileID: -900599703, guid: b11a058fbfa1dab45893d8d7e0136d3d, type: 3}
@@ -29608,6 +29665,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1468672920}
   m_CullTransparentMesh: 1
+--- !u!1 &1482050488
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1482050489}
+  - component: {fileID: 1482050490}
+  m_Layer: 0
+  m_Name: CropGrowthManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1482050489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482050488}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1026946103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1482050490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1482050488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95c001fa6ad3b248b8805a852e2ee72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1529048786
 GameObject:
   m_ObjectHideFlags: 0
@@ -29670,14 +29771,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1909291319}
   - {fileID: 551641034}
   - {fileID: 1932221313}
   - {fileID: 649302301}
   - {fileID: 648649663}
-  - {fileID: 812766861}
   - {fileID: 946379859}
   - {fileID: 1247037105}
+  - {fileID: 812766861}
+  - {fileID: 1909291319}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1575769791
@@ -66970,7 +67071,6 @@ MonoBehaviour:
   hotBarSlotPrefab: {fileID: 6415082182887572559, guid: 52bee9e411f3cd140917add62e3b1c00, type: 3}
   hotBarSize: 10
   autoCreateSlots: 1
-  slotUIs: []
 --- !u!1 &1781474786
 GameObject:
   m_ObjectHideFlags: 0
@@ -71535,6 +71635,8 @@ MonoBehaviour:
   inventorySize: 40
   inventoryName: Player Inventory
   itemDatabase: {fileID: 11400000, guid: 924d286e2fa53b54eb2b5b3afdfa1e19, type: 2}
+  hotbarSize: 10
+  hotbarSlots: []
   descriptionPanel: {fileID: 1012997912}
   slots: []
   isInitialized: 0
@@ -71546,7 +71648,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909291317}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -71616,7 +71718,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1920300601}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -72055,11 +72157,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   farmGrid: {fileID: 418538425}
+  inventoryBridge: {fileID: 182356815}
   toolEquipment: {fileID: 883206089}
   itemHolding: {fileID: 647645679}
   animController: {fileID: 647645675}
   mainCamera: {fileID: 1030219194}
-  interactionRange: 1.5
+  interactionRange: 25.45
   debugMode: 1
   hoveredGridPos: {x: 0, y: 0}
   selectedGridPos: {x: 0, y: 0}

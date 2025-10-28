@@ -54,7 +54,7 @@ namespace TinyFarm.Farming
 
         public void Water()
         {
-            if (!HasCrop) return;
+            if (!isTilled) return;
 
             isWatered = true;
             tileState = TileState.Watered;
@@ -83,8 +83,7 @@ namespace TinyFarm.Farming
             if (isWatered)
             {
                 isWatered = false;
-                if (HasCrop)
-                    tileState = TileState.Planted;
+                tileState = HasCrop ? TileState.Planted : TileState.Tilled;
             }
         }
         

@@ -107,7 +107,7 @@ namespace TinyFarm.Items
             }
 
             int amountToAdd = quantity < 0 ? item.CurrentStack : quantity;
-            int added = itemStack.AddItem(item, amountToAdd);
+            int added = itemStack.AddItem(item.Clone(), amountToAdd);
 
             if (added > 0)
             {
@@ -176,27 +176,20 @@ namespace TinyFarm.Items
                 return;
             }
 
-            itemStack.SetItem(item);
+            itemStack.SetItem(item.Clone());
             OnSlotChanged?.Invoke(this);
         }
 
         // Swap với slot khác
         public void SwapWith(InventorySlot otherSlot)
         {
-            if (otherSlot == null)
-            {
-                Debug.LogWarning("[InventorySlot] Cannot swap with null slot!");
-                return;
-            }
+            if (otherSlot == null || isLocked || otherSlot.isLocked) return;
 
-            if (isLocked || otherSlot.isLocked)
-            {
-                Debug.LogWarning("[InventorySlot] Cannot swap locked slots!");
-                return;
-            }
+            Item temp = this.Item?.Clone();
+            Item other = otherSlot.Item?.Clone();
 
-            // Swap item stacks
-            itemStack.SwapWith(otherSlot.itemStack);
+            this.SetItem(other);
+            otherSlot.SetItem(temp);
 
             OnSlotChanged?.Invoke(this);
             otherSlot.OnSlotChanged?.Invoke(otherSlot);

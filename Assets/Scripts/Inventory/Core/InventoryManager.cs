@@ -17,6 +17,11 @@ namespace TinyFarm.Items
 
         [Header("References")]
         [SerializeField] private ItemDatabase itemDatabase;
+
+        [Header("Hotbar Settings")]
+        [SerializeField] private int hotbarSize = 10;
+        [SerializeField] private InventorySlot[] hotbarSlots;
+        public InventorySlot[] HotbarSlots => hotbarSlots;
         public InventoryDescription descriptionPanel;
 
         [Header("Slots")]
@@ -80,11 +85,8 @@ namespace TinyFarm.Items
                 return;
             }
 
-            // Initialize data structures
+            // Init main inventory
             slots = new List<InventorySlot>();
-            itemCounts = new Dictionary<string, int>();
-
-            // Create slots
             for (int i = 0; i < inventorySize; i++)
             {
                 InventorySlot slot = new InventorySlot(i, SlotType.Normal);
@@ -92,6 +94,16 @@ namespace TinyFarm.Items
                 slots.Add(slot);
             }
 
+            // ✅ Init Hotbar
+            hotbarSlots = new InventorySlot[hotbarSize];
+            int hotbarStartIndex = inventorySize; // Bắt đầu sau inventory
+
+            for (int i = 0; i < hotbarSize; i++)
+            {
+                InventorySlot slot = new InventorySlot(hotbarStartIndex + i, SlotType.ToolOnly);
+                SubscribeToSlotEvents(slot);
+                hotbarSlots[i] = slot;
+            }
             isInitialized = true;
         }
 
@@ -127,6 +139,12 @@ namespace TinyFarm.Items
         {
             UpdateItemCounts();
             OnItemRemoved?.Invoke(item, item.CurrentStack);
+        }
+
+        public InventorySlot GetHotbarSlot(int index)
+        {
+            if (index < 0 || index >= hotbarSlots.Length) return null;
+            return hotbarSlots[index];
         }
 
         // Thêm item vào inventory
@@ -518,6 +536,18 @@ namespace TinyFarm.Items
             data.UpdateTimestamp();
 
             Debug.Log($"[InventoryManager] Inventory saved: {data}");
+            return data;
+        }
+
+        public InventoryData SaveHotbar()
+        {
+            InventoryData data = new InventoryData("Player Hotbar", hotbarSize);
+            foreach (var slot in hotbarSlots)
+            {
+                SlotData slotData = SlotData.FromSlot(slot);
+                data.AddSlot(slotData);
+            }
+            data.UpdateTimestamp();
             return data;
         }
 

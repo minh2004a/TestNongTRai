@@ -23,7 +23,7 @@ namespace TinyFarm.Farming
         
         [Header("Farm Area")]
         [SerializeField] private Vector2Int farmOrigin = Vector2Int.zero;
-        [SerializeField] private Vector2Int farmSize = new Vector2Int(10, 10);
+        [SerializeField] private Vector2Int farmSize = new Vector2Int(100, 100);
 
         [Header("Settings")]
         [SerializeField] private bool debugMode = true;
@@ -73,6 +73,21 @@ namespace TinyFarm.Farming
             if (GroundTilemap == null)
                 GroundTilemap = GetComponent<Tilemap>();
 
+            if (TilledTilemap == null)
+            {
+                // Try find sibling tilemap named maybe "Tilled" (optional)
+                var maps = GetComponentsInChildren<Tilemap>();
+                foreach (var m in maps)
+                {
+                    if (m != GroundTilemap)
+                    {
+                        TilledTilemap = m;
+                        break;
+                    }
+                }
+            }
+
+            LogDebug($"InitializeGrid: origin={farmOrigin}, size={farmSize}, GroundTilemap={(GroundTilemap!=null)}, TilledTilemap={(TilledTilemap!=null)}, Grid={(grid!=null)}");
             // Initialize farm tiles
             for (int x = 0; x < farmSize.x; x++)
             {
@@ -133,6 +148,12 @@ namespace TinyFarm.Farming
         
         public FarmTile GetTileAtWorldPos(Vector3 worldPos)
         {
+            if (GroundTilemap == null)
+            {
+                LogDebug($"GetTileAtWorldPos: GroundTilemap is NULL (worldPos={worldPos})");
+                return null;
+            }
+
             Vector3Int cellPos = GroundTilemap.WorldToCell(worldPos);
             Vector2Int gridPos = new Vector2Int(cellPos.x, cellPos.y);
             return GetTile(gridPos);
@@ -159,9 +180,21 @@ namespace TinyFarm.Farming
         
         public bool TillTile(Vector2Int gridPos)
         {
+            LogDebug($"TillTile called: {gridPos}");
             FarmTile tile = GetTile(gridPos);
-            if (tile == null || !tile.CanHoe()) return false;
-            
+            if (tile == null || !tile.CanHoe())
+            {
+                LogDebug($"TillTile FAILED: no tile data at {gridPos}");
+                return false;
+            }
+
+            LogDebug($"TillTile current state: {tile.tileState}, isTilled={tile.isTilled}");
+            if (!tile.CanHoe())
+            {
+                LogDebug($"TillTile FAILED: CanHoe() returned false for {gridPos}");
+                return false;
+            }
+
             tile.Till();
             UpdateTileVisuals(gridPos);
             
@@ -171,9 +204,16 @@ namespace TinyFarm.Farming
         
         public bool WaterTile(Vector2Int gridPos)
         {
+            LogDebug($"WaterTile called: {gridPos}");
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanWater()) return false;
             
+            if (!tile.CanWater())
+            {
+                LogDebug($"WaterTile FAILED: CanWater() returned false for {gridPos} (HasCrop={tile.HasCrop}, isWatered={tile.isWatered})");
+                return false;
+            }
+
             tile.Water();
             UpdateTileVisuals(gridPos);
             
@@ -183,8 +223,10 @@ namespace TinyFarm.Farming
         
         public bool PlantCrop(Vector2Int gridPos, CropData cropData)
         {
+            LogDebug($"PlantCrop called: {gridPos}, crop={(cropData!=null?cropData.cropName:"NULL")}");
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanPlant()) return false;
+
             
             // Create crop renderer
             SpriteRenderer cropRenderer = GetOrCreateCropRenderer(gridPos);
@@ -289,7 +331,18 @@ namespace TinyFarm.Farming
         private void SetTilemapTile(Vector2Int gridPos, TileBase tile)
         {
             Vector3Int cellPos = new Vector3Int(gridPos.x, gridPos.y, 0);
-            GroundTilemap.SetTile(cellPos, tile);
+             // Clear both first to avoid leftover
+            GroundTilemap.SetTile(cellPos, null);
+            TilledTilemap.SetTile(cellPos, null);
+
+            if (tile == emptySoilTile)
+            {
+                GroundTilemap.SetTile(cellPos, tile);
+            }
+            else
+            {
+                TilledTilemap.SetTile(cellPos, tile);
+            }
         }
 
         // ==========================================

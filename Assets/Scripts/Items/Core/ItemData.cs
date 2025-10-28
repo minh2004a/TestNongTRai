@@ -38,6 +38,9 @@ namespace TinyFarm.Items
         [Tooltip("Item có thể được stack không")]
         public bool isStackable = true;
 
+        [Tooltip("Số lượng Item")]
+        public int quantity = 0;
+
         [Header("Carry Settings")]
         [Tooltip("Cho phép item này được cầm trên tay (PickUp animation)")]
         public bool canCarry = false;
@@ -120,6 +123,7 @@ namespace TinyFarm.Items
         // Stackable
         public bool IsStackable => isStackable;
         public int MaxStackSize => maxStackSize;
+        public int Quantity => quantity;
 
         // Durability
         public bool HasDurability => hasDurability;

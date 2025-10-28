@@ -2,11 +2,10 @@ namespace TinyFarm.Items
 {
     public enum Season
     {
-        None,
-        Spring = 0,     // Mùa xuân
-        Summer = 1,     // Mùa hè
-        Fall = 2,       // Mùa thu
-        Winter= 3,      // Mùa ðông
+        Spring = 0,     // Mï¿½a xuï¿½n
+        Summer = 1,     // Mï¿½a hï¿½
+        Fall = 2,       // Mï¿½a thu
+        Winter= 3,      // Mï¿½a ï¿½ï¿½ng
     }
 }
 

@@ -260,21 +260,17 @@ namespace TinyFarm.Items.UI
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (slot?.IsLocked ?? true) return;
+            if (slot == null || slot.IsLocked) return;
 
             if (eventData.button == PointerEventData.InputButton.Left)
-            {
                 OnSlotClicked?.Invoke(this);
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                OnSlotRightClicked?.Invoke(this);
-            }
         }
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (slot?.IsLocked ?? true) return;
+            if (slot == null || slot.IsEmpty || slot.IsLocked) return;
+
+            GameplayBlocker.UIDragging = true; // 🔥 Chặn Farming/Tools
             dragDropHandler?.OnBeginDrag(eventData);
         }
 
@@ -286,6 +282,7 @@ namespace TinyFarm.Items.UI
         public void OnEndDrag(PointerEventData eventData)
         {
             dragDropHandler?.OnEndDrag(eventData);
+            GameplayBlocker.UIDragging = false;
         }
 
         public void OnDrop(PointerEventData eventData)
@@ -317,6 +314,11 @@ namespace TinyFarm.Items.UI
         {
             UnsubscribeFromSlot();
         }
+    }
+
+    public static class GameplayBlocker
+    {
+        public static bool UIDragging = false;
     }
 }
 

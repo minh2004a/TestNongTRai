@@ -30,6 +30,7 @@ namespace TinyFarm.Items.UI
         private static RectTransform dragRectTransform;
         private static ISlotUIBase draggedSlot;
         private static ISlotUIBase hoveredSlot;
+        public InventoryManager inventoryManager;
 
         // Highlight
         private Image highlightImage;
@@ -296,15 +297,18 @@ namespace TinyFarm.Items.UI
                 {
                     Debug.Log($"[DragDrop] Merged {source.Slot.ItemID} into slot {target.SlotIndex}");
                 }
-                else
-                {
-                    Debug.LogWarning("[DragDrop] Merge failed");
-                }
             }
             else
             {
-                // Swap slots
-                source.Slot.SwapWith(target.Slot);
+                if (inventoryManager != null)
+                {
+                    inventoryManager.SwapSlots(source.Slot, target.Slot);
+                }
+                else
+                {
+                    // Swap slots
+                    source.Slot.SwapWith(target.Slot);
+                }
             }
 
             // Force refresh both slots

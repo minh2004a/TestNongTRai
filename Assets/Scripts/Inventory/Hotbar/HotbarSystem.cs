@@ -121,16 +121,12 @@ namespace TinyFarm.Items.UI
 
             for (int i = 0; i < hotbarSize; i++)
             {
-                int slotIndex = startSlotIndex + i;
-                InventorySlot slot = inventoryManager.GetSlot(slotIndex);
+                InventorySlot slot = inventoryManager.GetHotbarSlot(i);
 
                 if (slot != null)
                 {
                     hotbarSlots.Add(slot);
                     SubscribeToSlotEvents(slot, i);
-                }
-                else
-                {
                 }
             }
 
@@ -420,20 +416,15 @@ namespace TinyFarm.Items.UI
 
         public bool SwapHotbarSlots(int index1, int index2)
         {
-            if (!allowHotbarSwap)
-            {
-                return false;
-            }
+            if (!allowHotbarSwap) return false;
+            if (index1 < 0 || index1 >= hotbarSize || index2 < 0 || index2 >= hotbarSize) return false;
 
-            if (index1 < 0 || index1 >= hotbarSize || index2 < 0 || index2 >= hotbarSize)
-            {
-                return false;
-            }
+            InventorySlot slot1 = GetHotbarSlot(index1);
+            InventorySlot slot2 = GetHotbarSlot(index2);
 
-            int invIndex1 = startSlotIndex + index1;
-            int invIndex2 = startSlotIndex + index2;
+            if (slot1 == null || slot2 == null) return false;
 
-            return inventoryManager.SwapSlots(invIndex1, invIndex2);
+            return inventoryManager.SwapSlots(slot1, slot2);
         }
 
         // ==========================================

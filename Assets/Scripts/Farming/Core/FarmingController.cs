@@ -13,6 +13,7 @@ namespace TinyFarm.Farming
     {
         [Header("References")]
         [SerializeField] private FarmGrid farmGrid;
+        [SerializeField] private FarmingInventoryBridge inventoryBridge;
 
         [SerializeField] private ToolEquipmentController toolEquipment;
         [SerializeField] private ItemHoldingController itemHolding;
@@ -80,8 +81,6 @@ namespace TinyFarm.Farming
                     hoveredGridPos = tile.gridPosition;
                     hasHoveredTile = true;
                     OnTileHovered?.Invoke(hoveredGridPos);
-
-                    LogDebug($"Hovered tile: {hoveredGridPos}, State: {tile.State}");
                 }
             }
             else
@@ -248,7 +247,13 @@ namespace TinyFarm.Farming
         private bool TryWater(Vector2Int gridPos)
         {
             bool success = farmGrid.WaterTile(gridPos);
-            
+
+            var tile = farmGrid.GetTile(gridPos);
+            if (tile.HasCrop)
+            {
+                tile.currentCrop.SetWatered(true);
+            }
+
             if (success)
             {
                 LogDebug($"Watered tile at {gridPos}");
@@ -296,8 +301,27 @@ namespace TinyFarm.Farming
                 return false;
             }
             
+            // Check và consume seed từ inventory
+            if (inventoryBridge != null)
+            {
+                if (!inventoryBridge.TryConsumeSeed(heldItem))
+                {
+                    LogDebug("Failed to consume seed from inventory");
+                    return false;
+                }
+            }
+
             // Plant the crop
             bool planted = farmGrid.PlantCrop(gridPos, seedData.cropData);
+
+            if (planted)
+            {
+                var farmTile = farmGrid.GetTile(gridPos);
+                if (tile.HasCrop && tile.currentCrop != null)
+                {
+                    CropGrowthManager.Instance.RegisterCrop(tile.currentCrop);
+                }
+            }
             
             if (planted)
             {
@@ -324,20 +348,32 @@ namespace TinyFarm.Farming
                 LogDebug($"Cannot harvest: tile not ready");
                 return false;
             }
-            
+
             // Harvest the crop
             var harvestResult = farmGrid.HarvestTile(gridPos);
-            
+
+            var farmTile = farmGrid.GetTile(gridPos);
+            if (!tile.HasCrop || !tile.currentCrop.Data.isRegrowable)
+            {
+                CropGrowthManager.Instance.UnregisterCrop(tile.currentCrop);
+            }
+
             if (harvestResult != null && harvestResult.Count > 0)
             {
                 LogDebug($"Harvested {harvestResult.Count} items from tile at {gridPos}");
-                
+
+                // Add items to inventory
+                if (inventoryBridge != null)
+                {
+                    inventoryBridge.AddHarvestedItems(harvestResult);
+                }
+
                 // TODO: Add harvested items to inventory
                 foreach (var item in harvestResult)
                 {
                     // inventoryManager.AddItem(item);
                 }
-                
+
                 return true;
             }
             else
@@ -345,6 +381,17 @@ namespace TinyFarm.Farming
                 LogDebug("Harvest returned no items");
                 return false;
             }
+        }
+        
+        public void ResetTile(Vector2Int gridPos)
+        {
+            var tile = farmGrid.GetTile(gridPos);
+            if (tile.HasCrop)
+            {
+                CropGrowthManager.Instance.UnregisterCrop(tile.currentCrop);
+            }
+
+            farmGrid.ResetTile(gridPos);
         }
 
         /// Apply fertilizer to the tile (called from external system)

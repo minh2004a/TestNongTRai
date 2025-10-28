@@ -181,7 +181,7 @@ namespace TinyFarm.Items.UI
             }
         }
 
-        /// Xác định thời gian trong ngày dựa trên giờ
+        // Xác định thời gian trong ngày dựa trên giờ
         private TimeOfDay GetTimeOfDay(float hour)
         {
             if (hour >= nightStartHour || hour < dayStartHour)
