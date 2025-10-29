@@ -270,14 +270,15 @@ namespace TinyFarm.Farming
         // Plant seed from ItemHoldingController
         private bool TryPlantFromHolding(Vector2Int gridPos)
         {
+            // Get tile data
             FarmTile tile = farmGrid.GetTile(gridPos);
             if (tile == null || !tile.CanPlant())
             {
                 LogDebug($"Cannot plant: tile not ready (State: {tile?.State})");
                 return false;
             }
-
-            // Lấy item đang cầm
+            
+            // Get seed from ItemHoldingController
             Item heldItem = itemHolding.CurrentItem;
             if (heldItem == null || heldItem.ItemData == null)
             {
@@ -285,54 +286,63 @@ namespace TinyFarm.Farming
                 return false;
             }
 
-            // Must be seed
-            SeedItemData seedData = heldItem.ItemData as SeedItemData;
+            ItemType itemType = heldItem.ItemData.GetItemType();
+
+            if (itemType != ItemType.Seed)
+            {
+                
+            }
+
+            // Check if item is seed (CropItemData)
+            CropItemData seedData = heldItem.ItemData as CropItemData;
             if (seedData == null || seedData.cropData == null)
             {
                 LogDebug($"Cannot plant: item {heldItem.ItemData.itemName} is not a seed");
                 return false;
             }
-
-            // Check season BEFORE consuming
+            
+            // Check season
             Season currentSeason = TimeManager.Instance?.GetCurrentSeason() ?? Season.Spring;
-            if (!seedData.CanPlantInSeason(currentSeason))
+            if (!seedData.cropData.IsValidSeason(currentSeason))
             {
-                LogDebug($"Cannot plant: {seedData.cropData.cropName} not valid in {currentSeason}. Valid seasons: {string.Join(", ", seedData.cropData.allowedSeasons)}");
+                LogDebug($"Cannot plant: {seedData.cropData.cropName} not valid in {currentSeason}");
                 return false;
             }
-
-            // Try consume from hotbar or inventory via bridge (only after validations passed)
+            
+            // Check và consume seed từ inventory
             if (inventoryBridge != null)
             {
-                bool consumed = inventoryBridge.TryConsumeSeedFromHeld(heldItem);
-                if (!consumed)
+                if (!inventoryBridge.TryConsumeSeed(heldItem))
                 {
-                    LogDebug($"Failed to consume seed {seedData.itemName} from hotbar/inventory");
+                    LogDebug("Failed to consume seed from inventory");
                     return false;
                 }
-            }
-            else
-            {
-                Debug.LogWarning("[FarmingController] No inventoryBridge assigned");
-                return false;
             }
 
             // Plant the crop
             bool planted = farmGrid.PlantCrop(gridPos, seedData.cropData);
+
             if (planted)
             {
                 var farmTile = farmGrid.GetTile(gridPos);
-                if (farmTile.HasCrop && farmTile.currentCrop != null)
+                if (tile.HasCrop && tile.currentCrop != null)
                 {
-                    CropGrowthManager.Instance.RegisterCrop(farmTile.currentCrop);
+                    CropGrowthManager.Instance.RegisterCrop(tile.currentCrop);
                 }
-                LogDebug($"✅ Planted {seedData.cropData.cropName} at {gridPos}");
+            }
+            
+            if (planted)
+            {
+                LogDebug($"Planted {seedData.cropData.cropName} at {gridPos}");
+                
+                // TODO: Remove 1 seed from inventory
+                // inventoryManager.RemoveItem(seedData.itemID, 1);
+                
                 return true;
             }
             else
             {
-                LogDebug($"❌ Failed to plant crop at {gridPos} (plant call returned false)");
-                // NOTE: nếu planting fail nhưng seed đã bị consume thì bạn có thể muốn 'refund' seed — implement tuỳ bạn
+                LogDebug("Failed to plant crop");
                 return false;
             }
         }

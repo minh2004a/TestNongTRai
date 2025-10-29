@@ -15,16 +15,17 @@ namespace TinyFarm.Crops
         // Growth Tracking
         private int currentStage = 0;
         private int daysInStage = 0;
-        private int plantedDay;
         public FertilizerType fertilizer;
         private bool isWateredToday;
+        private bool isInRegrowPhase = false;
+        private int regrowDaysPassed = 0;
 
 
         // Optional: sử dụng sau này
         private FertilizerType appliedFertilizer = FertilizerType.None;
 
         // Properties
-        public bool IsHarvestable => IsFullyGrown;
+        public bool IsHarvestable => IsFullyGrown && !isInRegrowPhase;
         public bool IsFullyGrown => currentStage >= cropData.growthStages - 1;
 
         public CropData Data => cropData;
@@ -34,7 +35,6 @@ namespace TinyFarm.Crops
         {
             cropData = data;
             cropRenderer = renderer;
-            plantedDay = today;
 
             currentStage = 0;
             daysInStage = 0;
@@ -50,6 +50,19 @@ namespace TinyFarm.Crops
 
         public void OnDayUpdate()
         {
+            if (isInRegrowPhase)
+            {
+                if (!cropData.regrowNeedsWater || isWateredToday)
+                {
+                    regrowDaysPassed++;
+
+                    if (regrowDaysPassed >= cropData.regrowDays)
+                        FinishRegrow();
+                }
+
+                isWateredToday = false;
+                return;
+            }
             if (!isWateredToday && cropData.requiresDailyWatering)
                 return;
 
@@ -95,9 +108,14 @@ namespace TinyFarm.Crops
             result.Add(new Item(cropData.harvestItem, yield));
 
             if (cropData.isRegrowable)
-                Regrow();
+            {
+                Regrow(); // ✅ chuyển sang stage regrow + update sprite
+            }
             else
+            {
+                // ✅ hoàn toàn hủy crop
                 DestroyCrop();
+            }
 
             return result;
         }
@@ -119,14 +137,24 @@ namespace TinyFarm.Crops
 
         public void Regrow()
         {
-            currentStage = Mathf.Clamp(cropData.regrowDays, 0, cropData.growthStages - 1);
+            currentStage = Mathf.Clamp(cropData.regrowStartStage, 0, cropData.growthStages - 1);
             daysInStage = 0;
-            UpdateSprite();
+            isWateredToday = false; // ✅ cần tưới lại mới mọc tiếp
+
+            UpdateSprite(); // ✅ cập nhật visual ngay lập tức
         }
 
         // ==========================================
         // VISUAL UPDATE
         // ==========================================
+
+        public void FinishRegrow()
+        {
+            isInRegrowPhase = false;
+
+            currentStage = Mathf.Clamp(cropData.growthStages - 1, 0, cropData.growthStages - 1);
+            UpdateSprite();
+        }
 
         public void UpdateSprite()
         {

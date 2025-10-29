@@ -16,7 +16,6 @@ namespace TinyFarm.Farming
         [SerializeField] private HotbarSystem hotbarSystem;
         
         [Header("Settings")]
-        [SerializeField] private bool autoAddToInventory = true;
         [SerializeField] private bool debugMode = true;
         
         private void Awake()

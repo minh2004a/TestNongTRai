@@ -17,7 +17,19 @@ namespace TinyFarm.Items
         public int[] daysPerStage;  // Ví dụ: [1, 2, 3, 2]
         public bool requiresDailyWatering = true;
         public bool isRegrowable = false;
+
+        [Header("Regrow Settings")]
+        [Tooltip("Cây có thể mọc lại sau khi thu hoạch?")]
+        public bool canRegrow = false;
+
+        [Tooltip("Số ngày cần để mọc lại sau khi thu hoạch")]
         public int regrowDays; // Khi thu hoạch xong stage cuối
+
+        [Tooltip("Stage để bắt đầu lại sau thu hoạch (stage lá, chưa ra quả)")]
+        public int regrowStartStage = 1;
+        
+        [Tooltip("Cần tưới nước mới mọc lại không?")]
+        public bool regrowNeedsWater = true;
         public int regrowStage = 0;
 
         [Header("Season Rules")]
@@ -26,7 +38,7 @@ namespace TinyFarm.Items
         [Header("Drops")]
         public CropItemData harvestItem;
         public int minYield = 1;
-        public int maxYield = 1;
+        public int maxYield = 5;
 
         [Header("Visuals")]
         public Sprite[] stageSprites; // phải có bằng growthStages

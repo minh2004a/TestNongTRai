@@ -96,18 +96,29 @@ namespace TinyFarm.Farming
 
         public List<Item> Harvest()
         {
-            if (!HasCrop) return null;
-            if (!currentCrop.IsHarvestable) return null;
+            if (!HasCrop || !currentCrop.IsHarvestable) return null;
 
-            var drops = currentCrop.Harvest();
+            List<Item> result = currentCrop.Harvest();
 
             // If not regrowable, reset crop
             if (!currentCrop.CanRegrow())
             {
+                currentCrop.UpdateSprite();
+                currentCrop = null;
+                appliedFertilizer = FertilizerType.None;
+
+                isTilled = true;
+                tileState = TileState.Tilled;
                 ResetCropData();
             }
+            else
+            {
+                currentCrop.UpdateSprite();
+                isTilled = true;
+                tileState = TileState.Planted;
+            }
 
-            return drops;
+            return result;
         }
         
         public void ResetTile()
