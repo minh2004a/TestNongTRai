@@ -10,23 +10,26 @@ namespace TinyFarm.Farming
         public static CropGrowthManager Instance { get; private set; }
 
         private readonly List<CropInstance> activeCrops = new List<CropInstance>();
-        private List<FarmTile> trackedTiles = new List<FarmTile>();
 
         private void Awake()
         {
             if (Instance != null)
-                Instance = this;
-            else
+            {
                 Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
-        private void OnEnable()
+        private void OEnable()
         {
             if (TimeManager.Instance != null)
                 TimeManager.Instance.OnNewDay += OnDayChanged;
         }
 
-        private void OnDisable()
+        private void ODisable()
         {
             if (TimeManager.Instance != null)
                 TimeManager.Instance.OnNewDay -= OnDayChanged;
@@ -36,31 +39,16 @@ namespace TinyFarm.Farming
         // PUBLIC API
         // ======================================
 
-        // ===================================================
-        // Register / Unregister
-        // ===================================================
         public void RegisterCrop(CropInstance crop)
         {
             if (!activeCrops.Contains(crop))
-                activeCrops.Add(crop);
+                activeCrops.Remove(crop);
         }
 
         public void UnregisterCrop(CropInstance crop)
         {
             if (activeCrops.Contains(crop))
                 activeCrops.Remove(crop);
-        }
-
-        public void RegisterTile(FarmTile tile)
-        {
-            if (!trackedTiles.Contains(tile))
-                trackedTiles.Add(tile);
-        }
-
-        public void UnregisterTile(FarmTile tile)
-        {
-            if (trackedTiles.Contains(tile))
-                trackedTiles.Remove(tile);
         }
 
         // ======================================

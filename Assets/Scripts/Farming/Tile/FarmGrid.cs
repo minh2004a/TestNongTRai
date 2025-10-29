@@ -248,22 +248,10 @@ namespace TinyFarm.Farming
         {
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanHarvest()) return null;
-
+            
             var items = tile.Harvest();
-
-            // If crop does not regrow → unregister + clear tile visuals
-            if (!tile.HasCrop)
-            {
-                CropGrowthManager.Instance.UnregisterCrop(tile.currentCrop);
-            }
-            else
-            {
-                // Crop regrow → refresh sprite
-                tile.currentCrop.UpdateSprite();
-            }
-
             UpdateTileVisuals(gridPos);
-
+            
             LogDebug($"Harvested tile at {gridPos}");
             return items;
         }

@@ -11,6 +11,7 @@ namespace TinyFarm.Items.UI
     {
          [Header("Hotbar Settings")]
         [SerializeField] private int hotbarSize = 10;
+        [SerializeField] private int startSlotIndex = 0;
         [SerializeField] private bool allowHotbarSwap = true;
         [SerializeField] private HotBarUI hotbarUI;
 
