@@ -21,7 +21,7 @@ MonoBehaviour:
   isRegrowable: 0
   regrowDays: 0
   regrowStage: 0
-  allowedSeasons: 
+  allowedSeasons: 0000000001000000
   harvestItem: {fileID: 11400000, guid: 1273ffdc3decaf540bc5e24466f2950c, type: 2}
   minYield: 1
   maxYield: 1

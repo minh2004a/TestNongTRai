@@ -24,7 +24,7 @@ namespace TinyFarm.Items
 
             // Seed có thể stack nhưng không trang bị hay sử dụng trực tiếp
             isStackable = true;
-            isUsable = false;
+            isUsable = true;
             canBeEquippable = false;
 
             if (cropData == null)

@@ -46,6 +46,7 @@ namespace TinyFarm.Items.UI
         public event Action<HotbarSlotUI> OnSlotRightClicked;
         public event Action<HotbarSlotUI> OnSlotHoverEnter;
         public event Action<HotbarSlotUI> OnSlotHoverExit;
+        public event Action OnClick;
 
         // Properties
         public InventorySlot Slot => slot;
@@ -259,33 +260,35 @@ namespace TinyFarm.Items.UI
             if (slot == null || slot.IsLocked) return;
 
             if (eventData.button == PointerEventData.InputButton.Left)
+            {
                 OnSlotClicked?.Invoke(this);
+            }
         }
 
-        // public void OnBeginDrag(PointerEventData eventData)
-        // {
-        //     if (slot == null || slot.IsEmpty || slot.IsLocked) return;
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (slot == null || slot.IsEmpty || slot.IsLocked) return;
 
-        //     GameplayBlocker.UIDragging = true; // 🔥 Chặn Farming/Tools
-        //     dragDropHandler?.OnBeginDrag(eventData);
-        // }
+            GameplayBlocker.UIDragging = true; // 🔥 Chặn Farming/Tools
+            dragDropHandler?.OnBeginDrag(eventData);
+        }
 
-        // public void OnDrag(PointerEventData eventData)
-        // {
-        //     dragDropHandler?.OnDrag(eventData);
-        // }
+        public void OnDrag(PointerEventData eventData)
+        {
+            dragDropHandler?.OnDrag(eventData);
+        }
 
-        // public void OnEndDrag(PointerEventData eventData)
-        // {
-        //     dragDropHandler?.OnEndDrag(eventData);
-        //     GameplayBlocker.UIDragging = false;
-        // }
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            dragDropHandler?.OnEndDrag(eventData);
+            GameplayBlocker.UIDragging = false;
+        }
 
-        // public void OnDrop(PointerEventData eventData)
-        // {
-        //     if (slot?.IsLocked ?? true) return;
-        //     dragDropHandler?.OnDrop(eventData);
-        // }
+        public void OnDrop(PointerEventData eventData)
+        {
+            if (slot?.IsLocked ?? true) return;
+            dragDropHandler?.OnDrop(eventData);
+        }
 
         private void Update()
         {
@@ -312,9 +315,15 @@ namespace TinyFarm.Items.UI
         }
     }
 
-    // public static class GameplayBlocker
-    // {
-    //     public static bool UIDragging = false;
-    // }
+
+}
+
+namespace TinyFarm
+{
+    public static class GameplayBlocker
+    {
+        public static bool UIDragging = false;
+        public static bool UIOpened = false;
+    }
 }
 

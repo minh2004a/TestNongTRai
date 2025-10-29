@@ -294,17 +294,16 @@ namespace TinyFarm.Farming
             SetTilemapTile(gridPos, soilTile);
             
             // Update crop sprite
-            if (tile.HasCrop)
+            if (tile.currentCrop != null)
             {
-                tile.currentCrop?.UpdateSprite();
+                tile.currentCrop.UpdateSprite();
             }
             else
             {
-                // Clear crop sprite
+                // Clear sprite only when có chắc chắn là không có crop
                 if (cropRenderers.TryGetValue(gridPos, out SpriteRenderer renderer))
                 {
-                    if (renderer != null)
-                        renderer.sprite = null;
+                    renderer.enabled = renderer.sprite != null;
                 }
             }
         }

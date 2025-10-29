@@ -2,6 +2,7 @@
 using UnityEngine;
 using TinyFarm.Animation;
 using TinyFarm.Items;
+using TinyFarm.PlayerInput;
 
 namespace TinyFarm.Tools
 {
@@ -117,6 +118,9 @@ namespace TinyFarm.Tools
         /// <returns>True nếu equip thành công</returns>
         public bool EquipTool(ToolItemData toolData)
         {
+            var holding = FindObjectOfType<ItemHoldingController>();
+            if (holding != null && holding.IsHoldingItem)
+                holding.UnequipItem();
             // Validate
             if (toolData == null)
             {
@@ -182,6 +186,9 @@ namespace TinyFarm.Tools
         // Unequip tool hiện tại
         public void UnequipTool()
         {
+            var holding = FindObjectOfType<ItemHoldingController>();
+            if (holding != null && holding.IsHoldingItem)
+                holding.UnequipItem();
             if (!hasToolEquipped)
             {
                 LogDebug("No tool to unequip");

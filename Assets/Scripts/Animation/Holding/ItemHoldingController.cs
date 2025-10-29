@@ -2,6 +2,7 @@
 using TinyFarm.Animation;
 using TinyFarm.Items;
 using UnityEngine;
+using TinyFarm.Tools;
 
 namespace TinyFarm.PlayerInput
 {
@@ -174,6 +175,9 @@ namespace TinyFarm.PlayerInput
         // Equip item để hiển thị trên tay (Seeds, consumables, etc.)
         public bool EquipItem(Item item)
         {
+            var toolEquip = FindObjectOfType<ToolEquipmentController>();
+            if (toolEquip != null && toolEquip.HasToolEquipped)
+                toolEquip.UnequipTool();
             if (item == null || item.ItemData == null) return false;
 
             // If already equipped same item

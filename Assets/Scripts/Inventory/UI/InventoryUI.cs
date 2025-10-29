@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
+using TinyFarm;
 using TinyFarm.PlayerInput;
 using System;
 using System.Collections.Generic;
@@ -168,6 +169,8 @@ namespace TinyFarm.Items.UI
             gameObject.SetActive(true);
             isOpen = true;
 
+            TinyFarm.GameplayBlocker.UIOpened = true;
+
             UpdateUI();
             OnInventoryOpened?.Invoke();
         }
@@ -179,6 +182,7 @@ namespace TinyFarm.Items.UI
             gameObject.SetActive(false);
             isOpen = false;
 
+            TinyFarm.GameplayBlocker.UIOpened = false;
             DeselectAllSlots();
             TooltipSystem.Instance?.HideTooltip();
 

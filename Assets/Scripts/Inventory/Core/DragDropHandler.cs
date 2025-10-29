@@ -120,6 +120,7 @@ namespace TinyFarm.Items.UI
         {
             if (draggedSlot == null) return;
 
+            TinyFarm.GameplayBlocker.UIDragging = false;
             // Find target slot
             ISlotUIBase targetSlot = GetSlotUnderCursor(eventData);
 
@@ -326,6 +327,10 @@ namespace TinyFarm.Items.UI
                     source.Slot.SwapWith(target.Slot);
                 }
             }
+            // if (target is HotbarSlotUI)
+            // {
+            //     FindObjectOfType<HotbarSystem>()?.EquipItemFromSlot(FindObjectOfType<HotbarSystem>().SelectedItem);
+            // }
 
             source.UpdateUI();
             target.UpdateUI();

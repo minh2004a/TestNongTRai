@@ -56,6 +56,9 @@ TagManager:
   - name: Paths
     uniqueID: 4229367295
     locked: 0
+  - name: Crop
+    uniqueID: 4002899513
+    locked: 0
   - name: Decoration
     uniqueID: 1371396897
     locked: 0

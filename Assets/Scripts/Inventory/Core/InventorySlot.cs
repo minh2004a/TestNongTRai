@@ -266,10 +266,16 @@ namespace TinyFarm.Items
             switch (slotType)
             {
                 case SlotType.Normal:
-                    return true; // Accept all items
+                    // Cho phép Tool, Seed, Crop, và Consumable
+                    return item.ItemData.itemType == ItemType.Tool
+                        || item.ItemData.itemType == ItemType.Seed
+                        || item.ItemData.itemType == ItemType.Crop
+                        || item.ItemData.itemType == ItemType.Consumable;
 
                 case SlotType.ToolOnly:
-                    return item.ItemData.itemType == ItemType.Tool;
+                    return item.ItemData.itemType == ItemType.Tool
+                        || item.ItemData.itemType != ItemType.NoType;
+
 
                 case SlotType.SeedOnly:
                     return item.ItemData.itemType == ItemType.Seed;

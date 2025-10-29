@@ -20,7 +20,8 @@ MonoBehaviour:
   description: 
   maxStackSize: 999
   isStackable: 1
-  canCarry: 0
+  quantity: 0
+  canCarry: 1
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -44,8 +45,8 @@ MonoBehaviour:
   sellPrice: 0
   isSellable: 1
   isPurchasable: 1
-  isUsable: 0
-  isConsumable: 0
+  isUsable: 1
+  isConsumable: 1
   cooldown: 0
   canBeDropped: 1
   canBeEquippable: 0

@@ -4,7 +4,7 @@ using TinyFarm.Items;
 using TinyFarm.Tools;
 using TinyFarm.Animation;
 using TinyFarm.PlayerInput;
-
+using TinyFarm;
 namespace TinyFarm.Farming
 {
     // Controller chính để player tương tác với farming system
@@ -107,6 +107,7 @@ namespace TinyFarm.Farming
         
         private void HandleInput()
         {
+            if (TinyFarm.GameplayBlocker.UIDragging || TinyFarm.GameplayBlocker.UIOpened) return;
             // Left Click - Use tool/item
             if (Input.GetMouseButtonDown(0))
             {
@@ -153,11 +154,11 @@ namespace TinyFarm.Farming
                 return;
             }
             
-            if (animController != null && animController.IsActionLocked)
-            {
-                LogDebug("Cannot interact: animation locked");
-                return;
-            }
+            // if (animController != null && animController.IsActionLocked)
+            // {
+            //     LogDebug("Cannot interact: animation locked");
+            //     return;
+            // }
             
             bool success = false;
             
@@ -269,72 +270,69 @@ namespace TinyFarm.Farming
         // Plant seed from ItemHoldingController
         private bool TryPlantFromHolding(Vector2Int gridPos)
         {
-            // Get tile data
             FarmTile tile = farmGrid.GetTile(gridPos);
             if (tile == null || !tile.CanPlant())
             {
                 LogDebug($"Cannot plant: tile not ready (State: {tile?.State})");
                 return false;
             }
-            
-            // Get seed from ItemHoldingController
+
+            // Lấy item đang cầm
             Item heldItem = itemHolding.CurrentItem;
             if (heldItem == null || heldItem.ItemData == null)
             {
                 LogDebug("Cannot plant: no item held");
                 return false;
             }
-            
-            // Check if item is seed (CropItemData)
-            CropItemData seedData = heldItem.ItemData as CropItemData;
+
+            // Must be seed
+            SeedItemData seedData = heldItem.ItemData as SeedItemData;
             if (seedData == null || seedData.cropData == null)
             {
                 LogDebug($"Cannot plant: item {heldItem.ItemData.itemName} is not a seed");
                 return false;
             }
-            
-            // Check season
+
+            // Check season BEFORE consuming
             Season currentSeason = TimeManager.Instance?.GetCurrentSeason() ?? Season.Spring;
-            if (!seedData.cropData.IsValidSeason(currentSeason))
+            if (!seedData.CanPlantInSeason(currentSeason))
             {
-                LogDebug($"Cannot plant: {seedData.cropData.cropName} not valid in {currentSeason}");
+                LogDebug($"Cannot plant: {seedData.cropData.cropName} not valid in {currentSeason}. Valid seasons: {string.Join(", ", seedData.cropData.allowedSeasons)}");
                 return false;
             }
-            
-            // Check và consume seed từ inventory
+
+            // Try consume from hotbar or inventory via bridge (only after validations passed)
             if (inventoryBridge != null)
             {
-                if (!inventoryBridge.TryConsumeSeed(heldItem))
+                bool consumed = inventoryBridge.TryConsumeSeedFromHeld(heldItem);
+                if (!consumed)
                 {
-                    LogDebug("Failed to consume seed from inventory");
+                    LogDebug($"Failed to consume seed {seedData.itemName} from hotbar/inventory");
                     return false;
                 }
+            }
+            else
+            {
+                Debug.LogWarning("[FarmingController] No inventoryBridge assigned");
+                return false;
             }
 
             // Plant the crop
             bool planted = farmGrid.PlantCrop(gridPos, seedData.cropData);
-
             if (planted)
             {
                 var farmTile = farmGrid.GetTile(gridPos);
-                if (tile.HasCrop && tile.currentCrop != null)
+                if (farmTile.HasCrop && farmTile.currentCrop != null)
                 {
-                    CropGrowthManager.Instance.RegisterCrop(tile.currentCrop);
+                    CropGrowthManager.Instance.RegisterCrop(farmTile.currentCrop);
                 }
-            }
-            
-            if (planted)
-            {
-                LogDebug($"Planted {seedData.cropData.cropName} at {gridPos}");
-                
-                // TODO: Remove 1 seed from inventory
-                // inventoryManager.RemoveItem(seedData.itemID, 1);
-                
+                LogDebug($"✅ Planted {seedData.cropData.cropName} at {gridPos}");
                 return true;
             }
             else
             {
-                LogDebug("Failed to plant crop");
+                LogDebug($"❌ Failed to plant crop at {gridPos} (plant call returned false)");
+                // NOTE: nếu planting fail nhưng seed đã bị consume thì bạn có thể muốn 'refund' seed — implement tuỳ bạn
                 return false;
             }
         }

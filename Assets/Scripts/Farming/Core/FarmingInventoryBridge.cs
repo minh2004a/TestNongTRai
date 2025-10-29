@@ -82,40 +82,108 @@ namespace TinyFarm.Farming
         /// Try to consume seed from inventory when planting
         /// Called BEFORE planting
         /// </summary>
-        public bool TryConsumeSeed(Item seedItem)
+        public bool TryConsumeSeed(Item heldSeed)
         {
-            if (seedItem == null || seedItem.ItemData == null)
+            if (heldSeed == null || heldSeed.ItemData == null)
             {
-                LogDebug("Cannot consume seed: item is null");
+                LogDebug("Cannot consume seed: held item is null");
                 return false;
             }
 
-            if (inventoryManager == null)
+            if (hotbarSystem == null)
             {
-                Debug.LogWarning("[FarmingInventory] InventoryManager not found!");
+                Debug.LogWarning("[FarmingInventory] HotbarSystem not found!");
                 return false;
             }
 
-            // Check if player has the seed
-            if (!inventoryManager.HasItem(seedItem.ItemData.itemID, 1))
+            // ✅ consume trực tiếp từ hotbar slot đang active
+            int selectedSlot = hotbarSystem.SelectedSlotIndex;
+            var slot = hotbarSystem.GetHotbarSlot(selectedSlot);
+
+            if (slot == null || slot.IsEmpty)
             {
-                LogDebug($"Player doesn't have {seedItem.ItemData.itemName}");
+                LogDebug("Cannot consume seed: hotbar slot empty");
                 return false;
             }
 
-            // Remove 1 seed from inventory
-            bool removed = inventoryManager.RemoveItem(seedItem.ItemData.itemID, 1);
+            Item removed = slot.RemoveItem(1);
 
-            if (removed)
+            if (removed != null)
             {
-                LogDebug($"Consumed 1x {seedItem.ItemData.itemName}");
+                LogDebug($"Consumed 1x {heldSeed.ItemData.itemName} FROM HOTBAR");
+                hotbarSystem?.RefreshHotbar();
                 return true;
+            }
+
+            Debug.LogWarning("[FarmingInventory] Failed to remove seed from hotbar");
+            return false;
+        }
+
+        /// Try consume 1 unit of the heldSeed (search hotbar first, then inventory)
+        public bool TryConsumeSeedFromHeld(Item heldSeed)
+        {
+            if (heldSeed == null || heldSeed.ItemData == null)
+            {
+                LogDebug("Cannot consume seed: held item is null");
+                return false;
+            }
+
+            string seedID = heldSeed.ItemData.itemID;
+
+            // 1) Try hotbar (selected slot first, then all slots)
+            if (hotbarSystem != null)
+            {
+                // try selected slot
+                int sel = hotbarSystem.SelectedSlotIndex;
+                InventorySlot selSlot = hotbarSystem.GetHotbarSlot(sel);
+                if (selSlot != null && !selSlot.IsEmpty && selSlot.ItemID == seedID)
+                {
+                    Item removed = selSlot.RemoveItem(1);
+                    if (removed != null)
+                    {
+                        LogDebug($"Consumed 1x {heldSeed.ItemData.itemName} FROM HOTBAR (selected slot)");
+                        hotbarSystem.RefreshHotbar();
+                        return true;
+                    }
+                }
+
+                // try any hotbar slot (in case held item came from another hotbar slot)
+                for (int i = 0; i < hotbarSystem.HotbarSize; i++)
+                {
+                    InventorySlot s = hotbarSystem.GetHotbarSlot(i);
+                    if (s != null && !s.IsEmpty && s.ItemID == seedID)
+                    {
+                        Item removed = s.RemoveItem(1);
+                        if (removed != null)
+                        {
+                            LogDebug($"Consumed 1x {heldSeed.ItemData.itemName} FROM HOTBAR (slot {i})");
+                            hotbarSystem.RefreshHotbar();
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            // 2) Fallback: try inventory manager
+            if (inventoryManager != null)
+            {
+                bool removed = inventoryManager.RemoveItem(seedID, 1);
+                if (removed)
+                {
+                    LogDebug($"Consumed 1x {heldSeed.ItemData.itemName} FROM INVENTORY");
+                    return true;
+                }
+                else
+                {
+                    LogDebug($"Player doesn't have {heldSeed.ItemData.itemName} in inventory");
+                }
             }
             else
             {
-                Debug.LogWarning($"Failed to remove {seedItem.ItemData.itemName} from inventory");
-                return false;
+                Debug.LogWarning("[FarmingInventory] InventoryManager not found!");
             }
+
+            return false;
         }
 
         /// <summary>
@@ -163,7 +231,7 @@ namespace TinyFarm.Farming
             if (inventoryManager == null) return false;
             return inventoryManager.HasItem(seedID, 1);
         }
-        
+
         /// <summary>
         /// Get seed count in inventory
         /// </summary>
@@ -171,6 +239,12 @@ namespace TinyFarm.Farming
         {
             if (inventoryManager == null) return 0;
             return inventoryManager.GetItemCount(seedID);
+        }
+
+        public Item GetItemFromInventory(string itemID)
+        {
+            if (inventoryManager == null) return null;
+            return inventoryManager.GetItemByID(itemID);
         }
 
         private void LogDebug(string message)

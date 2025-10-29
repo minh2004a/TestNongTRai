@@ -206,7 +206,16 @@ namespace TinyFarm.Items
             Item item = CreateItemFromData(itemData, quantity);
             return AddItem(item, quantity);
         }
-
+        
+        public Item GetItemByID(string itemID)
+        {
+            foreach (var slot in slots) // inventorySlots là list slot của bạn
+            {
+                if (!slot.IsEmpty && slot.ItemData.itemID == itemID)
+                    return slot.Item; // trả về item instance trong inventory
+            }
+            return null;
+        }
         private int TryAddToExistingStacks(Item item, int amount)
         {
             int remaining = amount;

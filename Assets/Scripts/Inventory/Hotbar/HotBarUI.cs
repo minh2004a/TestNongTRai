@@ -43,6 +43,10 @@ namespace TinyFarm.Items.UI
             SelectSlot(0);
         }
 
+        public List<HotbarSlotUI> GetAllSlotUIs()
+        {
+            return slotUIs;
+        }
         private void CreateSlotUIs()
         {
             slotUIs.Clear();
