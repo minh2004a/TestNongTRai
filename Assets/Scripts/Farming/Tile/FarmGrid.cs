@@ -15,6 +15,8 @@ namespace TinyFarm.Farming
         [SerializeField] private Tilemap GroundTilemap;           // Layer cho đất
         [SerializeField] private Tilemap TilledTilemap;           // Layer cho cây
         [SerializeField] private Grid grid;
+        [SerializeField] private Transform cropContainer;
+        [SerializeField] private Tilemap WaterTilemap;
         
         [Header("Tile Assets")]
         [SerializeField] private TileBase emptySoilTile;
@@ -97,7 +99,7 @@ namespace TinyFarm.Farming
                     farmTiles[pos] = new FarmTile(pos);
 
                     // Set initial tile
-                    SetTilemapTile(pos, emptySoilTile);
+                    SetTilemapTile(pos, emptySoilTile, false);
                 }
             }
 
@@ -286,26 +288,17 @@ namespace TinyFarm.Farming
         
         private void UpdateTileVisuals(Vector2Int gridPos)
         {
-            FarmTile tile = GetTile(gridPos);
+            var tile = GetTile(gridPos);
             if (tile == null) return;
-            
-            // Update soil tile
-            TileBase soilTile = GetSoilTileForState(tile.State, tile.IsWatered);
-            SetTilemapTile(gridPos, soilTile);
-            
-            // Update crop sprite
+
+            bool watered = tile.IsWatered;
+            TileBase soilTile = tile.State == TileState.Empty ? emptySoilTile : tilledSoilTile;
+
+            SetTilemapTile(gridPos, soilTile, watered);
+
+            // Crop sprite update
             if (tile.currentCrop != null)
-            {
                 tile.currentCrop.UpdateSprite();
-            }
-            else
-            {
-                // Clear sprite only when có chắc chắn là không có crop
-                if (cropRenderers.TryGetValue(gridPos, out SpriteRenderer renderer))
-                {
-                    renderer.enabled = renderer.sprite != null;
-                }
-            }
         }
         
         private TileBase GetSoilTileForState(TileState state, bool isWatered)
@@ -327,21 +320,27 @@ namespace TinyFarm.Farming
             }
         }
 
-        private void SetTilemapTile(Vector2Int gridPos, TileBase tile)
+        private void SetTilemapTile(Vector2Int gridPos, TileBase soilTile, bool watered)
         {
             Vector3Int cellPos = new Vector3Int(gridPos.x, gridPos.y, 0);
-             // Clear both first to avoid leftover
-            GroundTilemap.SetTile(cellPos, null);
-            TilledTilemap.SetTile(cellPos, null);
 
-            if (tile == emptySoilTile)
+            // GroundTilemap luôn giữ nguyên (đất gốc)
+            
+            if (soilTile == emptySoilTile)
             {
-                GroundTilemap.SetTile(cellPos, tile);
+                TilledTilemap.SetTile(cellPos, null);
+                WaterTilemap.SetTile(cellPos, null);
+                return;
             }
+
+            // Đặt tile xới
+            TilledTilemap.SetTile(cellPos, tilledSoilTile);
+
+            // Nếu tưới → thêm tile overlay
+            if (watered)
+                WaterTilemap.SetTile(cellPos, wateredSoilTile);
             else
-            {
-                TilledTilemap.SetTile(cellPos, tile);
-            }
+                WaterTilemap.SetTile(cellPos, null);
         }
 
         // ==========================================
@@ -362,11 +361,11 @@ namespace TinyFarm.Farming
 
             GameObject cropObj = new GameObject($"Crop_{gridPos.x}_{gridPos.y}");
             cropObj.transform.position = worldPos;
-            cropObj.transform.SetParent(transform);
+            cropObj.transform.SetParent(cropContainer);
 
             SpriteRenderer renderer = cropObj.AddComponent<SpriteRenderer>();
             renderer.sortingLayerName = "Crops"; // Hoặc layer bạn muốn
-            renderer.sortingOrder = 1;
+            renderer.sortingOrder = -gridPos.y;
 
             cropRenderers[gridPos] = renderer;
 
