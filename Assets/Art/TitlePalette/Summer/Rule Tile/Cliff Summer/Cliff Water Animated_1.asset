@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: Cliff Water_2
+  m_Name: Cliff Water Animated_1
   m_EditorClassIdentifier: 
   m_AnimatedSprites:
   - {fileID: 1234082072, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
