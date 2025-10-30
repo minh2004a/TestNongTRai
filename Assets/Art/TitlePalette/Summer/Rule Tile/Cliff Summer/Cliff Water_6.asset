@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
+  m_Name: Cliff Water_6
+  m_EditorClassIdentifier: 
+  m_AnimatedSprites:
+  - {fileID: -1034288475, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: -158858699, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: 241607781, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: 1881300855, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: -221842086, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: 1147810699, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: 2139171725, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  - {fileID: -2118630243, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
+  m_MinSpeed: 10
+  m_MaxSpeed: 10
+  m_AnimationStartTime: 0
+  m_AnimationStartFrame: 0
+  m_TileColliderType: 0
+  m_TileAnimationFlags: 0
