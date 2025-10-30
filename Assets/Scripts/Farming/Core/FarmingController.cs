@@ -19,8 +19,6 @@ namespace TinyFarm.Farming
         [SerializeField] private ItemHoldingController itemHolding;
         [SerializeField] private PlayerAnimationController animController;
         [SerializeField] private Camera mainCamera;
-        [SerializeField] private float maxToolUseDistance = 2f;
-        [SerializeField] private Transform playerTransform;
         
         [Header("Interaction Settings")]
         [SerializeField] private float interactionRange = 1.5f;
@@ -149,7 +147,7 @@ namespace TinyFarm.Farming
                 LogDebug("Cannot interact: FarmGrid is null");
                 return;
             }
-
+            
             if (!farmGrid.IsValidTile(gridPos))
             {
                 LogDebug($"Cannot interact: Invalid tile {gridPos}");
@@ -162,14 +160,6 @@ namespace TinyFarm.Farming
             //     return;
             // }
             
-            Vector3 tileWorldPos = farmGrid.GridToWorld(gridPos);
-            float distance = Vector3.Distance(playerTransform.position, tileWorldPos);
-
-            if (distance > maxToolUseDistance)
-            {
-                return;
-            }
-
             bool success = false;
             
             // Check if holding item (Seeds)

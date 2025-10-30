@@ -77066,15 +77066,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 448cbb4a0e42b1f4abf17786677dea44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmGrid: {fileID: 1503674975}
+  farmGrid: {fileID: 0}
   inventoryBridge: {fileID: 182356815}
   toolEquipment: {fileID: 883206089}
   itemHolding: {fileID: 647645679}
   animController: {fileID: 647645675}
   mainCamera: {fileID: 1030219194}
-  maxToolUseDistance: 2
-  playerTransform: {fileID: 647645674}
-  interactionRange: 42.22
+  interactionRange: 42.5
   debugMode: 1
   hoveredGridPos: {x: 0, y: 0}
   selectedGridPos: {x: 0, y: 0}
