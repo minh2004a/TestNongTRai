@@ -55,7 +55,6 @@ namespace TinyFarm.Animation
         public event Action<AnimationState> OnStateChanged;
         public event Action OnActionComplete;
         public event Action<AnimationState> OnToolActionStarted;
-
         // CARRY / ACTION TYPE (new)
         private ActionType currentActionType = ActionType.None;
         private bool isCarrying = false;

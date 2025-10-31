@@ -34,6 +34,7 @@ namespace TinyFarm.Farming
         [SerializeField] private Vector2Int hoveredGridPos = Vector2Int.zero;
         [SerializeField] private Vector2Int selectedGridPos = Vector2Int.zero;
         [SerializeField] private bool hasHoveredTile = false;
+        private bool toolUseQueued = false;
         
         // Events
         public event Action<Vector2Int> OnTileHovered;
