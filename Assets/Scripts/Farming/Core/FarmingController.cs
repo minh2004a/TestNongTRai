@@ -21,6 +21,10 @@ namespace TinyFarm.Farming
         [SerializeField] private Camera mainCamera;
         [SerializeField] private float maxToolUseDistance = 2f;
         [SerializeField] private Transform playerTransform;
+        [SerializeField] private SpriteRenderer spriteRenderer;
+        [SerializeField] private Animator animator;
+
+
         
         [Header("Interaction Settings")]
         [SerializeField] private float interactionRange = 1.5f;
@@ -164,7 +168,27 @@ namespace TinyFarm.Farming
                 LogDebug($"Tile quá xa! Distance = {distance}");
                 return;
             }
-            
+
+            Vector2 direction = (tileWorldPos - playerTransform.position);
+
+            if (direction.sqrMagnitude > 0.01f)
+            {
+                if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+                {
+                    bool facingRight = direction.x > 0;
+                    spriteRenderer.flipX = !facingRight;
+
+                    if (animator != null)
+                        animator.SetFloat("Horizontal", direction.y > 0 ? 1 : -1);
+                }
+                else
+                {
+                    if (animator != null)
+                    {
+                        animator.SetFloat("Vertical", direction.y > 0 ? 1 : -1);
+                    }
+                }
+            }
             // if (animController != null && animController.IsActionLocked)
             // {
             //     LogDebug("Cannot interact: animation locked");
