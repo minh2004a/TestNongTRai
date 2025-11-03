@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TinyFarm.Animation;
+﻿using TinyFarm.Animation;
 using TinyFarm.Items;
 using UnityEngine;
-using static Unity.Collections.Unicode;
 
 [RequireComponent(typeof(PlayerAnimationController))]
 [RequireComponent(typeof(Rigidbody2D))]

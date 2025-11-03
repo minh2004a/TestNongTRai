@@ -116,7 +116,7 @@ namespace TinyFarm.Farming
         {
             if (TinyFarm.GameplayBlocker.UIDragging || TinyFarm.GameplayBlocker.UIOpened) return;
             // Left Click - Use tool/item
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(0))
             {
                 if (hasHoveredTile)
                 {

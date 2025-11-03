@@ -25,6 +25,7 @@ namespace TinyFarm.PlayerInput
         [Header("Runtime State")]
         [SerializeField] private InputState currentInputState = InputState.Gameplay;
         [SerializeField] private bool isInputEnabled = true;
+        private bool toolUseTriggeredThisFrame = false;
 
         [Header("Debug")]
         [SerializeField] private bool debugMode = false;
@@ -122,6 +123,8 @@ namespace TinyFarm.PlayerInput
 
         private void Update()
         {
+            toolUseTriggeredThisFrame = false;
+
             if (!isInputEnabled)
                 return;
 
@@ -215,6 +218,8 @@ namespace TinyFarm.PlayerInput
 
         private void HandleToolUse()
         {
+            if (toolUseTriggeredThisFrame) return;
+            toolUseTriggeredThisFrame = true;
 
             if (toolEquipment == null)
             {
