@@ -11,6 +11,9 @@ namespace TinyFarm.Items
         public string cropID;
         public string cropName;
         public CropType cropType;
+        public string fertilizerType;
+        public float totalGrowTime;
+        public float currentGrowTime;
 
         [Header("Growth")]
         public int growthStages = 4;

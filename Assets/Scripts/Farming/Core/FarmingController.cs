@@ -4,7 +4,8 @@ using TinyFarm.Items;
 using TinyFarm.Tools;
 using TinyFarm.Animation;
 using TinyFarm.PlayerInput;
-using TinyFarm;
+using TinyFarm.UI;
+using TinyFarm.Items.UI;
 namespace TinyFarm.Farming
 {
     // Controller chính để player tương tác với farming system
@@ -23,6 +24,7 @@ namespace TinyFarm.Farming
         [SerializeField] private Transform playerTransform;
         [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private Animator animator;
+        [SerializeField] private CropTooltipUI cropTooltipUI;
 
 
         
@@ -68,6 +70,14 @@ namespace TinyFarm.Farming
         {
             UpdateHoveredTile();
             HandleInput();
+            if (hasHoveredTile)
+            {
+                HandleCropTooltip();
+            }
+            else
+            {
+                TinyFarm.UI.CropTooltipUI.Instance.Hide();
+            }
         }
 
         // ==========================================
@@ -461,10 +471,37 @@ namespace TinyFarm.Farming
         {
             return hasHoveredTile ? farmGrid?.GetTile(hoveredGridPos) : null;
         }
-        
+
         public FarmTile GetSelectedTile()
         {
             return farmGrid?.GetTile(selectedGridPos);
+        }
+        
+        private void HandleCropTooltip()
+        {
+            // Không hiển thị tooltip khi UI đang mở hoặc player đang drag item
+            if (TinyFarm.GameplayBlocker.UIOpened || TinyFarm.GameplayBlocker.UIDragging)
+            {
+                CropTooltipUI.Instance.Hide();
+                return;
+            }
+
+            if (!hasHoveredTile)
+            {
+                CropTooltipUI.Instance.Hide();
+                return;
+            }
+
+            var tile = farmGrid.GetTile(hoveredGridPos);
+
+            if (tile != null && tile.HasCrop && tile.currentCrop != null)
+            {
+                CropTooltipUI.Instance.Show(tile.currentCrop);
+            }
+            else
+            {
+                CropTooltipUI.Instance.Hide();
+            }
         }
 
         // ==========================================
