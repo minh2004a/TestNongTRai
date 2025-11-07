@@ -12,28 +12,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa292a17e1057044ba430d5a15d3fe90, type: 3}
   m_Name: Tool_Hoe
   m_EditorClassIdentifier: 
-  itemType: 3
+  materialTier: 0
   itemName: Tool_Hoe
-  itemID: 
+  itemID: tool_hoe
   icon: {fileID: 344734576, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
-  maxStack: 1
-  buyPrice: 0
+  itemType: 3
+  description: "C\xF4ng c\u1EE5 d\xF9ng \u0111\u1EC3 ch\u1EB7t c\xE2y, \u0111\xE1"
+  maxStackSize: 1
+  isStackable: 0
+  quantity: 0
+  canCarry: 0
+  hasDurability: 0
+  maxDurability: 0
+  destroyOnBreak: 1
+  repairCostMultiplier: 1
+  durabilityLossPerUse: 0
+  category:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  secondaryCategories: []
+  tags: []
+  primaryCategory:
+    categoryID: 
+    categoryName: New Category
+    categoryColor: {r: 1, g: 1, b: 1, a: 1}
+    categoryIcon: {fileID: 0}
+    sortOrder: 0
+  basePrice: 0
   sellPrice: 0
+  isSellable: 1
+  isPurchasable: 1
+  isUsable: 1
+  isConsumable: 0
+  cooldown: 0
   canBeDropped: 0
-  canBeSold: 0
-  canBeStacked: 0
-  canBeConsumable: 0
   canBeEquippable: 0
-  description: "D\xF9ng \u0111\u1EC3 c\xE0y \u0111\u1EA5t tr\u1ED3ng tr\u1ECDt"
   toolID: 
   toolType: 1
-  maxDurability: 100
-  currentDurability: 100
-  durability: 100
   efficiency: 1
-  useCooldown: 0.5
-  canBeUpgraded: 0
-  upgradedVersion: {fileID: 0}
-  upgradeCost: 0
   useAnimation: {fileID: 0}
   useSound: {fileID: 0}

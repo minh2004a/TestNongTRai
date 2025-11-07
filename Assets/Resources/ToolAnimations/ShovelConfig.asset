@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e979ca9558755458cadbf3a3441ac0, type: 3}
+  m_Name: ShovelConfig
+  m_EditorClassIdentifier: 
+  configName: Shovel Tool Animation
+  toolType: 7
+  animationState: 8
+  directionalAnimations:
+  - direction: 0
+    clip: {fileID: 7400000, guid: d90a81400d9893444a85021b53721ea1, type: 2}
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+    animatorTrigger: 
+  - direction: 1
+    clip: {fileID: 7400000, guid: ac30af7428afb7a4984b185f6ceabe1f, type: 2}
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+    animatorTrigger: 
+  - direction: 2
+    clip: {fileID: 7400000, guid: f01b4d7e333cfc44fa5c390d842546f3, type: 2}
+    overrideDuration: 0.51666665
+    impactFrameTime: 0
+    animatorTrigger: 
+  durationDown: 1
+  durationUp: 1
+  durationSide: 1
+  impactTimeNormalized: 0.5
+  animatorTrigger: Use
+  canMove: 0
+  canCancel: 0
+  lockDuration: 0.5
+  cooldownTime: 0.2
+  soundEffects: []
+  effectOffset: {x: 0, y: 0, z: 0}
+  effectScale: 1
+  toolPrefab: {fileID: 0}
+  toolIcon: {fileID: 628838469, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}

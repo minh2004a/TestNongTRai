@@ -280,6 +280,10 @@ namespace TinyFarm.Animation
             return PlayToolAnimation(ToolType.Sickle);
         }
 
+        public bool PlayShovel()
+        {
+            return PlayToolAnimation(ToolType.Shovel);
+        }
         // ==========================================
         // PICKUP ANIMATIONS (Visual States - NO LOCK)
         // ==========================================

@@ -46,6 +46,7 @@ namespace TinyFarm.Animation
             priorities[AnimationState.Hoeing] = 11;
             priorities[AnimationState.Watering] = 12;
             priorities[AnimationState.Sickle] = 13;
+            priorities[AnimationState.Shovel] = 14;
 
             // Sleep
             priorities[AnimationState.Sleep] = 20;
@@ -61,6 +62,7 @@ namespace TinyFarm.Animation
             canInterrupt[AnimationState.Hoeing] = false;
             canInterrupt[AnimationState.Watering] = false;
             canInterrupt[AnimationState.Sickle] = false;
+            canInterrupt[AnimationState.Shovel] = false;
 
             // Sleep
             canInterrupt[AnimationState.Sleep] = true;
@@ -96,6 +98,7 @@ namespace TinyFarm.Animation
             return state == AnimationState.UsingTool ||
                    state == AnimationState.Hoeing ||
                    state == AnimationState.Watering ||
+                   state == AnimationState.Shovel ||
                    state == AnimationState.Sickle;
         }
 

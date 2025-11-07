@@ -313,6 +313,9 @@ namespace TinyFarm.Tools
                 case ToolType.Sickle:
                     animationStarted = animController.PlaySickle();
                     break;
+                case ToolType.Shovel:
+                    animationStarted = animController.PlayShovel();
+                    break;
                 default:
                     break;
             }

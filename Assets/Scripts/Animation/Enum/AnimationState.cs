@@ -8,5 +8,6 @@ public enum AnimationState
     PickUpIdle = 5,
     PickUpRun = 6,
     Sleep = 7,
-    UsingTool = 8
+    Shovel = 8,
+    UsingTool = 9
 }

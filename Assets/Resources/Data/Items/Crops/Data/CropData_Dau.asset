@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: CropData_Dau
   m_EditorClassIdentifier: 
   cropID: cropdata_dau
-  cropName: CropData_Dau
+  cropName: "D\xE2u t\xE2y"
   cropType: 2
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
   growthStages: 6
   daysPerStage: 010000000100000001000000010000000100000001000000
   requiresDailyWatering: 1

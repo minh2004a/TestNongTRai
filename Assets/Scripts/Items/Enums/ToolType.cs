@@ -8,7 +8,8 @@
         PickUpIdle = 3,
         PickUpRun = 4,
         Sickle = 5,
-        Seeds = 6
+        Seeds = 6,
+        Shovel = 7
     }
 }
 

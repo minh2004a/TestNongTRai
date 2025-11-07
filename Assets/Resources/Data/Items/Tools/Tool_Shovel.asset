@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa292a17e1057044ba430d5a15d3fe90, type: 3}
-  m_Name: Tool_Watering
+  m_Name: Tool_Shovel
   m_EditorClassIdentifier: 
   materialTier: 0
-  itemName: Tool_Watering
-  itemID: tool_watering
-  icon: {fileID: -410866898, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
+  itemName: Tool_Shovel
+  itemID: tool_shovel
+  icon: {fileID: 628838469, guid: 0aa5aee32af1c79419410c4e0547b04e, type: 3}
   itemType: 3
-  description: "C\xF4ng c\u1EE5 d\xF9ng \u0111\u1EC3 t\u01B0\u1EDBi n\u01B0\u1EDBc"
+  description: "C\xF4ng c\u1EE5 d\xF9ng \u0111\u1EC3 x\u1EDBi \u0111\u1EA5t tr\u1ED3ng
+    c\xE2y"
   maxStackSize: 1
   isStackable: 0
   quantity: 0
@@ -49,9 +50,9 @@ MonoBehaviour:
   isConsumable: 0
   cooldown: 0
   canBeDropped: 1
-  canBeEquippable: 0
+  canBeEquippable: 1
   toolID: 
-  toolType: 2
+  toolType: 7
   efficiency: 1
   useAnimation: {fileID: 0}
   useSound: {fileID: 0}

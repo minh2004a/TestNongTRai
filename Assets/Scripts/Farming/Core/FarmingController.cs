@@ -243,7 +243,7 @@ namespace TinyFarm.Farming
             
             switch (currentTool)
             {
-                case ToolType.Hoe:
+                case ToolType.Shovel:
                     success = TryTill(gridPos);
                     break;
                     

@@ -95,22 +95,39 @@ namespace TinyFarm.UI
             }
 
             var data = currentCrop.Data;
+
             string name = data.cropName;
-            string growth;
-
-            if (currentCrop.IsHarvestable)
-                growth = "Sẵn sàng thu hoạch!";
-            else
-                growth = $"Giai đoạn {currentCrop.CurrentStage + 1}/{data.growthStages}";
-
             string fert = currentCrop.fertilizer == FertilizerType.None
                 ? "Chưa bón phân"
                 : $"Phân bón: {currentCrop.fertilizer}";
 
-            cropNameText.text = $"<b>{name}</b>";
-            growthText.text = growth;
+            string growth;
+
+            if (currentCrop.IsHarvestable)
+            {
+                growth = "Đã sẵn sàng thu hoạch!";
+            }
+            else
+            {
+                // Giả sử mỗi stage tương ứng với 1 ngày (bạn có thể tùy chỉnh công thức)
+                int totalDays = data.growthStages;
+                int currentDay = currentCrop.CurrentStage + 1;
+                int daysLeft = totalDays - currentDay;
+
+                // Đảm bảo không âm
+                daysLeft = Mathf.Max(daysLeft, 0);
+                growth = $"{daysLeft} Ngày";
+            }
+
+            // Gộp lại thành 2 dòng như bạn muốn
+            cropNameText.text = $"{name}: {growth}";
             fertilizerText.text = fert;
+
+            // Ẩn text "growthText" nếu không còn dùng
+            if (growthText != null)
+                growthText.gameObject.SetActive(false);
         }
+
 
         private void UpdatePosition()
         {

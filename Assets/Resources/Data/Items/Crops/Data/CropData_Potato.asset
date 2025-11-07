@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: CropData_Potato
   m_EditorClassIdentifier: 
   cropID: copdata_potato
-  cropName: CopData_Potato
+  cropName: "Khoai t\xE2y"
   cropType: 1
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
   growthStages: 6
   daysPerStage: 010000000100000001000000010000000100000001000000
   requiresDailyWatering: 1

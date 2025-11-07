@@ -280,6 +280,7 @@ namespace TinyFarm.Animation
                 AnimationState.Hoeing => ToolType.Hoe,
                 AnimationState.Watering => ToolType.Watering,
                 AnimationState.Sickle => ToolType.Sickle,
+                AnimationState.Shovel => ToolType.Shovel,
                 _ => null
             };
         }
