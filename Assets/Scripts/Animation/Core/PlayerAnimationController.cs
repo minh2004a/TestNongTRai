@@ -631,9 +631,7 @@ namespace TinyFarm.Animation
 
         [ContextMenu("Test - Play Hoeing")]
         private void TestHoeing() => PlayHoeing();
-        
-        [ContextMenu("Test - Play Shovel")]
-        private void TestShovel() => PlayShovel();
+
         [ContextMenu("Test - Play Watering")]
         private void TestWatering() => PlayWatering();
 
