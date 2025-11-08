@@ -45,8 +45,6 @@ namespace TinyFarm.Animation
         private Coroutine actionCoroutine;
         private float actionStartTime;
         private float actionDuration;
-        private int lastToolActionFrame = -1;
-        private AnimationState lastToolState = AnimationState.Idle;
 
         // Animator parameter names (constants)
         private const string PARAM_STATE = "State";
@@ -390,24 +388,11 @@ namespace TinyFarm.Animation
 
         private void StartToolAction(AnimationState toolState, float duration)
         {
-            if (lastToolActionFrame == Time.frameCount && lastToolState == toolState)
+            if (actionCoroutine != null)
             {
-                return;
+                StopCoroutine(actionCoroutine);
+                actionCoroutine = null;
             }
-
-            if (isActionLocked && actionCoroutine != null)
-            {
-                return;
-            }
-
-            // if (actionCoroutine != null)
-            // {
-            //     StopCoroutine(actionCoroutine);
-            //     actionCoroutine = null;
-            // }
-
-            lastToolActionFrame = Time.frameCount;
-            lastToolState = toolState;
 
             AnimationState previousMovementState = currentState;
             if (IsToolAction(previousMovementState))
