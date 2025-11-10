@@ -47,14 +47,14 @@ TagManager:
   - name: Grass
     uniqueID: 572638781
     locked: 0
-  - name: Dirt
-    uniqueID: 1536477895
-    locked: 0
   - name: Water
     uniqueID: 618115813
     locked: 0
   - name: Paths
     uniqueID: 4229367295
+    locked: 0
+  - name: Cliff
+    uniqueID: 1536477895
     locked: 0
   - name: Crops
     uniqueID: 4002899513
