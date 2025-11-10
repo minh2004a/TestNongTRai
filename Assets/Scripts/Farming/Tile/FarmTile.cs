@@ -12,16 +12,20 @@ namespace TinyFarm.Farming
     {
         // Position
         public Vector2Int gridPosition;
-        
+        public GroundType groundType;
+
         // State
         public TileState tileState = TileState.Empty;
         public bool isWatered = false;
         public bool isTilled = false;
         public FertilizerType appliedFertilizer = FertilizerType.None;
-        
+
         // Crop
         public CropInstance currentCrop;
-        
+
+        // Added: cờ cho biết có vật đè lên ô này không
+        public bool IsOccupied = false;
+
         // Properties
         public bool HasCrop => currentCrop != null;
         public bool IsWatered => isWatered;
@@ -37,12 +41,14 @@ namespace TinyFarm.Farming
             isTilled = false;
             currentCrop = null;
             appliedFertilizer = FertilizerType.None;
+            groundType = GroundType.Empty;
+            IsOccupied = false;
         }
-        
+
         // ==========================================
         // TILE ACTIONS
         // ==========================================
-        
+
         public void Till()
         {
             if (tileState == TileState.Empty)
@@ -60,18 +66,18 @@ namespace TinyFarm.Farming
             tileState = TileState.Watered;
             currentCrop?.Water();
         }
-        
+
         public bool Plant(CropData data, SpriteRenderer cropRenderer)
         {
             if (!CanPlant() || data == null) return false;
-            
+
             int today = TimeManager.Instance?.GetCurrentDay() ?? 0;
             currentCrop = new CropInstance(data, cropRenderer, today);
-            
+
             isTilled = true;
             isWatered = false;
             tileState = TileState.Planted;
-            
+
             return true;
         }
 
@@ -86,7 +92,7 @@ namespace TinyFarm.Farming
                 tileState = HasCrop ? TileState.Planted : TileState.Tilled;
             }
         }
-        
+
         public void ApplyFertilizer(FertilizerType type)
         {
             if (!HasCrop) return;
@@ -109,7 +115,7 @@ namespace TinyFarm.Farming
 
             return drops;
         }
-        
+
         public void ResetTile()
         {
             ResetCropData();
@@ -117,26 +123,39 @@ namespace TinyFarm.Farming
             tileState = TileState.Empty;
             isWatered = false;
         }
-        
+
         private void ResetCropData()
         {
             currentCrop = null;
             appliedFertilizer = FertilizerType.None;
         }
-        
+
         // ==========================================
         // VALIDATIONS
         // ==========================================
-        
+
         public bool CanPlant()
         {
             return tileState == TileState.Tilled && !HasCrop;
         }
-        
-        public bool CanHoe() => tileState == TileState.Empty;
+
+        public bool CanHoe()
+        {
+            return tileState == TileState.Empty && !IsOccupied;
+        }
         public bool CanWater() => HasCrop && !isWatered;
         public bool CanHarvest() => HasCrop && currentCrop != null && currentCrop.IsHarvestable;
     }
+
+    public enum GroundType
+    {
+        Empty,      // Đất trống có thể đào
+        Grass,      // Thảm cỏ
+        Rock,       // Đá
+        Tree        // Cây hoặc chướng ngại vật
+    }
 }
+
+
 
 

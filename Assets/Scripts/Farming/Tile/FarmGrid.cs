@@ -29,6 +29,9 @@ namespace TinyFarm.Farming
 
         [Header("Settings")]
         [SerializeField] private bool debugMode = true;
+
+        // Added: LayerMask để xác định vật thể đè lên đất
+        [SerializeField] private LayerMask obstacleLayer;
         
         // Data storage
         private Dictionary<Vector2Int, FarmTile> farmTiles = new Dictionary<Vector2Int, FarmTile>();
@@ -97,6 +100,20 @@ namespace TinyFarm.Farming
                 {
                     Vector2Int pos = farmOrigin + new Vector2Int(x, y);
                     farmTiles[pos] = new FarmTile(pos);
+
+                    TileBase groundTile = GroundTilemap.GetTile(new Vector3Int(pos.x, pos.y, 0));
+                    if (groundTile != null)
+                    {
+                        string tileName = groundTile.name.ToLower();
+                        if (tileName.Contains("rock"))
+                            farmTiles[pos].groundType = GroundType.Rock;
+                        else if (tileName.Contains("grass"))
+                            farmTiles[pos].groundType = GroundType.Grass;
+                        else if (tileName.Contains("tree"))
+                            farmTiles[pos].groundType = GroundType.Tree;
+                        else
+                            farmTiles[pos].groundType = GroundType.Empty;
+                    }
 
                     // Set initial tile
                     SetTilemapTile(pos, emptySoilTile, false);
@@ -186,14 +203,16 @@ namespace TinyFarm.Farming
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanHoe())
             {
-                LogDebug($"TillTile FAILED: no tile data at {gridPos}");
+                LogDebug($"TillTile FAILED: {gridPos} - not empty or blocked");
                 return false;
             }
 
-            LogDebug($"TillTile current state: {tile.tileState}, isTilled={tile.isTilled}");
-            if (!tile.CanHoe())
+             // 🟢 Added: Kiểm tra có vật thể đè lên ô đất hay không
+            Vector3 worldCenter = GetTileWorldCenter(gridPos);
+            Collider2D obstacle = Physics2D.OverlapPoint(worldCenter, obstacleLayer);
+            if (obstacle != null)
             {
-                LogDebug($"TillTile FAILED: CanHoe() returned false for {gridPos}");
+                LogDebug($"TillTile BLOCKED: obstacle {obstacle.name} at {gridPos}");
                 return false;
             }
 
@@ -210,12 +229,6 @@ namespace TinyFarm.Farming
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanWater()) return false;
             
-            if (!tile.CanWater())
-            {
-                LogDebug($"WaterTile FAILED: CanWater() returned false for {gridPos} (HasCrop={tile.HasCrop}, isWatered={tile.isWatered})");
-                return false;
-            }
-
             tile.Water();
             UpdateTileVisuals(gridPos);
             
@@ -229,7 +242,6 @@ namespace TinyFarm.Farming
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanPlant()) return false;
 
-            
             // Create crop renderer
             SpriteRenderer cropRenderer = GetOrCreateCropRenderer(gridPos);
             
