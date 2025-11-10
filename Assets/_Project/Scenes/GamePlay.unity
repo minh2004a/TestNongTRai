@@ -62150,7 +62150,7 @@ Tilemap:
       - {fileID: -297132379, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 379669073, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 566583738, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -8, y: 13, z: 0}
