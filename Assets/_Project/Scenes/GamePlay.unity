@@ -60521,7 +60521,7 @@ MonoBehaviour:
   playerTransform: {fileID: 647645674}
   spriteRenderer: {fileID: 647645676}
   animator: {fileID: 647645677}
-  cropTooltipUI: {fileID: 0}
+  cropTooltipUI: {fileID: 278864143}
   interactionRange: 42.5
   debugMode: 1
   hoveredGridPos: {x: 0, y: 0}
