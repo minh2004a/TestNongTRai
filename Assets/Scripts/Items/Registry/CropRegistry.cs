@@ -208,7 +208,7 @@ namespace TinyFarm.Items
         public int GetSellPrice(string cropID)
         {
             CropItemData cropData = GetCropData(cropID);
-            return cropData != null ? cropData.sellPrice : 0;
+            return cropData != null ? cropData.buyPrice : 0;
         }
 
         /// Lấy crop type

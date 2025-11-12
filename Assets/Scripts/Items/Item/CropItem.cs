@@ -12,7 +12,7 @@ namespace TinyFarm.Items
         private CropItemData cropData;
 
         public CropType CropType => cropData?.cropType ?? CropType.None;
-        public int BasePrice => cropData.basePrice;
+        public int BasePrice => cropData.sellPrice;
         public bool IsUsable => cropData?.isUsable ?? false;
         public int HealthRestore => cropData?.nutritionValue ?? 0;
         public int EnergyRestore => cropData?.energyValue ?? 0;

@@ -2685,6 +2685,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 278864141}
   m_CullTransparentMesh: 1
+--- !u!1 &294140279
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 294140280}
+  - component: {fileID: 294140281}
+  m_Layer: 0
+  m_Name: NPCShopkeeper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &294140280
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294140279}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 572197776}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &294140281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 294140279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60ee0aa8765ceac4f96daf575acdbd7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  npcName: Pierre
+  npcPortrait: {fileID: 483527018, guid: 11d715a64ed580841a13892b71dc6f8d, type: 3}
+  shopInventory: {fileID: 11400000, guid: 96790883d1a809a4cb2460ae1f98959a, type: 2}
+  interactionRange: 2
+  buyPriceMultiplier: 1
+  sellPriceMultiplier: 1
+  sellSeedsBySeasonOnly: 1
+  debugMode: 1
 --- !u!1 &351290105
 GameObject:
   m_ObjectHideFlags: 0
@@ -3909,6 +3961,38 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560889467}
   m_CullTransparentMesh: 1
+--- !u!1 &572197775
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 572197776}
+  m_Layer: 0
+  m_Name: === NPC ===
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &572197776
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 572197775}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 294140280}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &588412849
 GameObject:
   m_ObjectHideFlags: 0
@@ -62150,7 +62234,7 @@ Tilemap:
       - {fileID: -297132379, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 379669073, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 566583738, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -8, y: 13, z: 0}
@@ -63874,3 +63958,4 @@ SceneRoots:
   - {fileID: 1407601492}
   - {fileID: 179430712}
   - {fileID: 1026946103}
+  - {fileID: 572197776}

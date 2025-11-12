@@ -82,10 +82,10 @@ namespace TinyFarm.Items
         // ECONOMY
         [Header("Economy")]
         [Tooltip("Giá mua từ shop")]
-        public int basePrice = 0;
+        public int sellPrice = 0;
 
         [Tooltip("Giá bán cho shop")]
-        public int sellPrice = 0;
+        public int buyPrice = 0;
 
         [Tooltip("Item có thể được bán không")]
         public bool isSellable = true;
@@ -138,8 +138,8 @@ namespace TinyFarm.Items
         public IReadOnlyList<ItemTag> Tags => tags;
 
         // Economy
-        public int BaseValue => basePrice;
-        public int SellValue => sellPrice > 0 ? sellPrice : basePrice / 2;
+        public int BaseValue => sellPrice;
+        public int SellValue => buyPrice > 0 ? buyPrice : sellPrice / 2;
         public bool IsSellable => isSellable;
         public bool IsPurchasable => isPurchasable;
 
@@ -190,11 +190,11 @@ namespace TinyFarm.Items
                     "They disappear after use.", this);
             }
 
-            if (basePrice < 0)
-                basePrice = 0;
-
             if (sellPrice < 0)
                 sellPrice = 0;
+
+            if (buyPrice < 0)
+                buyPrice = 0;
 
             if (cooldown < 0)
                 cooldown = 0;
@@ -277,9 +277,9 @@ namespace TinyFarm.Items
                 tooltip += $"\nMax Stack: {maxStackSize}";
             }
 
-            if (basePrice > 0)
+            if (sellPrice > 0)
             {
-                tooltip += $"\n\nValue: {basePrice}g";
+                tooltip += $"\n\nValue: {sellPrice}g";
                 if (isSellable)
                 {
                     tooltip += $"\nSell: {SellValue}g";
