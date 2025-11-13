@@ -141,7 +141,7 @@ namespace TinyFarm.NPC
         }
 
         // Check if shop accepts this item
-        public bool CanBuyFormPlayer(ItemData itemData)
+        public bool CanBuyFromPlayer(ItemData itemData)
         {
             if (itemData == null) return false;
 
