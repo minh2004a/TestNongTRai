@@ -44,7 +44,7 @@ namespace TinyFarm.NPC
         // Runtime
         private NPCShopkeeper currentShopkeeper;
         private List<ShopItemSlotUI> shopSlots = new List<ShopItemSlotUI>();
-        private List<SlotUI> inventorySlots = new List<SlotUI>();
+        private List<InventorySlotUI> inventorySlots = new List<InventorySlotUI>();
         private ShopItemEntry selectedItem;
 
         private void Awake()
@@ -257,12 +257,12 @@ namespace TinyFarm.NPC
             foreach (var invSlot in allSlots)
             {
                 GameObject slotObj = Instantiate(inventorySlotPrefab, inventoryContainer);
-                SlotUI slotUI = slotObj.GetComponent<SlotUI>();
+                InventorySlotUI slotUI = slotObj.GetComponent<InventorySlotUI>();
                 
                 if (slotUI != null)
                 {
-                    slotUI.Initialize(invSlot);
-                    slotUI.OnSlotClicked += (s) => OnInventorySlotClicked(invSlot);
+                    slotUI.SetSlot(invSlot);
+                    slotUI.OnSlotClicked += (clickedSlot) => OnInventorySlotClicked(clickedSlot);
                     
                     inventorySlots.Add(slotUI);
                 }
