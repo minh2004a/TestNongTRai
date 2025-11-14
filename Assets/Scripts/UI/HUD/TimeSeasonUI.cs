@@ -45,10 +45,12 @@ namespace TinyFarm.Items.UI
         [SerializeField] private float bounceAmount = 5f;
         [SerializeField] private bool enableDayChangeAnimation = true;
 
+        [Header("References")]
+        [SerializeField] private PlayerWallet playerWallet;
+
         // Cache
         private Season currentSeason = Season.Spring;
         private int currentDay = -1;
-        private int currentMoney = 0;
         private TimeOfDay currentTimeOfDay = TimeOfDay.Morning;
         private RectTransform seasonIconRect;
         private RectTransform dayBackgroundRect;
@@ -83,6 +85,8 @@ namespace TinyFarm.Items.UI
                 dayBackgroundRect = dayBackground.GetComponent<RectTransform>();
                 originalDayBackgroundPos = dayBackgroundRect.localPosition;
             }
+
+            playerWallet = FindObjectOfType<PlayerWallet>();
         }
 
         private void Start()
@@ -94,11 +98,16 @@ namespace TinyFarm.Items.UI
         {
             SubscribeToEvents();
             ForceUpdate();
+
+            
         }
 
         private void OnDisable()
         {
             UnsubscribeFromEvents();
+
+            if (playerWallet != null)
+                playerWallet.OnGoldChanged -= UpdateMoney;
         }
 
         /// Validate sprite sheet có đủ sprites không
@@ -123,6 +132,14 @@ namespace TinyFarm.Items.UI
             if (backgroundPanel != null)
             {
                 backgroundPanel.type = Image.Type.Sliced;
+            }
+
+            if (playerWallet != null)
+            {
+                playerWallet.OnGoldChanged += UpdateMoney;
+
+                // Update gold display
+                UpdateMoney(playerWallet.CurrentGold);
             }
         }
 
@@ -343,20 +360,12 @@ namespace TinyFarm.Items.UI
         }
 
         /// Update money display
-        public void UpdateMoney(int amount)
+        private void UpdateMoney(int amount)
         {
-            currentMoney = amount;
-
             if (moneyText != null)
             {
-                moneyText.text = FormatMoney(currentMoney);
+                moneyText.text = amount.ToString();
             }
-        }
-
-        /// Format số tiền với dấu phẩy
-        private string FormatMoney(int amount)
-        {
-            return amount.ToString("N0").Replace(",", " "); // 3500 -> "3 500"
         }
 
         /// Force update all displays
@@ -366,42 +375,36 @@ namespace TinyFarm.Items.UI
             UpdateSeasonAndDay();
         }
 
-        /// Set money amount với animation
-        public void SetMoney(int amount)
-        {
-            int oldMoney = currentMoney;
-            currentMoney = amount;
+        // /// Set money amount với animation
+        // public void SetMoney(int amount)
+        // {
+        //     int oldMoney = currentMoney;
+        //     currentMoney = amount;
 
-            if (moneyText != null)
-            {
-                moneyText.text = FormatMoney(currentMoney);
-
-                if (amount != oldMoney)
-                {
-                    StartCoroutine(AnimateMoneyChange(oldMoney, amount));
-                }
-            }
-        }
+        //     if (moneyText != null)
+        //     {
+        //         if (amount != oldMoney)
+        //         {
+        //             StartCoroutine(AnimateMoneyChange(oldMoney, amount));
+        //         }
+        //     }
+        // }
 
         /// Animate money change với counter effect
-        private System.Collections.IEnumerator AnimateMoneyChange(int from, int to)
-        {
-            float duration = 0.5f;
-            float elapsed = 0f;
+        // private System.Collections.IEnumerator AnimateMoneyChange(int from, int to)
+        // {
+        //     float duration = 0.5f;
+        //     float elapsed = 0f;
 
-            while (elapsed < duration)
-            {
-                elapsed += Time.deltaTime;
-                float t = elapsed / duration;
+        //     while (elapsed < duration)
+        //     {
+        //         elapsed += Time.deltaTime;
+        //         float t = elapsed / duration;
 
-                int current = Mathf.RoundToInt(Mathf.Lerp(from, to, t));
-                moneyText.text = FormatMoney(current);
-
-                yield return null;
-            }
-
-            moneyText.text = FormatMoney(to);
-        }
+        //         int current = Mathf.RoundToInt(Mathf.Lerp(from, to, t));
+        //         yield return null;
+        //     }
+        // }
 
 #if UNITY_EDITOR
         [ContextMenu("Test Day Change")]
@@ -411,12 +414,6 @@ namespace TinyFarm.Items.UI
             {
                 SessionManager.Instance.IncrementDay();
             }
-        }
-
-        [ContextMenu("Test Add Money")]
-        private void TestAddMoney()
-        {
-            SetMoney(currentMoney + 500);
         }
 
         [ContextMenu("Test Change Season")]
