@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c2236a08ade34bb12b003e367faab, type: 3}
+  m_Name: CropData_SpringOnion
+  m_EditorClassIdentifier: 
+  cropID: CropData_SpringOnion
+  cropName: "H\xE0nh L\xE1"
+  cropType: 1
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
+  growthStages: 6
+  daysPerStage: 010000000100000001000000010000000100000001000000
+  requiresDailyWatering: 1
+  isRegrowable: 0
+  regrowDays: 0
+  regrowStage: 0
+  allowedSeasons: 0000000001000000
+  harvestItem: {fileID: 11400000, guid: 61fb2b3941c6cfc489a5d17843fa34ee, type: 2}
+  minYield: 1
+  maxYield: 1
+  stageSprites:
+  - {fileID: 931828183, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 37128529, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 998201765, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1574598158, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -331002666, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1399959794, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  sellPrice: 10

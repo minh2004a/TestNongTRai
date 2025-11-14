@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c2236a08ade34bb12b003e367faab, type: 3}
+  m_Name: CropData_Parsnip
+  m_EditorClassIdentifier: 
+  cropID: CropData_Parsnip
+  cropName: "C\u1EE7 C\u1EA3i V\xE0ng"
+  cropType: 1
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
+  growthStages: 5
+  daysPerStage: 0100000001000000010000000100000001000000
+  requiresDailyWatering: 1
+  isRegrowable: 0
+  regrowDays: 0
+  regrowStage: 0
+  allowedSeasons: 0000000001000000
+  harvestItem: {fileID: 11400000, guid: 5c19be8cc63f25b4bad5f1ab4370e836, type: 2}
+  minYield: 1
+  maxYield: 10
+  stageSprites:
+  - {fileID: 1508754012, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 612222506, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -1898642858, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1431733669, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -433915097, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  sellPrice: 10

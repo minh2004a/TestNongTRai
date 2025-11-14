@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c2236a08ade34bb12b003e367faab, type: 3}
+  m_Name: CropData_Rice
+  m_EditorClassIdentifier: 
+  cropID: CropData_Rice
+  cropName: "G\u1EA1o"
+  cropType: 3
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
+  growthStages: 6
+  daysPerStage: 010000000100000001000000010000000100000001000000
+  requiresDailyWatering: 1
+  isRegrowable: 0
+  regrowDays: 0
+  regrowStage: 0
+  allowedSeasons: 000000000100000002000000
+  harvestItem: {fileID: 11400000, guid: 139e4dafc8a27a54b80b58702aa57fb9, type: 2}
+  minYield: 1
+  maxYield: 10
+  stageSprites:
+  - {fileID: -1707522104, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 556938390, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -1559191568, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 250769813, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 514984727, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1898462687, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  sellPrice: 10
