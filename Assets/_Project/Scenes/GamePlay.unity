@@ -179,7 +179,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 0
+  m_Transition: 2
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -190,7 +190,7 @@ MonoBehaviour:
     m_FadeDuration: 0.1
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: -1199275625, guid: 9e033a901ada1b74e9c9c0fb38752c82, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
@@ -203,7 +203,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5186858}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 700036925}
+        m_TargetAssemblyTypeName: TinyFarm.NPC.ShopUI, Assembly-CSharp
+        m_MethodName: Hide
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5186858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6901,7 +6913,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Pierre
-  npcPortrait: {fileID: 1366047040, guid: efc80a3e4ca85a34397858da8cdfa30c, type: 3}
+  npcPortrait: {fileID: 483527018, guid: 11d715a64ed580841a13892b71dc6f8d, type: 3}
   shopInventory: {fileID: 11400000, guid: 96790883d1a809a4cb2460ae1f98959a, type: 2}
   interactionRange: 2
   buyPriceMultiplier: 1
@@ -63718,7 +63730,7 @@ Tilemap:
       - {fileID: -297132379, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 379669073, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 566583738, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: 13, z: 0}
@@ -63916,7 +63928,7 @@ Tilemap:
       - {fileID: 575490022, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: -206411551, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: -1198058626, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -8, y: 16, z: 0}
