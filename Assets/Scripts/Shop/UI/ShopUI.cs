@@ -250,26 +250,22 @@ namespace TinyFarm.NPC
             
             // Get all inventory slots
             var allSlots = inventoryManager.GetAllSlots();
+
+            int maxSlots = 14;
+            int count = Mathf.Min(allSlots.Count, maxSlots);
             
             Debug.Log($"[ShopUI] Populating {allSlots.Count} inventory slots");
             
             // Create inventory slot UIs
-            foreach (var invSlot in allSlots)
+            for (int i = 0; i < count; i++)
             {
                 GameObject slotObj = Instantiate(inventorySlotPrefab, inventoryContainer);
                 InventorySlotUI slotUI = slotObj.GetComponent<InventorySlotUI>();
-                
-                if (slotUI != null)
-                {
-                    slotUI.SetSlot(invSlot);
-                    slotUI.OnSlotClicked += (clickedSlot) => OnInventorySlotClicked(clickedSlot);
-                    
-                    inventorySlots.Add(slotUI);
-                }
-                else
-                {
-                    Destroy(slotObj);
-                }
+
+                slotUI.SetSlot(allSlots[i]);
+                slotUI.OnSlotClicked += (clickedSlot) => OnInventorySlotClicked(clickedSlot);
+
+                inventorySlots.Add(slotUI);
             }
         }
         
