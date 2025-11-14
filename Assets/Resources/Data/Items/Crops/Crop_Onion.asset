@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6726836d2b445ff449ca675ec4f8593b, type: 3}
-  m_Name: Seed_Dau
+  m_Script: {fileID: 11500000, guid: ea3a3fca8cad6d64286d8d95de0d33b8, type: 3}
+  m_Name: Crop_Onion
   m_EditorClassIdentifier: 
   materialTier: 0
-  itemName: Seed_Dau
-  itemID: seed_dau
-  icon: {fileID: -1797537465, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
-  itemType: 1
-  description: "H\u1EA1t Gi\u1ED1ng H\u1EA1t Gi\u1ED1ng D\xE2u"
+  itemName: Crop_Onion
+  itemID: crop_onion
+  icon: {fileID: 1923594072, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
+  itemType: 2
+  description: "H\xE0nh T\xE2y"
   maxStackSize: 999
   isStackable: 1
   quantity: 0
-  canCarry: 1
+  canCarry: 0
   hasDurability: 0
   maxDurability: 0
   destroyOnBreak: 1
@@ -42,13 +42,18 @@ MonoBehaviour:
     categoryIcon: {fileID: 0}
     sortOrder: 0
   sellPrice: 0
-  buyPrice: 2
+  buyPrice: 0
   isSellable: 1
   isPurchasable: 1
   isUsable: 1
-  isConsumable: 1
+  isConsumable: 0
   cooldown: 0
   canBeDropped: 1
   canBeEquippable: 0
-  cropData: {fileID: 11400000, guid: 530b3916ffe309444b283ce8dd29a699, type: 2}
-  requiresDailyWatering: 1
+  cropType: 1
+  cropData: {fileID: 0}
+  harvestedSeason: 0
+  nutritionValue: 10
+  energyValue: 5
+  canBeProcessed: 0
+  processedItemID: 

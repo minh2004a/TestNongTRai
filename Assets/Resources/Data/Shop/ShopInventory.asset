@@ -28,4 +28,74 @@ MonoBehaviour:
     requiredFriendship: 0
     requiresUnlock: 0
     unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 937a86831374514429f457229955925c, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 4a243e35a58b3884eaab41da9bf782d3, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 5b10e05a576976e4dbc66a5053e4e4b3, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 576560a36d864b84cac7477834b25c6a, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: c858aaa49f8db8f4d978d4ea6fd15d94, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: a1c1c02a3f7517646b0ad1fbb43c706f, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: a11d36f0167018d4a88bab5c474c2b7c, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 1d13740ce2100d145b57a0b9161b231d, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: ac61b1cec2c0ecf49828d21f1f91accd, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
+  - itemData: {fileID: 11400000, guid: 1d13740ce2100d145b57a0b9161b231d, type: 2}
+    unlimitedStock: 0
+    stock: 0
+    availableSeasons: 0000000001000000
+    requiredFriendship: 0
+    requiresUnlock: 0
+    unlockConditionID: 
   restockDaily: 1

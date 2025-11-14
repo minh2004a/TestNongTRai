@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e57c2236a08ade34bb12b003e367faab, type: 3}
+  m_Name: CropData_Cabbage
+  m_EditorClassIdentifier: 
+  cropID: cropdata_cabbage
+  cropName: "B\u1EAFp C\u1EA3i"
+  cropType: 1
+  fertilizerType: 
+  totalGrowTime: 0
+  currentGrowTime: 0
+  growthStages: 7
+  daysPerStage: 01000000010000000100000001000000010000000100000001000000
+  requiresDailyWatering: 1
+  isRegrowable: 0
+  regrowDays: 0
+  regrowStage: 0
+  allowedSeasons: 0000000001000000
+  harvestItem: {fileID: 11400000, guid: c4b3fed25b470cc4a91f49f3fdafedf2, type: 2}
+  minYield: 1
+  maxYield: 10
+  stageSprites:
+  - {fileID: -2030712093, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 450613317, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -469430166, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 745968240, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 1549423374, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: -1775635953, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  - {fileID: 942255129, guid: 5121735ffc98cff4e851e610ee3df641, type: 3}
+  sellPrice: 10

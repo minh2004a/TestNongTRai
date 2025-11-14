@@ -19,8 +19,8 @@ namespace TinyFarm.NPC
         [SerializeField] private float interactionRange = 2f;
         
         [Header("Price Modifiers")]
-        [SerializeField, Range(0.5f, 2f)] private float buyPriceMultiplier = 1.0f;    // Player mua từ shop
-        [SerializeField, Range(0.3f, 1f)] private float sellPriceMultiplier = 1.0f;  // Player bán cho shop
+        [SerializeField, Range(1f, 20f)] private float buyPriceMultiplier = 1.0f;    // Player mua từ shop
+        [SerializeField, Range(1f, 100f)] private float sellPriceMultiplier = 1.0f;  // Player bán cho shop
 
         [Header("Seasonal Items")]
         [SerializeField] private bool sellSeedsBySeasonOnly = true;

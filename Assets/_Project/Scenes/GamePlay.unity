@@ -1942,37 +1942,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1026946103}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &71730672
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 71730673}
-  m_Layer: 0
-  m_Name: Up
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &71730673
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 71730672}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.66, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 392590294}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &78493438
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,7 +3175,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 618115813
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -3388,40 +3357,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &392590293
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 392590294}
-  m_Layer: 0
-  m_Name: ImpactPoints
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &392590294
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 392590293}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1788062764}
-  - {fileID: 71730673}
-  - {fileID: 910381133}
-  m_Father: {fileID: 647645674}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &418538421
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,8 +3428,8 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1536477895
-  m_SortingLayer: 5
+  m_SortingLayerID: 987506421
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -3931,7 +3866,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1077971575
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 744364451, guid: ca8554e336fcf024186158645ca53cd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5169,7 +5104,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1575769792}
-  - {fileID: 392590294}
   - {fileID: 883206088}
   - {fileID: 836636489}
   - {fileID: 173959165}
@@ -5240,7 +5174,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1077971575
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: -1363738664, guid: 14d454932fb15dc4a99b0b438716e54d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5933,7 +5867,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1371396897
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -6871,37 +6805,6 @@ MonoBehaviour:
   currentTool: {fileID: 0}
   currentToolType: 0
   hasToolEquipped: 0
---- !u!1 &910381132
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 910381133}
-  m_Layer: 0
-  m_Name: Side
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &910381133
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 910381132}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.98, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 392590294}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &922205695
 GameObject:
   m_ObjectHideFlags: 0
@@ -6951,7 +6854,7 @@ MonoBehaviour:
   npcName: Pierre
   npcPortrait: {fileID: 483527018, guid: 11d715a64ed580841a13892b71dc6f8d, type: 3}
   shopInventory: {fileID: 11400000, guid: 96790883d1a809a4cb2460ae1f98959a, type: 2}
-  interactionRange: 2
+  interactionRange: 12
   buyPriceMultiplier: 1
   sellPriceMultiplier: 1
   sellSeedsBySeasonOnly: 1
@@ -7040,7 +6943,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1077971575
-  m_SortingLayer: 9
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 1366047040, guid: efc80a3e4ca85a34397858da8cdfa30c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9295,7 +9198,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085750127
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -10935,7 +10838,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1536477895
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -22019,9 +21922,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animController: {fileID: 647645675}
   animator: {fileID: 647645677}
-  impactPointDown: {fileID: 1788062764}
-  impactPointUp: {fileID: 71730673}
-  impactPointSide: {fileID: 910381133}
+  impactPointDown: {fileID: 0}
+  impactPointUp: {fileID: 0}
+  impactPointSide: {fileID: 0}
   impactPointOffset: 1
   enableSounds: 1
   footstepVolume: 0.8
@@ -59416,7 +59319,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -65600001
-  m_SortingLayer: 4
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -64644,37 +64547,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!1 &1788062763
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1788062764}
-  m_Layer: 0
-  m_Name: Down
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1788062764
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1788062763}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.46, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 392590294}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861618698
 GameObject:
   m_ObjectHideFlags: 0
@@ -64841,14 +64713,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testItems:
-  - {fileID: 11400000, guid: 5c6f575353e15f042b46d1b196b1834f, type: 2}
-  - {fileID: 11400000, guid: 1273ffdc3decaf540bc5e24466f2950c, type: 2}
   - {fileID: 11400000, guid: f3fe456a295174d499d3752da568fee8, type: 2}
   - {fileID: 11400000, guid: 5c5a9c867f4d21343aacd001e42bcce1, type: 2}
-  - {fileID: 11400000, guid: 661a10ac8e835754fb36069cc9bed8da, type: 2}
-  - {fileID: 11400000, guid: f79134061ede84e4f984e2095770ee33, type: 2}
-  - {fileID: 11400000, guid: 45d5dc0a5e008d1469a61d756248e5c8, type: 2}
   - {fileID: 11400000, guid: 425f1b7a25df8b54b924f14d21f8fd62, type: 2}
+  - {fileID: 11400000, guid: 661a10ac8e835754fb36069cc9bed8da, type: 2}
   autoAddTestItems: 1
   addItemKey: 116
   inventoryUI: {fileID: 1204090594}
@@ -65016,7 +64884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf0f2663ff998747b18b0143b8836d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  farmGrid: {fileID: 0}
+  farmGrid: {fileID: 1503674975}
   debugMode: 1
   CropData: {fileID: 0}
 --- !u!4 &1920300603
