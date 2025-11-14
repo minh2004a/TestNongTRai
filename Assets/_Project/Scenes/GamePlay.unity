@@ -2560,7 +2560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2
+  m_text: 1234567
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2594,10 +2594,10 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 0
+  m_characterSpacing: 23.75
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -10417,7 +10417,7 @@ GameObject:
   - component: {fileID: 1373601892}
   - component: {fileID: 1373601895}
   - component: {fileID: 1373601894}
-  - component: {fileID: 1373601893}
+  - component: {fileID: 1373601896}
   m_Layer: 5
   m_Name: MoneyIcon
   m_TagString: Untagged
@@ -10445,30 +10445,6 @@ RectTransform:
   m_AnchoredPosition: {x: -896.25323, y: -522}
   m_SizeDelta: {x: 237, y: 71}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &1373601893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1373601891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 63
-    m_Right: 0
-    m_Top: 27
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 20, y: 28}
-  m_Spacing: {x: 4, y: 0}
-  m_Constraint: 0
-  m_ConstraintCount: 2
 --- !u!114 &1373601894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10507,6 +10483,32 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1373601891}
   m_CullTransparentMesh: 1
+--- !u!114 &1373601896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1373601891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30649d3a9faa99c48a7b1166b86bf2a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 13
+    m_Top: 12
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &1407601488
 GameObject:
   m_ObjectHideFlags: 0
@@ -63477,7 +63479,7 @@ Tilemap:
       - {fileID: 571105818, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
       - {fileID: 382664367, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
       - {fileID: -726654215, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -4, y: 7, z: 0}
@@ -63499,7 +63501,7 @@ Tilemap:
       - {fileID: 571105818, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
       - {fileID: 382664367, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
       - {fileID: -726654215, guid: 2077f7eb9bc09684682cc5febfb75577, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -3, y: 8, z: 0}
@@ -64002,7 +64004,7 @@ Tilemap:
       - {fileID: 1280910418, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: 630500066, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: -2046412777, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10.000001
+      m_AnimationSpeed: 10
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -7, y: 18, z: 0}
