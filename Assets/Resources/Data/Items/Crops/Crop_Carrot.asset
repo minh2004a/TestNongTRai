@@ -41,8 +41,8 @@ MonoBehaviour:
     categoryColor: {r: 1, g: 1, b: 1, a: 1}
     categoryIcon: {fileID: 0}
     sortOrder: 0
-  sellPrice: 12
-  buyPrice: 12
+  sellPrice: 0
+  buyPrice: 0
   isSellable: 1
   isPurchasable: 1
   isUsable: 1

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Seed_Dau
   m_EditorClassIdentifier: 
   materialTier: 0
-  itemName: "H\u1EA1t Gi\u1ED1ng D\xE2u T\xE2y"
+  itemName: Seed_Dau
   itemID: seed_dau
   icon: {fileID: -1797537465, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
   itemType: 1
-  description: "H\u1EA1t Gi\u1ED1ng D\xE2u T\xE2y"
+  description: "H\u1EA1t Gi\u1ED1ng H\u1EA1t Gi\u1ED1ng D\xE2u"
   maxStackSize: 999
   isStackable: 1
   quantity: 0

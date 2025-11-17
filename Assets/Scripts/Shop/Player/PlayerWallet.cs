@@ -59,6 +59,8 @@ public class PlayerWallet : MonoBehaviour
             
             OnGoldAdded?.Invoke(amount);
             OnGoldChanged?.Invoke(currentGold);
+            
+            LogDebug($"Added {amount}g (Total: {currentGold}g)");
         }
         
         /// <summary>
@@ -79,6 +81,7 @@ public class PlayerWallet : MonoBehaviour
             OnGoldRemoved?.Invoke(amount);
             OnGoldChanged?.Invoke(currentGold);
             
+            LogDebug($"Removed {amount}g (Total: {currentGold}g)");
             return true;
         }
         
