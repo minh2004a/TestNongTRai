@@ -105,7 +105,6 @@ namespace TinyFarm.Farming
                 if (hasHoveredTile)
                 {
                     hasHoveredTile = false;
-                    LogDebug("Hover cleared");
                 }
             }
         }
@@ -176,7 +175,6 @@ namespace TinyFarm.Farming
 
             if (distance > maxToolUseDistance)
             {
-                LogDebug($"Tile quá xa! Distance = {distance}");
                 return;
             }
 

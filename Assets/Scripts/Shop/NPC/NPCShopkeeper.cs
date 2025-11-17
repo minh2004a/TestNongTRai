@@ -71,14 +71,14 @@ namespace TinyFarm.NPC
             bool wasNearby = isPlayerNearby;
             isPlayerNearby = distance <= interactionRange;
 
-            if (isPlayerNearby && !wasNearby)
-            {
-                LogDebug($"Player nearby {npcName}");
-            }
-            else if (!isPlayerNearby && wasNearby)
-            {
-                LogDebug($"Player left {npcName}");
-            }
+            // if (isPlayerNearby && !wasNearby)
+            // {
+            //     LogDebug($"Player nearby {npcName}");
+            // }
+            // else if (!isPlayerNearby && wasNearby)
+            // {
+            //     LogDebug($"Player left {npcName}");
+            // }
         }
 
         private void HandleInput()

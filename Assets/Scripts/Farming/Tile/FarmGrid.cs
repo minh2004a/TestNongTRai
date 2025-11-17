@@ -92,7 +92,6 @@ namespace TinyFarm.Farming
                 }
             }
 
-            LogDebug($"InitializeGrid: origin={farmOrigin}, size={farmSize}, GroundTilemap={(GroundTilemap!=null)}, TilledTilemap={(TilledTilemap!=null)}, Grid={(grid!=null)}");
             // Initialize farm tiles
             for (int x = 0; x < farmSize.x; x++)
             {
@@ -119,8 +118,6 @@ namespace TinyFarm.Farming
                     SetTilemapTile(pos, emptySoilTile, false);
                 }
             }
-
-            LogDebug($"Initialized grid with {farmTiles.Count} tiles");
         }
         
         // ==========================================
@@ -146,8 +143,6 @@ namespace TinyFarm.Farming
 
         private void OnDayPassed()
         {
-            LogDebug("Day passed - updating all tiles");
-
             foreach (var kvp in farmTiles)
             {
                 kvp.Value.OnDayPassed();
@@ -203,7 +198,6 @@ namespace TinyFarm.Farming
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanHoe())
             {
-                LogDebug($"TillTile FAILED: {gridPos} - not empty or blocked");
                 return false;
             }
 

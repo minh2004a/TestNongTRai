@@ -20,7 +20,6 @@ namespace TinyFarm.NPC
         [Header("Colors")]
         [SerializeField] private Color normalColor = new Color(0.9f, 0.85f, 0.75f);
         [SerializeField] private Color selectedColor = new Color(1f, 1f, 0.8f);
-        [SerializeField] private Color hoverColor = new Color(0.95f, 0.9f, 0.8f);
         
         private ShopItemEntry shopEntry;
         private int displayPrice;

@@ -85,7 +85,10 @@ namespace TinyFarm.Items.UI
                     // Close đúng chuẩn bằng input handler
                     inputHandler?.SetInputState(InputState.Gameplay);
                 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 23a542d8 (Revert "Fix Button close Inventory")
             // Create slot UIs
             if (autoCreateSlots)
             {

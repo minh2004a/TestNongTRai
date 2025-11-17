@@ -36,7 +36,6 @@ namespace TinyFarm.Farming
         private void Start()
         {
             IsInitialized = true;
-            LogDebug("FarmManager initialized");
         }
         
         private void OnDestroy()
