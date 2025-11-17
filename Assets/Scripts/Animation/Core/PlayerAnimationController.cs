@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TinyFarm.Animation;
 using TinyFarm.Items;
+using TinyFarm.Tools;
 using UnityEngine;
 
 namespace TinyFarm.Animation
@@ -23,6 +24,7 @@ namespace TinyFarm.Animation
         [Header("Configurations")]
         [SerializeField] private AnimationSettings settings;
         [SerializeField] private ToolAnimationConfig[] toolConfigs;
+        [SerializeField] private AnimationEventHandler eventHandler;
 
         [Header("Settings")]
         [SerializeField] private bool debugMode = false;
@@ -537,9 +539,13 @@ namespace TinyFarm.Animation
         // ANIMATION EVENTS
         // ==========================================
 
-        public void OnToolImpact()
+        public void OnToolImpactAnimation()
         {
-            LogDebug($"Tool impact: {currentState}");
+            // AnimationEvent gọi vào đây
+            if (eventHandler != null)
+            {
+                eventHandler.InvokeToolImpactEvent();
+            }
         }
 
         public void OnFootstep()

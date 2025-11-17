@@ -268,6 +268,11 @@ namespace TinyFarm.Animation
             return eventData;
         }
 
+        public void InvokeToolImpactEvent()
+        {
+            OnToolImpactEvent?.Invoke(new AnimationEventData());
+        }
+
         // ==========================================
         // HELPER METHODS
         // ==========================================
