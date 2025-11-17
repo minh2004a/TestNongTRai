@@ -80,8 +80,11 @@ namespace TinyFarm.Items.UI
 
             // Setup buttons
             if (closeButton != null)
-                closeButton.onClick.AddListener(CloseInventory);
-
+                closeButton.onClick.AddListener(() =>
+                {
+                    // Close đúng chuẩn bằng input handler
+                    inputHandler?.SetInputState(InputState.Gameplay);
+                });
             // Create slot UIs
             if (autoCreateSlots)
             {
@@ -182,7 +185,7 @@ namespace TinyFarm.Items.UI
             gameObject.SetActive(false);
             isOpen = false;
 
-            TinyFarm.GameplayBlocker.UIOpened = false;
+            // TinyFarm.GameplayBlocker.UIOpened = false;
             DeselectAllSlots();
             TooltipSystem.Instance?.HideTooltip();
 

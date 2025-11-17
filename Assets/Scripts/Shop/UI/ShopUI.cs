@@ -150,8 +150,6 @@ namespace TinyFarm.NPC
             
             // Unblock gameplay
             TinyFarm.GameplayBlocker.UIOpened = false;
-            
-            Debug.Log("[ShopUI] Shop closed");
         }
 
         // NPC PANEL
@@ -253,8 +251,6 @@ namespace TinyFarm.NPC
 
             int maxSlots = 14;
             int count = Mathf.Min(allSlots.Count, maxSlots);
-            
-            Debug.Log($"[ShopUI] Populating {allSlots.Count} inventory slots");
             
             // Create inventory slot UIs
             for (int i = 0; i < count; i++)
@@ -378,7 +374,6 @@ namespace TinyFarm.NPC
                 // Refresh inventory
                 PopulateInventoryGrid();
                 
-                Debug.Log($"[ShopUI] Sold {itemData.itemName} for {sellPrice}g");
             }
         }
 

@@ -51,7 +51,6 @@ namespace TinyFarm.Farming
             if (farmingController != null)
             {
                 farmingController.OnTileInteracted += HandleTileInteraction;
-                LogDebug("Subscribed to FarmingController events");
             }
         }
 

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Seed_Potato
   m_EditorClassIdentifier: 
   materialTier: 1
-  itemName: Seed_Potato
+  itemName: "H\u1EA1t Gi\u1ED1ng Khoai T\xE2y"
   itemID: seed_potato
   icon: {fileID: 2058964029, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
   itemType: 1

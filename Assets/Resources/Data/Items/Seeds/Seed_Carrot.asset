@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Seed_Carrot
   m_EditorClassIdentifier: 
   materialTier: 0
-  itemName: Seed_Carrot
+  itemName: "H\u1EA1t Gi\u1ED1ng C\xE0 R\u1ED1t"
   itemID: seed_carrot
   icon: {fileID: -203314212, guid: 2692898bf9b5f924abe32a6a5c11bbc4, type: 3}
   itemType: 1
@@ -41,8 +41,8 @@ MonoBehaviour:
     categoryColor: {r: 1, g: 1, b: 1, a: 1}
     categoryIcon: {fileID: 0}
     sortOrder: 0
-  sellPrice: 0
-  buyPrice: 0
+  sellPrice: 5
+  buyPrice: 5
   isSellable: 1
   isPurchasable: 1
   isUsable: 1
