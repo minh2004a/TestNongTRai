@@ -80,19 +80,14 @@ namespace TinyFarm.Items.UI
 
             // Setup buttons
             if (closeButton != null)
-<<<<<<< HEAD
                 closeButton.onClick.AddListener(() =>
                 {
                     // Close đúng chuẩn bằng input handler
                     inputHandler?.SetInputState(InputState.Gameplay);
                 });
-<<<<<<< HEAD
-=======
-                closeButton.onClick.AddListener(CloseInventory);
->>>>>>> parent of 8fa43827 (Update InventoryUI.cs)
 
-=======
->>>>>>> parent of 23a542d8 (Revert "Fix Button close Inventory")
+                closeButton.onClick.AddListener(CloseInventory);
+
             // Create slot UIs
             if (autoCreateSlots)
             {
