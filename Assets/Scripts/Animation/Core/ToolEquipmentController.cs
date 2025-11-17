@@ -3,6 +3,7 @@ using UnityEngine;
 using TinyFarm.Animation;
 using TinyFarm.Items;
 using TinyFarm.PlayerInput;
+using TinyFarm.Farming;
 
 namespace TinyFarm.Tools
 {
@@ -339,12 +340,11 @@ namespace TinyFarm.Tools
         {
             if (!hasToolEquipped)
                 return;
+            var farm = GetComponent<FarmingController>();
+            if (farm != null)
+                farm.OnToolImpact();
 
-            // Tool impact với efficiency
             LogDebug($"Tool impact: {currentToolType} [Efficiency: {CurrentToolEfficiency}]");
-
-            // TODO: Apply tool effect based on efficiency
-            // Example: FarmingSystem.ApplyToolEffect(eventData.impactPoint, CurrentToolEfficiency);
         }
 
         private void HandleToolSound(AnimationEventData eventData)

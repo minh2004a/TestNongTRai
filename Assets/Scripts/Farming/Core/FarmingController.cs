@@ -36,7 +36,8 @@ namespace TinyFarm.Farming
         [SerializeField] private Vector2Int hoveredGridPos = Vector2Int.zero;
         [SerializeField] private Vector2Int selectedGridPos = Vector2Int.zero;
         [SerializeField] private bool hasHoveredTile = false;
-        private bool toolUseQueued = false;
+        private Vector2Int queuedTilePos;
+        private bool hasQueuedImpact = false;
         
         // Events
         public event Action<Vector2Int> OnTileHovered;
@@ -235,36 +236,40 @@ namespace TinyFarm.Farming
         {
             ToolType currentTool = toolEquipment.CurrentToolType;
             
-            LogDebug($"Using tool {currentTool} on tile {gridPos}");
-            
-            bool success = false;
-            
+            queuedTilePos = gridPos;
+            hasQueuedImpact = true;
+
+            toolEquipment.UseTool();
+
+            return true;
+        }
+
+        public void OnToolImpact()
+        {
+            if (!hasQueuedImpact)
+                return;
+
+            hasQueuedImpact = false;
+            var pos = queuedTilePos;
+
+            ToolType currentTool = toolEquipment.CurrentToolType;
+
             switch (currentTool)
             {
                 case ToolType.Hoe:
-                    success = TryTill(gridPos);
+                    TryTill(pos);
                     break;
-                    
                 case ToolType.Watering:
-                    success = TryWater(gridPos);
+                    TryHarvest(pos);
                     break;
-                    
                 case ToolType.Sickle:
-                    success = TryHarvest(gridPos);
+                    TryHarvest(pos);
                     break;
-                    
+
                 default:
-                    LogDebug($"Tool {currentTool} not implemented for farming");
+                    LogDebug("Tool impact event received but tool type not implemented.");
                     break;
             }
-            
-            // Play tool animation if action succeeded
-            if (success && toolEquipment != null)
-            {
-                toolEquipment.UseTool();
-            }
-            
-            return success;
         }
         
         // ==========================================

@@ -5056,6 +5056,7 @@ GameObject:
   - component: {fileID: 647645678}
   - component: {fileID: 647645679}
   - component: {fileID: 647645680}
+  - component: {fileID: 647645681}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5323,6 +5324,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.43932837, y: 0.1816541}
   m_EdgeRadius: 0
+--- !u!114 &647645681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 647645672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5536c5bf9d47b24cb7742ffb1fc8797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animController: {fileID: 647645675}
+  animator: {fileID: 647645677}
+  impactPointDown: {fileID: 0}
+  impactPointUp: {fileID: 0}
+  impactPointSide: {fileID: 0}
+  impactPointOffset: 1
+  enableSounds: 1
+  footstepVolume: 0.8
+  toolSoundVolume: 1
+  debugMode: 0
+  logAllEvents: 0
 --- !u!1 &648649662
 GameObject:
   m_ObjectHideFlags: 0
@@ -6726,7 +6750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animController: {fileID: 647645675}
-  eventHandler: {fileID: 1575769793}
+  eventHandler: {fileID: 0}
   debugMode: 0
   currentTool: {fileID: 0}
   currentToolType: 0
@@ -21814,7 +21838,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1575769792}
-  - component: {fileID: 1575769793}
   m_Layer: 0
   m_Name: AnimationEventHandler
   m_TagString: Untagged
@@ -21837,29 +21860,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 647645674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1575769793
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575769791}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5536c5bf9d47b24cb7742ffb1fc8797, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animController: {fileID: 647645675}
-  animator: {fileID: 647645677}
-  impactPointDown: {fileID: 0}
-  impactPointUp: {fileID: 0}
-  impactPointSide: {fileID: 0}
-  impactPointOffset: 1
-  enableSounds: 1
-  footstepVolume: 0.8
-  toolSoundVolume: 1
-  debugMode: 0
-  logAllEvents: 0
 --- !u!1 &1626207714
 GameObject:
   m_ObjectHideFlags: 3
@@ -59171,6 +59171,7 @@ MonoBehaviour:
   inventoryManager: {fileID: 1909291318}
   slotsContainer: {fileID: 2143818520}
   hotBarSlotPrefab: {fileID: 6415082182887572559, guid: 52bee9e411f3cd140917add62e3b1c00, type: 3}
+  inputHandler: {fileID: 0}
   hotBarSize: 10
   autoCreateSlots: 1
 --- !u!1 &1781474786
@@ -63826,7 +63827,7 @@ Tilemap:
       - {fileID: 575490022, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: -206411551, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
       - {fileID: -1198058626, guid: 8bf876649aba2a3409f7bb5d59302987, type: 3}
-      m_AnimationSpeed: 10
+      m_AnimationSpeed: 10.000001
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: 16, z: 0}
