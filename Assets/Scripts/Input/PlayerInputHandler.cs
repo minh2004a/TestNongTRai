@@ -5,6 +5,7 @@ using TinyFarm.Animation;
 using TinyFarm.Items;
 using TinyFarm.Tools;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace TinyFarm.PlayerInput 
 {
@@ -221,6 +222,10 @@ namespace TinyFarm.PlayerInput
             if (toolUseTriggeredThisFrame) return;
             toolUseTriggeredThisFrame = true;
 
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+                return;
+
+
             if (toolEquipment == null)
             {
                 return;
@@ -230,13 +235,6 @@ namespace TinyFarm.PlayerInput
             if (CanUseTool())
             {
                 bool success = toolEquipment.UseTool();
-
-                if (success)
-                {
-                }
-                else
-                {
-                }
             }
             else
             {
@@ -397,6 +395,12 @@ namespace TinyFarm.PlayerInput
             {
                 playerMovement.SetMoveInput(Vector2.zero);
             }
+        }
+
+        // Cho UI (HotBarUI) gọi khi click chuột
+        public void SelectHotbarByUI(int slotIndex)
+        {
+            HandleHotbarSelection(slotIndex); // <-- dùng logic có sẵn luôn
         }
 
         // ==========================================

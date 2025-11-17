@@ -178,12 +178,20 @@ namespace TinyFarm.Items.UI
             if (!isInitialized) return;
             if (slotIndex < 0 || slotIndex >= hotbarSlots.Count) return;
 
+             // Click → Select + Equip
+            bool isDifferentSlot = slotIndex != selectedSlotIndex;
+
             // Click slot → select + equip nhưng không trigger UseItem
             if (slotIndex != selectedSlotIndex)
             {
                 SelectSlot(slotIndex);
                 EquipItemFromSlot(slotIndex);
                 hotbarUI?.UpdateUI();
+            }
+
+            if (!isDifferentSlot)
+            {
+                UseSelectedItem();
             }
         }
 

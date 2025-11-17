@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
+using TinyFarm.PlayerInput;
 
 namespace TinyFarm.Items.UI
 {
@@ -11,6 +12,7 @@ namespace TinyFarm.Items.UI
         [SerializeField] private InventoryManager inventoryManager;
         [SerializeField] private Transform slotsContainer;
         [SerializeField] private GameObject hotBarSlotPrefab;
+        [SerializeField] private PlayerInputHandler inputHandler;
 
         [Header("Settings")]
         [SerializeField] private int hotBarSize = 10;
@@ -27,6 +29,7 @@ namespace TinyFarm.Items.UI
 
         private void Start()
         {
+            inputHandler = FindObjectOfType<PlayerInputHandler>();
             Initialize();
         }
 
@@ -98,6 +101,7 @@ namespace TinyFarm.Items.UI
         {
             int idx = slotUIs.IndexOf(ui);
             SelectSlot(idx);
+            inputHandler?.SelectHotbarByUI(idx);
         }
 
         private void OnDestroy()
