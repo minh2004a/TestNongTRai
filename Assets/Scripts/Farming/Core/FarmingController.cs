@@ -5,7 +5,6 @@ using TinyFarm.Tools;
 using TinyFarm.Animation;
 using TinyFarm.PlayerInput;
 using TinyFarm.UI;
-using TinyFarm.Items.UI;
 namespace TinyFarm.Farming
 {
     // Controller chính để player tương tác với farming system
@@ -25,11 +24,10 @@ namespace TinyFarm.Farming
         [SerializeField] private Animator animator;
         [SerializeField] private CropTooltipUI cropTooltipUI;
 
-
-        
         [Header("Interaction Settings")]
         [SerializeField] private float interactionRange = 1.5f;
         [SerializeField] private bool debugMode = true;
+        
         
         [Header("Runtime Info")]
         [SerializeField] private Vector2Int hoveredGridPos = Vector2Int.zero;
@@ -127,9 +125,18 @@ namespace TinyFarm.Farming
             // Left Click - Use tool/item
             if (Input.GetMouseButtonDown(0))
             {
+                Debug.Log($"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                Debug.Log($"🖱️ [TRACE] LEFT CLICK DETECTED - Time.frameCount={Time.frameCount}");
+                Debug.Log($"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
                 if (hasHoveredTile)
                 {
+                                Debug.Log($"🖱️ [TRACE] Has hovered tile - calling InteractWithTile({hoveredGridPos})");
+
                     InteractWithTile(hoveredGridPos);
+                }
+                else
+                {
+                                Debug.Log($"🖱️ [TRACE] NO hovered tile - ignoring click");
                 }
             }
             
@@ -158,6 +165,10 @@ namespace TinyFarm.Farming
 
         private void InteractWithTile(Vector2Int gridPos)
         {
+            Debug.Log($"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+            Debug.Log($"🖱️ [TRACE] InteractWithTile({gridPos}) CALLED - Time.frameCount={Time.frameCount}");
+            Debug.Log($"🖱️ [TRACE] StackTrace: {Environment.StackTrace}");
+            Debug.Log($"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
             if (farmGrid == null)
             {
                 LogDebug("Cannot interact: FarmGrid is null");
@@ -277,12 +288,18 @@ namespace TinyFarm.Farming
 
         private bool UseToolOnTile(Vector2Int gridPos)
         {
+                Debug.Log($"🟡 [TRACE] FarmingController.UseToolOnTile({gridPos}) CALLED - Time.frameCount={Time.frameCount}");
+
             ToolType currentTool = toolEquipment.CurrentToolType;
             
             queuedTilePos = gridPos;
             hasQueuedImpact = true;
+                Debug.Log($"🟡 [TRACE] Calling toolEquipment.UseTool()");
+
 
             toolEquipment.UseTool();
+                Debug.Log($"🟡 [TRACE] UseToolOnTile COMPLETED");
+
 
             return true;
         }
@@ -290,9 +307,32 @@ namespace TinyFarm.Farming
         public void ProcessToolImpact()
         {
             Debug.Log($"🔨 [FarmingController] ProcessToolImpact called! HasQueuedImpact={hasQueuedImpact}");
-            if (!hasQueuedImpact)
-                return;
+            Debug.Log($"    hasQueuedImpact={hasQueuedImpact}");
+            Debug.Log($"    queuedTilePos={queuedTilePos}");
+            Debug.Log($"    Time.frameCount={Time.frameCount}");
 
+            if (!hasQueuedImpact)
+            {
+                Debug.LogWarning($"🔨 ProcessToolImpact BLOCKED - No queued impact!");
+                return;
+            }
+
+            // Guard: Tool equipment must be locked (animation must be playing)
+            if (toolEquipment == null || !toolEquipment.HasToolEquipped)
+            {
+                Debug.LogWarning($"🔨 ProcessToolImpact BLOCKED - No tool equipped!");
+                hasQueuedImpact = false;
+                return;
+            }
+
+            // Guard: Animation must be locked (playing)
+            if (animController != null && !animController.IsActionLocked)
+            {
+                Debug.LogWarning($"🔨 ProcessToolImpact BLOCKED - Animation not locked!");
+                hasQueuedImpact = false;
+                return;
+            }
+            
             hasQueuedImpact = false;
             var pos = queuedTilePos;
 

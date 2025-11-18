@@ -147,6 +147,10 @@ namespace TinyFarm.Animation
         // Function name trong Animation window: "OnToolImpact"
         public void OnToolImpact()
         {
+            Debug.Log($"🎬 [AnimEvent] OnToolImpact() CALLED!");
+            Debug.Log($"    Time.frameCount={Time.frameCount}");
+            Debug.Log($"    Animation State={animator?.GetCurrentAnimatorStateInfo(0).shortNameHash}");
+            Debug.Log($"    Is Action Locked={animController?.IsActionLocked}");
             if (!isInitialized) return;
 
             AnimationEventData eventData = CreateEventData(AnimationEventType.ToolImpact);

@@ -294,13 +294,22 @@ namespace TinyFarm.Tools
         // <returns>True nếu sử dụng thành công</returns>
         public bool UseTool()
         {
+            Debug.Log($"🟠 [TRACE] ToolEquipmentController.UseTool() CALLED - hasToolEquipped={hasToolEquipped}, CanUseTool={CanUseTool()}, Time.frameCount={Time.frameCount}");
+            Debug.Log($"    hasToolEquipped={hasToolEquipped}");
+            Debug.Log($"    CanUseTool={CanUseTool()}");
+            Debug.Log($"    currentTool={currentTool?.itemName ?? "null"}");
+            Debug.Log($"    Time.frameCount={Time.frameCount}");
             if (currentTool == null)
             {
+                Debug.Log($"🟠 [TRACE] UseTool FAILED - currentTool is null");
+
                 return false;
             }
 
             if (!CanUseTool())
             {
+                Debug.Log($"🟠 [TRACE] UseTool FAILED - CanUseTool is false");
+
                 return false;
             }
 
@@ -310,7 +319,10 @@ namespace TinyFarm.Tools
             switch (currentTool.toolType)
             {
                 case ToolType.Hoe:
+                    Debug.Log($"🟠 [TRACE] Calling animController.PlayHoeing()");
+
                     animationStarted = animController.PlayHoeing();
+                    Debug.Log($"🟠 [TRACE] PlayHoeing() returned: {animationStarted}");
                     break;
                 case ToolType.Watering:
                     animationStarted = animController.PlayWatering();
@@ -327,10 +339,14 @@ namespace TinyFarm.Tools
 
             if (animationStarted)
             {
+                        Debug.Log($"🟠 [TRACE] UseTool SUCCESSFUL - animation started");
+
                 return true;
             }
             else
             {
+                        Debug.Log($"🟠 [TRACE] UseTool FAILED - animation didn't start");
+
                 return false;
             }
 
@@ -353,7 +369,7 @@ namespace TinyFarm.Tools
             {
                 farm = FindObjectOfType<FarmingController>();
             }
-            
+
             if (farm != null)
             {
                 Debug.Log("🔨 Calling FarmingController.ProcessToolImpact()");
@@ -420,15 +436,22 @@ namespace TinyFarm.Tools
         // Check xem có thể dùng tool không
         public bool CanUseTool()
         {
-            bool canUse = hasToolEquipped
-        && !animController.IsActionLocked
-        && (currentTool == null || currentTool.isUsable);
-
-            if (!hasToolEquipped)
-            if (animController.IsActionLocked)
-            if (currentTool != null && !currentTool.isUsable)
-                Debug.LogWarning("[CanUseTool] ⚠️ Tool is not usable!");
-
+            bool hasEquipped = hasToolEquipped;
+            bool notLocked = !animController.IsActionLocked;
+            bool isUsable = currentTool == null || currentTool.isUsable;
+            
+            bool canUse = hasEquipped && notLocked && isUsable;
+            
+            // DEBUG: Log chi tiết
+            if (!canUse)
+            {
+                Debug.LogWarning($"[CanUseTool] ❌ CANNOT USE TOOL!");
+                Debug.LogWarning($"  hasToolEquipped={hasEquipped}");
+                Debug.LogWarning($"  isActionLocked={animController.IsActionLocked}");
+                Debug.LogWarning($"  currentTool={currentTool?.itemName ?? "null"}");
+                Debug.LogWarning($"  isUsable={isUsable}");
+            }
+    
             return canUse;
         }
 

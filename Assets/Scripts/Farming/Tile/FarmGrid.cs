@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TinyFarm.Crops;
 using UnityEngine.Tilemaps;
 using TinyFarm.Items;
 
@@ -164,7 +162,6 @@ namespace TinyFarm.Farming
         {
             if (GroundTilemap == null)
             {
-                LogDebug($"GetTileAtWorldPos: GroundTilemap is NULL (worldPos={worldPos})");
                 return null;
             }
 
@@ -194,7 +191,6 @@ namespace TinyFarm.Farming
         
         public bool TillTile(Vector2Int gridPos)
         {
-            LogDebug($"TillTile called: {gridPos}");
             FarmTile tile = GetTile(gridPos);
             if (tile == null || !tile.CanHoe())
             {
@@ -206,14 +202,12 @@ namespace TinyFarm.Farming
             Collider2D obstacle = Physics2D.OverlapPoint(worldCenter, obstacleLayer);
             if (obstacle != null)
             {
-                LogDebug($"TillTile BLOCKED: obstacle {obstacle.name} at {gridPos}");
                 return false;
             }
 
             tile.Till();
             UpdateTileVisuals(gridPos);
             
-            LogDebug($"Tilled tile at {gridPos}");
             return true;
         }
         

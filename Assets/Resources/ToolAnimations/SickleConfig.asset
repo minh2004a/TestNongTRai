@@ -35,7 +35,7 @@ MonoBehaviour:
   durationUp: 1
   durationSide: 1
   impactTimeNormalized: 0.5
-  animatorTrigger: State
+  animatorTrigger: Sickle
   canMove: 0
   canCancel: 0
   lockDuration: 0.5

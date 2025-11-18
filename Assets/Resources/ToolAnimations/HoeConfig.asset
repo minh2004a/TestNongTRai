@@ -34,12 +34,12 @@ MonoBehaviour:
   durationDown: 1
   durationUp: 1
   durationSide: 1
-  impactTimeNormalized: 0.5
-  animatorTrigger: State
+  impactTimeNormalized: 0.9
+  animatorTrigger: Hoeing
   canMove: 0
   canCancel: 0
   lockDuration: 0.5
-  cooldownTime: 0.2
+  cooldownTime: 0.5
   soundEffects: []
   effectOffset: {x: 0, y: 0, z: 0}
   effectScale: 1

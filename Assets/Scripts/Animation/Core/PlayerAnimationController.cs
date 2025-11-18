@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using TinyFarm.Animation;
 using TinyFarm.Items;
-using TinyFarm.Tools;
 using UnityEngine;
 
 namespace TinyFarm.Animation
@@ -47,6 +44,7 @@ namespace TinyFarm.Animation
         private Coroutine actionCoroutine;
         private float actionStartTime;
         private float actionDuration;
+        private int lastToolUseFrame = -1;
 
         // Animator parameter names (constants)
         private const string PARAM_STATE = "State";
@@ -57,6 +55,7 @@ namespace TinyFarm.Animation
         public event Action<AnimationState> OnStateChanged;
         public event Action OnActionComplete;
         public event Action<AnimationState> OnToolActionStarted;
+        
         // CARRY / ACTION TYPE (new)
         private ActionType currentActionType = ActionType.None;
         private bool isCarrying = false;
@@ -249,27 +248,19 @@ namespace TinyFarm.Animation
             UpdateSpriteFlip(direction);
         }
 
-        //public void SetMovementSpeed(float speed)
-        //{
-        //    if (settings != null)
-        //    {
-        //        float animSpeed = settings.GetAnimationSpeed(speed);
-        //        animator.speed = animSpeed;
-        //    }
-        //}
-
-        //public void StopMovement()
-        //{
-        //    PlayIdle();
-        //}
-
         // ==========================================
         // TOOL ANIMATIONS
         // ==========================================
 
         public bool PlayHoeing()
         {
-            return PlayToolAnimation(ToolType.Hoe);
+            // return PlayToolAnimation(ToolType.Hoe);
+
+            Debug.Log($"🟡 [TRACE] PlayHoeing() CALLED - StackTrace: {Environment.StackTrace}");
+            Debug.Log($"🟡 [TRACE] PlayHoeing() CALLED - isActionLocked={isActionLocked}, currentState={currentState}, Time.frameCount={Time.frameCount}");
+            bool result = PlayToolAnimation(ToolType.Hoe);
+            Debug.Log($"🟡 [TRACE] PlayHoeing() RETURNED result={result}");
+            return result;
         }
 
         public bool PlayWatering()
@@ -359,8 +350,19 @@ namespace TinyFarm.Animation
 
         private bool PlayToolAnimation(ToolType toolType)
         {
+            if (Time.frameCount == lastToolUseFrame)
+            {
+                Debug.LogWarning($"🔴 [GUARD] PlayToolAnimation blocked - already called this frame!");
+                return false;
+            }
+
+            Debug.Log($"🟢 [TRACE] PlayToolAnimation({toolType}) ENTERED - isActionLocked={isActionLocked}, Time.frameCount={Time.frameCount}");
+            
+            lastToolUseFrame = Time.frameCount;
+
             if (isActionLocked)
             {
+                Debug.Log($"🟢 [TRACE] PlayToolAnimation BLOCKED - action is locked!");
                 return false;
             }
 
@@ -383,6 +385,7 @@ namespace TinyFarm.Animation
                 duration = 1f;
             }
 
+            Debug.Log($"🟢 [TRACE] PlayToolAnimation calling StartToolAction({toolState}, duration={duration}f)");
             StartToolAction(toolState, duration);
 
             return true;
@@ -390,8 +393,11 @@ namespace TinyFarm.Animation
 
         private void StartToolAction(AnimationState toolState, float duration)
         {
+            Debug.Log($"🔵 [TRACE] StartToolAction({toolState}, {duration}f) ENTERED - currentState={currentState}, Time.frameCount={Time.frameCount}");
+
             if (actionCoroutine != null)
             {
+                Debug.Log($"🔵 [TRACE] Stopping previous actionCoroutine");
                 StopCoroutine(actionCoroutine);
                 actionCoroutine = null;
             }
@@ -402,11 +408,15 @@ namespace TinyFarm.Animation
                 previousMovementState = AnimationState.Idle;
             }
 
+            Debug.Log($"🔵 [TRACE] Calling TransitionToState({toolState})");
             TransitionToState(toolState);
             UpdateDirectionParameters(lastDirectionVector);
 
+            Debug.Log($"🔵 [TRACE] Starting ActionLockCoroutine with duration={duration}");
             actionCoroutine = StartCoroutine(ActionLockCoroutine(duration, previousMovementState));
             OnToolActionStarted?.Invoke(toolState);
+
+            Debug.Log($"🔵 [TRACE] StartToolAction COMPLETED - isActionLocked={isActionLocked}");
         }
 
         private IEnumerator ActionLockCoroutine(float duration, AnimationState returnState)
@@ -414,6 +424,12 @@ namespace TinyFarm.Animation
             isActionLocked = true;
             actionStartTime = Time.time;
             actionDuration = duration;
+
+            if (duration <= 0f)
+            {
+                Debug.LogWarning($"⚠️ [ActionLock] Invalid duration={duration}! Setting to 1f");
+                duration = 1f;
+            }
 
             yield return new WaitForSeconds(duration);
 
@@ -434,31 +450,51 @@ namespace TinyFarm.Animation
         private void TransitionToState(AnimationState newState)
         {
             if (currentState == newState)
+            {
+                        Debug.Log($"⚫ [TRACE] TransitionToState BLOCKED - already in same state!");
                 return;
+            }
 
             if (!stateValidator.CanTransition(currentState, newState))
             {
-                LogDebug($"Invalid transition: {currentState} → {newState}");
+                        Debug.Log($"⚫ [TRACE] Invalid transition: {currentState} → {newState}");
+
                 return;
             }
 
             previousState = currentState;
             currentState = newState;
 
+            if (!IsToolAction(newState) && isActionLocked)
+            {
+                isActionLocked = false;
+
+                if (actionCoroutine != null)
+                {
+                    StopCoroutine(actionCoroutine);
+                    actionCoroutine = null;
+                }
+            }
+            Debug.Log($"⚫ [TRACE] Calling SetAnimatorState({newState})");
+
             SetAnimatorState(newState);
             OnStateChanged?.Invoke(newState);
 
-            LogDebug($"State: {previousState} → {currentState}");
+                Debug.Log($"⚫ [TRACE] State changed: {previousState} → {currentState}");
+
         }
 
         private void SetAnimatorState(AnimationState state)
         {
+                Debug.Log($"🟣 [TRACE] SetAnimatorState({state}) CALLED - Setting parameter State={(int)state}, Time.frameCount={Time.frameCount}");
+
             SetAnimatorInt(PARAM_STATE, (int)state);
             if (animator != null && paramCache != null)
             {
                 var hash = paramCache.GetHash(PARAM_STATE);
                 int actual = animator.GetInteger(hash);
-                LogDebug($"Animator State param is now: {actual}");
+                        Debug.Log($"🟣 [TRACE] Animator State param is now: {actual}");
+
             }
         }
 
@@ -541,11 +577,11 @@ namespace TinyFarm.Animation
 
         public void OnToolImpactAnimation()
         {
-            // AnimationEvent gọi vào đây
-            if (eventHandler != null)
-            {
-                eventHandler.InvokeToolImpactEvent();
-            }
+            // // AnimationEvent gọi vào đây
+            // if (eventHandler != null)
+            // {
+            //     eventHandler.InvokeToolImpactEvent();
+            // }
         }
 
         public void OnFootstep()
