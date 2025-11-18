@@ -12,6 +12,7 @@ namespace TinyFarm.Tools
         [Header("References")]
         [SerializeField] private PlayerAnimationController animController;
         [SerializeField] private AnimationEventHandler eventHandler;
+        [SerializeField] private FarmingController farmingController;
 
         [Header("Settings")]
         [SerializeField] private bool debugMode = true;
@@ -61,6 +62,9 @@ namespace TinyFarm.Tools
 
             if (eventHandler == null)
                 eventHandler = GetComponent<AnimationEventHandler>();
+
+            if (farmingController == null)
+                farmingController = GetComponent<FarmingController>();
         }
 
         private void InitializeComponents()
@@ -338,11 +342,23 @@ namespace TinyFarm.Tools
 
         private void HandleToolImpact(AnimationEventData eventData)
         {
+            Debug.Log("🔨 [ToolEquipment] HandleToolImpact called!");
+
             if (!hasToolEquipped)
                 return;
+
             var farm = GetComponent<FarmingController>();
+
+            if (farm == null)
+            {
+                farm = FindObjectOfType<FarmingController>();
+            }
+            
             if (farm != null)
-                farm.OnToolImpact();
+            {
+                Debug.Log("🔨 Calling FarmingController.ProcessToolImpact()");
+                farm.ProcessToolImpact();
+            }
 
             LogDebug($"Tool impact: {currentToolType} [Efficiency: {CurrentToolEfficiency}]");
         }

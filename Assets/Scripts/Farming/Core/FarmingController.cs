@@ -244,8 +244,9 @@ namespace TinyFarm.Farming
             return true;
         }
 
-        public void OnToolImpact()
+        public void ProcessToolImpact()
         {
+            Debug.Log($"🔨 [FarmingController] ProcessToolImpact called! HasQueuedImpact={hasQueuedImpact}");
             if (!hasQueuedImpact)
                 return;
 
@@ -253,6 +254,7 @@ namespace TinyFarm.Farming
             var pos = queuedTilePos;
 
             ToolType currentTool = toolEquipment.CurrentToolType;
+            Debug.Log($"🔨 Processing tool {currentTool} at tile {pos}");
 
             switch (currentTool)
             {
@@ -260,7 +262,7 @@ namespace TinyFarm.Farming
                     TryTill(pos);
                     break;
                 case ToolType.Watering:
-                    TryHarvest(pos);
+                    TryWater(pos);
                     break;
                 case ToolType.Sickle:
                     TryHarvest(pos);
