@@ -15,7 +15,6 @@ namespace TinyFarm.Farming
         [Header("References")]
         [SerializeField] private FarmGrid farmGrid;
         [SerializeField] private FarmingInventoryBridge inventoryBridge;
-
         [SerializeField] private ToolEquipmentController toolEquipment;
         [SerializeField] private ItemHoldingController itemHolding;
         [SerializeField] private PlayerAnimationController animController;
@@ -171,39 +170,18 @@ namespace TinyFarm.Farming
                 return;
             }
             
+            // Check distance
             Vector3 tileWorldPos = farmGrid.GridToWorld(gridPos);
             float distance = Vector3.Distance(playerTransform.position, tileWorldPos);
 
             if (distance > maxToolUseDistance)
             {
+                LogDebug($"Tile too far: {distance:F2} > {maxToolUseDistance}");
                 return;
             }
 
-            Vector2 direction = (tileWorldPos - playerTransform.position);
-
-            if (direction.sqrMagnitude > 0.01f)
-            {
-                if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-                {
-                    bool facingRight = direction.x > 0;
-                    spriteRenderer.flipX = !facingRight;
-
-                    if (animator != null)
-                        animator.SetFloat("Horizontal", direction.y > 0 ? 1 : -1);
-                }
-                else
-                {
-                    if (animator != null)
-                    {
-                        animator.SetFloat("Vertical", direction.y > 0 ? 1 : -1);
-                    }
-                }
-            }
-            // if (animController != null && animController.IsActionLocked)
-            // {
-            //     LogDebug("Cannot interact: animation locked");
-            //     return;
-            // }
+            // Update player direction BEFORE using tool
+            UpdatePlayerDirection(tileWorldPos);
             
             bool success = false;
             
@@ -228,6 +206,71 @@ namespace TinyFarm.Farming
                 OnTileInteracted?.Invoke(gridPos);
             }
         }
+
+        // Update player direction based on target position
+        private void UpdatePlayerDirection(Vector3 targetWorldPos)
+        {
+            // Calculate direction from player to tile
+            Vector2 direction = (targetWorldPos - playerTransform.position).normalized;
+
+            if (direction.sqrMagnitude < 0.01f)
+            {
+                LogDebug("Direction too small, skipping update");
+                return;
+            }
+
+            float absX = Mathf.Abs(direction.x);
+            float absY = Mathf.Abs(direction.y);
+
+            // Determine primary direction (horizontal or vertical)
+            if (absX > absY)
+            {
+                // Horizontal movement dominant
+                bool facingRight = direction.x > 0;
+                
+                // Update sprite flip
+                if (spriteRenderer != null)
+                {
+                    spriteRenderer.flipX = !facingRight; // flipX = true means facing LEFT
+                }
+
+                // Update animator parameters
+                if (animator != null)
+                {
+                    animator.SetFloat("Horizontal", facingRight ? 1f : -1f);
+                    animator.SetFloat("Vertical", 0f);
+                }
+
+                // Update animation controller direction
+                if (animController != null)
+                {
+                    animController.UpdateDirection(new Vector2(facingRight ? 1f : -1f, 0f));
+                }
+
+                LogDebug($"🎯 Player facing: {(facingRight ? "RIGHT" : "LEFT")}");
+            }
+            else
+            {
+                // Vertical movement dominant
+                bool facingUp = direction.y > 0;
+
+                // Update animator parameters
+                if (animator != null)
+                {
+                    animator.SetFloat("Horizontal", 0f);
+                    animator.SetFloat("Vertical", facingUp ? 1f : -1f);
+                }
+
+                // Update animation controller direction
+                if (animController != null)
+                {
+                    animController.UpdateDirection(new Vector2(0f, facingUp ? 1f : -1f));
+                }
+
+                LogDebug($"🎯 Player facing: {(facingUp ? "UP" : "DOWN")}");
+            }
+        }
+
         // ==========================================
         // TOOL USAGE
         // ==========================================
